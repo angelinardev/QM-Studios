@@ -664,20 +664,54 @@ void PhysicsPlayground::KeyboardDown()
 			player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0.f, 1600000000.f), true);
 			canJump.m_canJump = false;
 		}
+		dash_timer = 1;
 	}
 
+	//dash
 	if (Input::GetKeyDown(Key::Shift))
 	{
-		player.GetBody()->SetLinearVelocity(b2Vec2(0, vel.y));
-		if (facing == 0) //left
+		if (canJump.m_canJump && can_dash) //ground dash
 		{
-			//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-400000.f * 1000, 0.f), true);
-			player.GetBody()->SetTransform(b2Vec2(pos.x - 30, pos.y),0);
+			player.GetBody()->SetLinearVelocity(b2Vec2(0, vel.y));
+			if (facing == 0) //left
+			{
+				//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-400000.f * 1000, 0.f), true);
+				player.GetBody()->SetTransform(b2Vec2(pos.x - 30, pos.y), 0);
+				can_dash = false;
+			}
+			else if (facing == 1)
+			{
+				//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(400000.f * 1000, 0.f), true);
+				player.GetBody()->SetTransform(b2Vec2(pos.x + 30, pos.y), 0);
+				can_dash = false;
+			}
+			
 		}
-		else if (facing == 1)
+		else if (dash_timer > 0) //player can dash once in the air
 		{
-			//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(400000.f * 1000, 0.f), true);
-			player.GetBody()->SetTransform(b2Vec2(pos.x + 30, pos.y), 0);
+			player.GetBody()->SetLinearVelocity(b2Vec2(0, vel.y));
+			if (facing == 0) //left
+			{
+				//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-400000.f * 1000, 0.f), true);
+				player.GetBody()->SetTransform(b2Vec2(pos.x - 30, pos.y), 0);
+			}
+			else if (facing == 1)
+			{
+				//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(400000.f * 1000, 0.f), true);
+				player.GetBody()->SetTransform(b2Vec2(pos.x + 30, pos.y), 0);
+			}
+
+			dash_timer = -1;
+		}
+	}
+	//dash cooldown
+	if (!can_dash)
+	{
+		elapsedtime = (clock() - startstuntime) / CLOCKS_PER_SEC;
+		if (elapsedtime >= cooldown)
+		{
+			can_dash = true;
+			elapsedtime = 0;
 		}
 	}
 	

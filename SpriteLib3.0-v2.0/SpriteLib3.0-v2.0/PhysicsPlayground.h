@@ -40,4 +40,9 @@ protected:
 
 	//testing purposes
 	int facing = 0;
+	bool can_dash = true;
+	float dash_timer = 0;
+	clock_t startstuntime;
+	float elapsedtime = 0;
+	float cooldown = 3.0f;
 };
