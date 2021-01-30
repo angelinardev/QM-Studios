@@ -38,6 +38,7 @@ void Game::InitGame()
 	m_scenes.push_back(new FirstCreation("FIRST SCENE!!!!"));
 	m_scenes.push_back(new PhysicsPlayground("PHYSICS PLAYGROUND TIEM!!!"));
 	m_scenes.push_back(new AnimationSpritePlayground("Animation TIEM!!!!"));
+	m_scenes.push_back(new TitleScreen("The Beyond"));
 	 
 	//Sets active scene reference to our scene
 	m_activeScene = m_scenes[1];

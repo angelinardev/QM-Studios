@@ -17,6 +17,7 @@ public:
 	~Scene() { }
 
 	void Unload();
+	virtual int ChangeScene() { return -1; }
 
 	//Each scene will need to have a different
 	//init, as each scene's contents will be different
