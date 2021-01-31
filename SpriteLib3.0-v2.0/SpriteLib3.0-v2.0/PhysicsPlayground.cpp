@@ -670,7 +670,7 @@ void PhysicsPlayground::KeyboardDown()
 			player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0.f, 1600000000.f), true);
 			canJump.m_canJump = false;
 		}
-		dash_timer = 1;
+		dash_timer = 1.5;
 	}
 
 	//dash
@@ -693,7 +693,7 @@ void PhysicsPlayground::KeyboardDown()
 			}
 			
 		}
-		else if (dash_timer > 1.5) //player can dash once in the air
+		else if (dash_timer >= 1.5) //player can dash once in the air
 		{
 			player.GetBody()->SetLinearVelocity(b2Vec2(0, vel.y));
 			if (facing == 0) //left
