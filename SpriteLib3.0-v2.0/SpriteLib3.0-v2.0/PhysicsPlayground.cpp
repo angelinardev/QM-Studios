@@ -389,7 +389,13 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 void PhysicsPlayground::Update()
 {
-	
+	if (!dashcooldown) {
+		dash_timer = (clock() - dashtime) / CLOCKS_PER_SEC;
+		if (dash_timer >= cooldown) {
+			can_dash = true;
+			dashcooldown = true;
+		}
+	}
 }
 
 void PhysicsPlayground::GUI()
@@ -687,7 +693,7 @@ void PhysicsPlayground::KeyboardDown()
 			}
 			
 		}
-		else if (dash_timer > 0) //player can dash once in the air
+		else if (dash_timer > 1.5) //player can dash once in the air
 		{
 			player.GetBody()->SetLinearVelocity(b2Vec2(0, vel.y));
 			if (facing == 0) //left
@@ -705,14 +711,10 @@ void PhysicsPlayground::KeyboardDown()
 		}
 	}
 	//dash cooldown
-	if (!can_dash)
+	if (!can_dash && dashcooldown)
 	{
-		elapsedtime = (clock() - startstuntime) / CLOCKS_PER_SEC;
-		if (elapsedtime >= cooldown)
-		{
-			can_dash = true;
-			elapsedtime = 0;
-		}
+		dashtime = clock();
+		dashcooldown = false;
 	}
 	
 	
