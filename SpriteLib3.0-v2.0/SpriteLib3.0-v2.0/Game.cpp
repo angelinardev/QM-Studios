@@ -106,6 +106,22 @@ void Game::Update()
 	//Update Physics System
 	PhysicsSystem::Update(m_register, m_activeScene->GetPhysicsWorld());
 
+
+
+	unsigned int index = m_activeScene->ChangeScene();
+	if (index != -1) {
+		m_activeScene->Unload();
+
+		//MainEntities::ClearUI();
+		//MainEntities::ClearObjects();
+		m_activeScene = m_scenes[index];
+		m_activeScene->InitScene(BackEnd::GetWindowWidth(), BackEnd::GetWindowHeight());
+		m_register = m_activeScene->GetScene();
+		m_window->SetWindowName(m_activeScene->GetName());
+		PhysicsSystem::Init();
+	}
+
+
 	//Updates the active scene
 	m_activeScene->Update();
 }
