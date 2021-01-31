@@ -2,6 +2,12 @@
 
 #include <random>
 
+const int FPS = 60;
+const int frameDelay = 1000 / FPS;
+
+
+Uint32 frameStart;
+int frameTime;
 
 Game::~Game()
 {
@@ -81,6 +87,9 @@ bool Game::Run()
 		{
 			//Accept all input
 			AcceptInput();
+		}
+		if (frameDelay > frameTime) {
+			SDL_Delay(frameDelay - frameTime);
 		}
 	}
 
