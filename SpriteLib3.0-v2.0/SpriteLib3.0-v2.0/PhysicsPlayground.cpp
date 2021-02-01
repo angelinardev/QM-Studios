@@ -110,7 +110,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody.SetRotationAngleDeg(0.f);
 		tempPhsBody.SetFixedRotation(true);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
-		tempPhsBody.SetGravityScale(4.5f);
+		tempPhsBody.SetGravityScale(3.f);
 	}
 
 	//Setup static Top Platform
@@ -406,14 +406,12 @@ void PhysicsPlayground::Update()
 		{
 			jspeed = 6;
 		}
-		player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0.f, -1950.f * jspeed), true);
+		player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0.f, -1000.f * jspeed), true);
+		//player.GetBody()->SetLinearVelocity(b2Vec2(player.GetBody()->GetLinearVelocity().x, -1900*jspeed));
 	}
 		else {
 			jspeed = 0;
 		}
-	
-	
-	std::cout << player.GetBody()->GetLinearVelocity().y << std::endl;
 }
 
 void PhysicsPlayground::GUI()
@@ -682,8 +680,8 @@ void PhysicsPlayground::KeyboardDown()
 		if (Input::GetKeyDown(Key::Space))
 		{
 			theta = 1;
-			player.GetBody()->SetLinearVelocity(b2Vec2(vel.x, 0));
-			player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0.f, 1600000000.f), true);
+			player.GetBody()->SetLinearVelocity(b2Vec2(vel.x, 1600000000));
+			//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0.f, 1600000000.f), true);
 			canJump.m_canJump = false;
 		}
 		dash_timer = 1.5;
