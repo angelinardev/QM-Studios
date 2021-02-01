@@ -378,7 +378,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 										b2Vec2(tempSpr.GetWidth() / 4.f, -tempSpr.GetHeight() / 2.f), b2Vec2(tempSpr.GetWidth() / 2.f, 0), 
 										b2Vec2(tempSpr.GetWidth() / 4.f, tempSpr.GetHeight() / 2.f),  b2Vec2(-tempSpr.GetWidth() / 4.f, tempSpr.GetHeight() / 2.f) };
 
-		tempPhsBody = PhysicsBody(entity, BodyType::HEXAGON, tempBody, points, vec2(0.f, 0.f), false, HEXAGON, GROUND | OBJECTS | ENVIRONMENT | PLAYER | TRIGGER, 0.5f, 3.5);
+		tempPhsBody = PhysicsBody(entity, BodyType::HEXAGON, tempBody, points, vec2(0.f, 0.f), false, OBJECTS, GROUND | OBJECTS | ENVIRONMENT | PLAYER | TRIGGER, 0.5f, 3.5);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
 	}
 	
@@ -400,11 +400,16 @@ void PhysicsPlayground::Update()
 
 	if (player.GetBody()->GetLinearVelocity().y <0 && player.GetPosition().y > 15)//peak of jump, position needs to be relative to the ground
 	{
-		player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0.f, -16000.f), true);
+		jspeed += 0.5;
+		if (jspeed > 3)
+		{
+			jspeed = 3;
+		}
+		player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0.f, -16000.f*jspeed), true);
 	}
-	else if (player.GetPosition().y == 0)
+	else
 	{
-		//player.GetBody()->SetLinearVelocity(b2Vec2(player.GetBody()->GetLinearVelocity().x, 0));
+		jspeed = 0;
 	}
 	std::cout << player.GetBody()->GetLinearVelocity().y << std::endl;
 }
@@ -681,6 +686,7 @@ void PhysicsPlayground::KeyboardDown()
 		}
 		dash_timer = 1.5;
 	}
+	
 
 	//dash
 	if (Input::GetKeyDown(Key::Shift))
