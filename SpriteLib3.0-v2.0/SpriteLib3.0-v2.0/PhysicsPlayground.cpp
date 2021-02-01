@@ -110,7 +110,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody.SetRotationAngleDeg(0.f);
 		tempPhsBody.SetFixedRotation(true);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
-		tempPhsBody.SetGravityScale(2.0f);
+		tempPhsBody.SetGravityScale(4.5f);
 	}
 
 	//Setup static Top Platform
@@ -397,15 +397,22 @@ void PhysicsPlayground::Update()
 		}
 	}
 	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
+	auto& canJump = ECS::GetComponent<CanJump>(MainEntities::MainPlayer());
 
-	if (player.GetBody()->GetLinearVelocity().y <0 && player.GetPosition().y > 15)//peak of jump, position needs to be relative to the ground
+	if (player.GetBody()->GetLinearVelocity().y < 0 && !canJump.m_canJump)//peak of jump, position needs to be relative to the ground
 	{
-		player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0.f, -16000.f), true);
+		jspeed += 1;
+		if (jspeed > 6)
+		{
+			jspeed = 6;
+		}
+		player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0.f, -1950.f * jspeed), true);
 	}
-	else if (player.GetPosition().y == 0)
-	{
-		//player.GetBody()->SetLinearVelocity(b2Vec2(player.GetBody()->GetLinearVelocity().x, 0));
-	}
+		else {
+			jspeed = 0;
+		}
+	
+	
 	std::cout << player.GetBody()->GetLinearVelocity().y << std::endl;
 }
 
