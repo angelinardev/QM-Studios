@@ -45,4 +45,5 @@ protected:
 	double dash_timer;
 	clock_t dashtime;
 	float cooldown = 1.5f;
+	int jspeed = 0;
 };

@@ -110,7 +110,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody.SetRotationAngleDeg(0.f);
 		tempPhsBody.SetFixedRotation(true);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
-		tempPhsBody.SetGravityScale(3.f);
+		tempPhsBody.SetGravityScale(2.0f);
 	}
 
 	//Setup static Top Platform
@@ -396,6 +396,17 @@ void PhysicsPlayground::Update()
 			dashcooldown = true;
 		}
 	}
+	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
+
+	if (player.GetBody()->GetLinearVelocity().y <0 && player.GetPosition().y > 15)//peak of jump, position needs to be relative to the ground
+	{
+		player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0.f, -16000.f), true);
+	}
+	else if (player.GetPosition().y == 0)
+	{
+		//player.GetBody()->SetLinearVelocity(b2Vec2(player.GetBody()->GetLinearVelocity().x, 0));
+	}
+	std::cout << player.GetBody()->GetLinearVelocity().y << std::endl;
 }
 
 void PhysicsPlayground::GUI()
@@ -644,8 +655,6 @@ void PhysicsPlayground::KeyboardHold()
 			speed = 0;
 		}
 	}
-	
-
 }
 
 void PhysicsPlayground::KeyboardDown()
