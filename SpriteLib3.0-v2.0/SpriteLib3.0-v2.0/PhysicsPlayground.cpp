@@ -110,7 +110,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody.SetRotationAngleDeg(0.f);
 		tempPhsBody.SetFixedRotation(true);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
-		tempPhsBody.SetGravityScale(3.f);
+		
 	}
 
 	//Setup static Top Platform
@@ -401,12 +401,14 @@ void PhysicsPlayground::Update()
 
 	if (player.GetBody()->GetLinearVelocity().y < 0 && !canJump.m_canJump)//peak of jump, position needs to be relative to the ground
 	{
+		player.SetGravityScale(4.5);
 		jspeed += 1;
 		if (jspeed > 6)
 		{
 			jspeed = 6;
 		}
-		player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0.f, -1000.f * jspeed), true);
+		player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0.f, -10000.f * jspeed), true);
+		
 		//player.GetBody()->SetLinearVelocity(b2Vec2(player.GetBody()->GetLinearVelocity().x, -1900*jspeed));
 	}
 		else {
@@ -681,6 +683,7 @@ void PhysicsPlayground::KeyboardDown()
 		{
 			theta = 1;
 			player.GetBody()->SetLinearVelocity(b2Vec2(vel.x, 1600000000));
+			player.SetGravityScale(2.f);
 			//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0.f, 1600000000.f), true);
 			canJump.m_canJump = false;
 		}
