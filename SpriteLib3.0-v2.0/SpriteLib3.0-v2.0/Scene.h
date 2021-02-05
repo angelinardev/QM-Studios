@@ -25,6 +25,11 @@ public:
 
 	virtual void Update();
 
+	int createHealthBar();
+	int createHealthBarBack();
+	int createUIBack();
+	int createGhostBack();
+
 	virtual void GUI();
 
 	void AdjustScrollOffset();

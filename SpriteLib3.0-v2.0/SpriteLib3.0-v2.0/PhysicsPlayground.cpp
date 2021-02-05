@@ -4,6 +4,14 @@
 #include <random>
 #include <cmath>
 
+static int healthBar = 0;
+static int healthBarBack = 0;
+static int ghostBar = 0;
+static int ghostBarBack = 0;
+static std::vector<int> ghostCount;
+static int uiBG = 0;
+
+
 PhysicsPlayground::PhysicsPlayground(std::string name)
 	: Scene(name)
 {
@@ -16,6 +24,8 @@ PhysicsPlayground::PhysicsPlayground(std::string name)
 
 void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 {
+	//initialize the health
+	MainEntities::Health(100);
 	//Dynamically allocates the register
 	m_sceneReg = new entt::registry;
 
@@ -381,8 +391,20 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody = PhysicsBody(entity, BodyType::HEXAGON, tempBody, points, vec2(0.f, 0.f), false, OBJECTS, GROUND | OBJECTS | ENVIRONMENT | PLAYER | TRIGGER, 0.5f, 3.5);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
 	}
-	
+	{//Health bar (green)
 
+		healthBar = Scene::createHealthBar();
+	}
+
+	{//health bar back (brown)
+
+		healthBarBack = Scene::createHealthBarBack();
+	}
+	//UI background
+	{
+		uiBG = Scene::createUIBack();
+	}
+	
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 }
@@ -414,6 +436,10 @@ void PhysicsPlayground::Update()
 		else {
 			jspeed = 0;
 		}
+
+	HealthBar hb;
+	hb.UpdateHealthBar(healthBar, healthBarBack, uiBG);
+	//hb.UpdateGhostCounter(ghostCount, ghostBar, ghostBarBack);
 }
 
 void PhysicsPlayground::GUI()

@@ -21,6 +21,64 @@ void Scene::Unload()
 		m_physicsWorld = nullptr;
 	}
 }
+int Scene::createHealthBar() {
+	auto entity = ECS::CreateEntity();
+
+	//Add components
+	ECS::AttachComponent<Sprite>(entity);
+	ECS::AttachComponent<Transform>(entity);
+
+	//Set up the components
+	std::string fileName = "Health.png";
+	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 50, 6);
+	ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+	ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, 45.f, 71.f));
+	return entity;
+}
+int Scene::createHealthBarBack() {
+	auto entity = ECS::CreateEntity();
+
+	//Add components
+	ECS::AttachComponent<Sprite>(entity);
+	ECS::AttachComponent<Transform>(entity);
+
+	//Set up the components
+	std::string fileName = "HealthBack.png";
+	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 55, 8);
+	ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+	ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, 45.f, 70.f));
+	return entity;
+}
+int Scene::createUIBack()
+{
+	auto entity = ECS::CreateEntity();
+
+	//Add components
+	ECS::AttachComponent<Sprite>(entity);
+	ECS::AttachComponent<Transform>(entity);
+
+	//Set up the components
+	std::string fileName = "Brown.png";
+	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, BackEnd::GetWindowWidth(), 15);
+	ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+	ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, 45.f, 69.f));
+	return entity;
+}
+int Scene::createGhostBack()
+{
+	auto entity = ECS::CreateEntity();
+
+	//Add components
+	ECS::AttachComponent<Sprite>(entity);
+	ECS::AttachComponent<Transform>(entity);
+
+	//Set up the components
+	std::string fileName = "GhostBack.png";
+	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 64, 8);
+	ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+	ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, 45.f, 69.f));
+	return entity;
+}
 
 void Scene::InitScene(float windowWidth, float windowHeight)
 {

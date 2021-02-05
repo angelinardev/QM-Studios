@@ -14,6 +14,8 @@
 #include "TranslateTrigger.h"
 #include "HorizontalScroll.h"
 #include "CanJump.h"
+#include "HealthBar.h"
+
 
 
 class ECS abstract

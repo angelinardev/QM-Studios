@@ -195,6 +195,9 @@
     <ClInclude Include="TitleScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="HealthBar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimationController.cpp">
@@ -366,6 +369,9 @@
       <Filter>Resource Files\ImGUi</Filter>
     </ClCompile>
     <ClCompile Include="TitleScreen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HealthBar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
