@@ -402,12 +402,12 @@ void PhysicsPlayground::Update()
 	if (player.GetBody()->GetLinearVelocity().y < 0 && !canJump.m_canJump)//peak of jump, position needs to be relative to the ground
 	{
 		player.SetGravityScale(4.5);
-		jspeed += 1;
+		jspeed += 0.8;
 		if (jspeed > 6)
 		{
 			jspeed = 6;
 		}
-		player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0.f, -10000.f * jspeed), true);
+		player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0.f, -8000.f * jspeed), true);
 		
 		//player.GetBody()->SetLinearVelocity(b2Vec2(player.GetBody()->GetLinearVelocity().x, -1900*jspeed));
 	}
