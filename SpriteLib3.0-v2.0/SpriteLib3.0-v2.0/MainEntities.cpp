@@ -3,6 +3,7 @@
 int MainEntities::m_mainCamera = 0;
 int MainEntities::m_mainPlayer = 0;
 int MainEntities::health = 100;
+std::vector<bool> MainEntities::powerups = {false, false, false};
 
 int MainEntities::MainCamera()
 {
@@ -27,6 +28,10 @@ int MainEntities::Health()
 {
 	return health;
 }
+std::vector<bool> MainEntities::Powerups()
+{
+	return powerups;
+}
 void MainEntities::Health(int n)
 {
 	health = n;
@@ -38,4 +43,9 @@ void MainEntities::Health(int n)
 	{
 		//idk
 	}
+}
+
+void MainEntities::Powerups(std::vector<bool> p)
+{
+	powerups = p;
 }

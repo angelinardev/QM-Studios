@@ -92,6 +92,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Transform>(entity);
 		ECS::AttachComponent<PhysicsBody>(entity);
 		ECS::AttachComponent<CanJump>(entity);
+		ECS::AttachComponent<Player_Power>(entity);
 
 		//Sets up the components
 		std::string fileName = "LinkStandby.png";
@@ -391,6 +392,42 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody = PhysicsBody(entity, BodyType::HEXAGON, tempBody, points, vec2(0.f, 0.f), false, OBJECTS, GROUND | OBJECTS | ENVIRONMENT | PLAYER | TRIGGER, 0.5f, 3.5);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
 	}
+
+	//testing pickup
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		ECS::AttachComponent<Trigger*>(entity);
+
+		//Sets up components
+		std::string fileName = "Book.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 10, 10);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, -20.f, 80.f));
+		ECS::GetComponent<Trigger*>(entity) = new PickupTrigger(1); //first powerup
+		ECS::GetComponent<Trigger*>(entity)->SetTriggerEntity(entity);
+
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_kinematicBody;
+		tempDef.position.Set(float32(50), float32(0));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, PTRIGGER, PLAYER);
+		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
+	}
+
 	{//Health bar (green)
 
 		healthBar = Scene::createHealthBar();
@@ -440,6 +477,12 @@ void PhysicsPlayground::Update()
 	HealthBar hb;
 	hb.UpdateHealthBar(healthBar, healthBarBack, uiBG);
 	//hb.UpdateGhostCounter(ghostCount, ghostBar, ghostBarBack);
+
+	////setup animation component again so the player doesnt lose their animations
+	//ECS::GetComponent<Player>(MainEntities::MainPlayer()).ReassignComponents(
+	//	&ECS::GetComponent<AnimationController>(MainEntities::MainPlayer()),
+	//	&ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer())
+	//);
 }
 
 void PhysicsPlayground::GUI()
@@ -694,6 +737,7 @@ void PhysicsPlayground::KeyboardDown()
 {
 	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
 	auto& canJump = ECS::GetComponent<CanJump>(MainEntities::MainPlayer());
+	auto& power = ECS::GetComponent<Player_Power>(MainEntities::MainPlayer());
 
 	auto& vel = player.GetBody()->GetLinearVelocity();
 	auto& pos = player.GetBody()->GetPosition();
@@ -702,14 +746,29 @@ void PhysicsPlayground::KeyboardDown()
 	{
 		PhysicsBody::SetDraw(!PhysicsBody::GetDraw());
 	}
+	if (Input::GetKeyDown(Key::One)) //jump higher ability
+	{
+		if (MainEntities::Powerups()[0])
+		{
+			power.m_power[0] = !power.m_power[0]; //reverses choice
+		}
+	}
 	
 	if (canJump.m_canJump)
 	{
 		if (Input::GetKeyDown(Key::Space))
 		{
+			if (power.m_power[0]) //jump higher
+			{
+				player.SetGravityScale(1.f);
+			}
+			else
+			{
+				player.SetGravityScale(2.f);
+			}
 			theta = 1;
 			player.GetBody()->SetLinearVelocity(b2Vec2(vel.x, 1600000000));
-			player.SetGravityScale(2.f);
+			
 			//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0.f, 1600000000.f), true);
 			canJump.m_canJump = false;
 		}
@@ -760,7 +819,6 @@ void PhysicsPlayground::KeyboardDown()
 		dashtime = clock();
 		dashcooldown = false;
 	}
-	
 	
 	
 }

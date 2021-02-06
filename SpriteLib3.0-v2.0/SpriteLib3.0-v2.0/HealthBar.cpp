@@ -32,6 +32,45 @@ void HealthBar::UpdateHealthBar(int hb, int hbb, int ui)
 	
 	hbui.SetPositionX((cameraH.GetCam()->GetPosition().x - 80));
 	hbui.SetPositionY((cameraV.GetCam()->GetPosition().y + 70));
+
+	
+}
+
+void HealthBar::UpdatePowers(int p_count, int p)
+{
+	auto& p_countui = ECS::GetComponent<Transform>(p_count);
+	auto& p_cspr = ECS::GetComponent<Sprite>(p_count);
+	auto& pui = ECS::GetComponent<Transform>(p);
+	auto& pspr = ECS::GetComponent<Sprite>(p);
+	auto& cameraH = ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera());
+	auto& cameraV = ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera());
+
+	//testing values, change later
+	p_countui.SetPositionX(cameraH.GetCam()->GetPosition().x - 80);
+	p_countui.SetPositionY(cameraV.GetCam()->GetPosition().y + 70);
+
+	int power_count = 0;
+	auto& powers = ECS::GetComponent<Player_Power>(MainEntities::MainPlayer());
+	for (int i = 0; i < MainEntities::Powerups().size(); i++)
+	{
+		if (MainEntities::Powerups()[i])
+		{
+			power_count++; //increase count
+			if (powers.m_power[0])
+			{
+				//show this power is active in UI (change sprite)
+			}
+		}
+	}
+	std::string fileName;
+	switch (power_count)
+	{
+	case 1: //display different count based on current amount obtained
+
+		fileName = "idk.png"; //filename
+		
+	}
+	p_cspr.LoadSprite(fileName, 10, 10);
 }
 
 //void HealthBar::UpdateGhostCounter(std::vector<int> ghosts, int fillColour, int backColour)

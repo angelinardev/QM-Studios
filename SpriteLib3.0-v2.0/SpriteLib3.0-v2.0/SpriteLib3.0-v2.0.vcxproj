@@ -170,8 +170,10 @@
     <ClInclude Include="PhysicsPlayground.h" />
     <ClInclude Include="PhysicsPlaygroundListener.h" />
     <ClInclude Include="PhysicsSystem.h" />
+    <ClInclude Include="PickupTrigger.h" />
     <ClInclude Include="PixelateEffect.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="Player_Power.h" />
     <ClInclude Include="PostEffect.h" />
     <ClInclude Include="RenderingSystem.h" />
     <ClInclude Include="Scene.h" />
@@ -231,8 +233,10 @@
     <ClCompile Include="PhysicsPlayground.cpp" />
     <ClCompile Include="PhysicsPlaygroundListener.cpp" />
     <ClCompile Include="PhysicsSystem.cpp" />
+    <ClCompile Include="PickupTrigger.cpp" />
     <ClCompile Include="PixelateEffect.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Player_Power.cpp" />
     <ClCompile Include="PostEffect.cpp" />
     <ClCompile Include="RenderingSystem.cpp" />
     <ClCompile Include="Scene.cpp" />

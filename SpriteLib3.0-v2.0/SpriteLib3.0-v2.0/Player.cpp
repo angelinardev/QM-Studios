@@ -78,6 +78,11 @@ void Player::InitPlayer(std::string& fileName, std::string& animationJSON, int w
 
 
 }
+void Player::ReassignComponents(AnimationController* controller, PhysicsBody* body)
+{
+	m_animController = controller;
+	m_physBody = body;
+}
 
 void Player::Update()
 {

@@ -15,6 +15,8 @@
 #include "HorizontalScroll.h"
 #include "CanJump.h"
 #include "HealthBar.h"
+#include "PickupTrigger.h"
+#include "Player_Power.h"
 
 
 

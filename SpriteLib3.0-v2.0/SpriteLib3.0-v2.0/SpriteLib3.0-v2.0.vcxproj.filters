@@ -198,6 +198,12 @@
     <ClInclude Include="HealthBar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PickupTrigger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Player_Power.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimationController.cpp">
@@ -372,6 +378,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="HealthBar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PickupTrigger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Player_Power.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
