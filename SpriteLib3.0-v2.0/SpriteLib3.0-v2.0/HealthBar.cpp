@@ -45,9 +45,10 @@ void HealthBar::UpdatePowers(int p_count, int p)
 	auto& cameraH = ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera());
 	auto& cameraV = ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera());
 
+	auto& playerb = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
 	//testing values, change later
-	p_countui.SetPositionX(cameraH.GetCam()->GetPosition().x - 80);
-	p_countui.SetPositionY(cameraV.GetCam()->GetPosition().y + 70);
+	p_countui.SetPositionX(playerb.GetBody()->GetWorldCenter().x - 80);
+	p_countui.SetPositionY(playerb.GetBody()->GetWorldCenter().y + 70);
 
 	int power_count = 0;
 	auto& powers = ECS::GetComponent<Player_Power>(MainEntities::MainPlayer());

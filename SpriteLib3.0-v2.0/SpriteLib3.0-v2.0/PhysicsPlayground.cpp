@@ -498,6 +498,7 @@ void PhysicsPlayground::GUI()
 	{
 		GUIWindowTwo();
 	}
+
 }
 
 void PhysicsPlayground::GUIWindowUI()

@@ -1,11 +1,7 @@
 #include "TitleScreen.h"
 #include "Utilities.h"
 
-int changeCount = 0;
-int selectionCounter = 1;
-int selector = 0;
-int background = 0;
-int selection = -1;
+
 TitleScreen::TitleScreen(std::string name)
 {
 	m_gravity = b2Vec2(0.f, -98.f);
@@ -16,10 +12,8 @@ TitleScreen::TitleScreen(std::string name)
 
 void TitleScreen::InitScene(float windowWidth, float windowHeight)
 {
-
-	selectionCounter = 1;
 	selection = -1;
-	changeCount = 0;
+	
 	m_sceneReg = new entt::registry;
 	//Attach the register
 	ECS::AttachRegister(m_sceneReg);
@@ -41,19 +35,15 @@ void TitleScreen::InitScene(float windowWidth, float windowHeight)
 
 		//Sets up the components
 		std::string fileName = "Selector.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 10, 5);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 3.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-40.f, 30.f, 3.f));
 
 		selector = entity;
 	}
 
-
-
-
 	{
 		/*Scene::CreateCamera(m_sceneReg, vec4(-75.f, 75.f, -75.f, 75.f), -100.f, 100.f, windowWidth, windowHeight, true, true);*/
-
 		//Creates Camera entity
 		auto entity = ECS::CreateEntity();
 		ECS::SetIsMainCamera(entity, true);
@@ -85,29 +75,92 @@ void TitleScreen::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Transform>(entity);
 
 		//Set up the components
-		std::string fileName = "TITLESCRN.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 220, 110);
+		std::string fileName = "background.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 215, 120);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 1.f));
 		background = entity;
 	}
+	//fireflies
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		firef = entity;
 
+		//Add components  
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<AnimationController>(entity);
 
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& animController = ECS::GetComponent<AnimationController>(entity);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 20.f, 2.f));
+		//Sets up the components  
+		std::string fileName = "spritesheets/fireflies.png";
+		std::string animations = "fireflies.json";
 
+		animController.InitUVs(fileName);
+		nlohmann::json animations2 = File::LoadJSON(animations);
+		animController.AddAnimation(animations2["FLICKER"].get<Animation>());
+		animController.SetActiveAnim(0);
+
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 215, 120, true, &animController);
+
+	}
+	//options
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components
+		std::string fileName = "Menu_Text.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 140, 70);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-40.f, 30.f, 3.f));
+		
+	}
+	//logo
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components
+		std::string fileName = "QM_Studios_Transparent.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 32, 20);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(88.f, -20.f, 3.f));
+
+	}
+	
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(background));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(background));
-	setSelect(1);
+	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetOffset(200);
+	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetOffset(0);
+	
+
+	setSelect(4);
+	selectionCounter == 4;
 }
 
 void TitleScreen::Update()
 {
+	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).Update();
+	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).Update();
 }
 
 int TitleScreen::ChangeScene()
 {
 
 	return selection;
-
 
 }
 
@@ -119,23 +172,23 @@ void TitleScreen::KeyboardDown()
 {
 	if (Input::GetKeyDown(Key::UpArrow) || Input::GetKeyDown(Key::W))
 	{
-		if (selectionCounter - 1 > 0) {
-			selectionCounter--;
-		}
-		else
-		{
-			selectionCounter = 3;
-		}
-		setSelect(selectionCounter);
-	}
-	if (Input::GetKeyDown(Key::DownArrow) || Input::GetKeyDown(Key::S))
-	{
-		if (selectionCounter + 1 < 4) {
+		if (selectionCounter + 1 < 5) {
 			selectionCounter++;
 		}
 		else
 		{
 			selectionCounter = 1;
+		}
+		setSelect(selectionCounter);
+	}
+	if (Input::GetKeyDown(Key::DownArrow) || Input::GetKeyDown(Key::S))
+	{
+		if (selectionCounter - 1 > 0) {
+			selectionCounter--;
+		}
+		else
+		{
+			selectionCounter = 4;
 		}
 		setSelect(selectionCounter);
 
@@ -144,13 +197,17 @@ void TitleScreen::KeyboardDown()
 	if (Input::GetKeyDown(Key::Space) || Input::GetKeyDown(Key::Enter))
 	{
 		if (selectionCounter == 1) {
-			selection = 0;
+			exit(0);
 		}
 		if (selectionCounter == 2) {
-			selection = 15;
+			exit(0);
 		}
 		if (selectionCounter == 3) {
 			exit(0);
+		}
+		if (selectionCounter == 4) {
+			
+			selection = 1;
 		}
 	}
 }
@@ -161,43 +218,45 @@ void TitleScreen::KeyboardUp()
 void TitleScreen::setSelect(int i) {
 	auto& selectTransform = ECS::GetComponent<Transform>(selector);
 	auto& selectSprite = ECS::GetComponent<Sprite>(selector);
-	selectTransform.SetPositionX(setX(i));
+
+	selectTransform.SetPositionX(-40);
 	selectTransform.SetPositionY(setY(i));
 	selectSprite.SetWidth(setW(i));
-	selectSprite.SetHeight(setH(i));
+	selectSprite.SetHeight(13);
 
 }
 
-int TitleScreen::setX(int i) {
-	return 2;
-}
 int TitleScreen::setY(int i) {
 	switch (i) {
 	case 1:
-		return 15;
+		return -2;
 		break;
 	case 2:
-		return 0;
+		return 12;
 		break;
 	case 3:
-		return -16;
+		return 24;
+		break;
+	case 4:
+		return 36;
 		break;
 	}
 }
 int TitleScreen::setW(int i) {
 	switch (i) {
 	case 1:
-		return 50;
+		return 45;
 		break;
 	case 2:
-		return 40;
+		return 75;
 		break;
 	case 3:
-		return 40;
+		return 53;
+		break;
+	case 4:
+		return 88;
 		break;
 	}
 }
-int TitleScreen::setH(int i) {
-	return 15;
-}
+
 
