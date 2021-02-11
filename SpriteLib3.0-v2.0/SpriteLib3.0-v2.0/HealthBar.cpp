@@ -61,6 +61,10 @@ void HealthBar::UpdatePowers(int p_count, int p)
 			{
 				//show this power is active in UI (change sprite)
 			}
+			if (powers.m_power[1])
+			{
+				//show this power is active in UI (change sprite)
+			}
 		}
 	}
 	std::string fileName;

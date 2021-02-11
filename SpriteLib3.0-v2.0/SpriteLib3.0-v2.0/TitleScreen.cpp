@@ -119,7 +119,7 @@ void TitleScreen::InitScene(float windowWidth, float windowHeight)
 
 		//Set up the components
 		std::string fileName = "Menu_Text.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 140, 70);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 120, 70);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-40.f, 30.f, 3.f));
 		

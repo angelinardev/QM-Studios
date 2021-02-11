@@ -133,6 +133,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Sprite>(entity);
 		ECS::AttachComponent<Transform>(entity);
 		ECS::AttachComponent<PhysicsBody>(entity);
+		
 
 		//Sets up components
 		std::string fileName = "boxSprite.jpg";
@@ -154,6 +155,9 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), 
 						float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON);
 		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+		ECS::AttachComponent<Invisibility>(entity);
+		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
+		test_e1 = entity;
 
 	}
 
@@ -478,6 +482,9 @@ void PhysicsPlayground::Update()
 	hb.UpdateHealthBar(healthBar, healthBarBack, uiBG);
 	//hb.UpdateGhostCounter(ghostCount, ghostBar, ghostBarBack);
 
+	//update invisibility
+	ECS::GetComponent<Invisibility>(test_e1).update_invisible();
+
 	////setup animation component again so the player doesnt lose their animations
 	//ECS::GetComponent<Player>(MainEntities::MainPlayer()).ReassignComponents(
 	//	&ECS::GetComponent<AnimationController>(MainEntities::MainPlayer()),
@@ -752,6 +759,15 @@ void PhysicsPlayground::KeyboardDown()
 		if (MainEntities::Powerups()[0])
 		{
 			power.m_power[0] = !power.m_power[0]; //reverses choice
+		}
+	}
+	if (Input::GetKeyDown(Key::Two)) //vision
+	{
+		if (MainEntities::Powerups()[1])
+		{
+			power.m_power[1] = !power.m_power[1]; //reverses choice
+			//manually change values
+			ECS::GetComponent<Invisibility>(test_e1).is_invisible = !ECS::GetComponent<Invisibility>(test_e1).is_invisible;
 		}
 	}
 	
