@@ -3,7 +3,8 @@
 class Player_Power
 {
 public:
-	std::vector<bool> m_power = { false };
+	std::vector<bool> m_power = { false, false, false };
+
 private:
 };
 

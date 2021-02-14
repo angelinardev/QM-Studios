@@ -133,6 +133,11 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	//Setup Downward log Log 
 	BoxMaker(75, 8, -220.f, -70.f, 160, 0);
 
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		
 	//Setup Static platform after log
 	BoxMaker(75, 8, -185.f, -85.f, 5, 0);
 
@@ -152,6 +157,12 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	BoxMaker(15, 3, -10.f, -57.f, 30, 0);
 	BoxMaker(20, 3, 5.f, -52.f, 0, 0);
 
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), 
+						float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+		ECS::AttachComponent<Invisibility>(entity);
+		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
+		test_e1 = entity;
 	//Setup Static after third rock
 	BoxMaker(40, 8, 30, -75, 0, 0);
 
@@ -281,6 +292,9 @@ void PhysicsPlayground::Update()
 	hb.UpdateHealthBar(healthBar, healthBarBack, uiBG);
 	//hb.UpdateGhostCounter(ghostCount, ghostBar, ghostBarBack);
 
+	//update invisibility
+	ECS::GetComponent<Invisibility>(test_e1).update_invisible();
+
 	////setup animation component again so the player doesnt lose their animations
 	//ECS::GetComponent<Player>(MainEntities::MainPlayer()).ReassignComponents(
 	//	&ECS::GetComponent<AnimationController>(MainEntities::MainPlayer()),
@@ -301,6 +315,7 @@ void PhysicsPlayground::GUI()
 	{
 		GUIWindowTwo();
 	}
+
 }
 
 void PhysicsPlayground::GUIWindowUI()
@@ -554,6 +569,15 @@ void PhysicsPlayground::KeyboardDown()
 		if (MainEntities::Powerups()[0])
 		{
 			power.m_power[0] = !power.m_power[0]; //reverses choice
+		}
+	}
+	if (Input::GetKeyDown(Key::Two)) //vision
+	{
+		if (MainEntities::Powerups()[1])
+		{
+			power.m_power[1] = !power.m_power[1]; //reverses choice
+			//manually change values
+			ECS::GetComponent<Invisibility>(test_e1).is_invisible = !ECS::GetComponent<Invisibility>(test_e1).is_invisible;
 		}
 	}
 	

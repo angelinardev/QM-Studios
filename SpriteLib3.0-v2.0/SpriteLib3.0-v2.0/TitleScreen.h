@@ -17,10 +17,16 @@ public:
 	void KeyboardDown() override;
 	void KeyboardUp() override;
 	void setSelect(int);
-	int setX(int);
+	
 	int setY(int);
 	int setW(int);
-	int setH(int);
+	
+
+	int selectionCounter = 4;
+	int selector = 0;
+	int background = 0;
+	int selection = -1;
+	int firef = 0;
 
 
 };
