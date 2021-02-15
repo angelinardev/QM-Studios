@@ -132,11 +132,6 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	
 	//Setup Downward log Log 
 	BoxMaker(75, 8, -220.f, -70.f, 160, 0);
-
-		//Add components
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
-		ECS::AttachComponent<PhysicsBody>(entity);
 		
 	//Setup Static platform after log
 	BoxMaker(75, 8, -185.f, -85.f, 5, 0);
@@ -157,12 +152,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	BoxMaker(15, 3, -10.f, -57.f, 30, 0);
 	BoxMaker(20, 3, 5.f, -52.f, 0, 0);
 
-		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), 
-						float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON);
-		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
-		ECS::AttachComponent<Invisibility>(entity);
-		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
-		test_e1 = entity;
+		
 	//Setup Static after third rock
 	BoxMaker(40, 8, 30, -75, 0, 0);
 
@@ -207,6 +197,41 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 	//Setup Last Platform
 	BoxMaker(170, 4, 840.f, -75.f, 0, 0);
+
+
+	//Add components
+
+	/* Invisibility platform example
+	{
+		auto entity = ECS::CreateEntity();
+
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		std::string fileName = "boxsprite.jpg";
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(30.f), float32(-10.f));
+
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+		ECS::AttachComponent<Invisibility>(entity);
+		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
+		test_e1 = entity;
+	}
+
+	*/
+
 	//testing pickup
 	{
 		//Creates entity
