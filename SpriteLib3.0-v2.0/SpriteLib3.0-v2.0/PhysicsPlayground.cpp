@@ -318,7 +318,7 @@ void PhysicsPlayground::Update()
 	//hb.UpdateGhostCounter(ghostCount, ghostBar, ghostBarBack);
 
 	//update invisibility
-	ECS::GetComponent<Invisibility>(test_e1).update_invisible();
+	//ECS::GetComponent<Invisibility>(test_e1).update_invisible();
 
 	////setup animation component again so the player doesnt lose their animations
 	//ECS::GetComponent<Player>(MainEntities::MainPlayer()).ReassignComponents(
@@ -596,6 +596,7 @@ void PhysicsPlayground::KeyboardDown()
 			power.m_power[0] = !power.m_power[0]; //reverses choice
 		}
 	}
+	/*
 	if (Input::GetKeyDown(Key::Two)) //vision
 	{
 		if (MainEntities::Powerups()[1])
@@ -605,7 +606,7 @@ void PhysicsPlayground::KeyboardDown()
 			ECS::GetComponent<Invisibility>(test_e1).is_invisible = !ECS::GetComponent<Invisibility>(test_e1).is_invisible;
 		}
 	}
-	
+	*/
 	if (canJump.m_canJump)
 	{
 		if (Input::GetKeyDown(Key::Space))
