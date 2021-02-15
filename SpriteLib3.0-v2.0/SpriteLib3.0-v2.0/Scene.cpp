@@ -129,7 +129,71 @@ void Scene::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 0.f));
 	}
 }
+void Scene::BoxMaker(int spriteSizeX, int spriteSizeY, float positionX, float positionY, int angle, float transparency, float friction, float density)
+{
+	auto entity = ECS::CreateEntity();
 
+	//Add components 
+	ECS::AttachComponent<Sprite>(entity);
+	ECS::AttachComponent<Transform>(entity);
+	ECS::AttachComponent<PhysicsBody>(entity);
+
+	//Sets up components 
+	std::string fileName = "boxSprite.jpg";
+	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, spriteSizeX, spriteSizeY);
+	ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 2.f));
+
+	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+	float shrinkX = 0.f;
+	float shrinkY = 0.f;
+	b2Body* tempBody;
+	b2BodyDef tempDef;
+	tempDef.type = b2_staticBody;
+	tempDef.position.Set(float32(positionX), float32(positionY));
+	ECS::GetComponent<Sprite>(entity).SetTransparency(transparency);
+	tempDef.angle = Transform::ToRadians(angle);
+
+	tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS, density);
+	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.f));
+}
+void Scene::EnviroMaker(int spriteSizeX, int spriteSizeY, float positionX, float positionY, int angle, float transparency, std::string name)
+{
+	auto entity = ECS::CreateEntity();
+
+	//Add components 
+	ECS::AttachComponent<Sprite>(entity);
+	ECS::AttachComponent<Transform>(entity);
+	ECS::AttachComponent<PhysicsBody>(entity);
+
+	//Sets up components 
+	std::string fileName = name;
+	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, spriteSizeX, spriteSizeY);
+	ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 20.f));
+
+	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+	float shrinkX = 0.f;
+	float shrinkY = 0.f;
+	b2Body* tempBody;
+	b2BodyDef tempDef;
+	tempDef.type = b2_staticBody;
+	tempDef.position.Set(float32(positionX), float32(positionY));
+	ECS::GetComponent<Sprite>(entity).SetTransparency(transparency);
+	tempDef.angle = Transform::ToRadians(angle);
+
+
+	tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, ENVIRONMENT, OBJECTS);
+	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+
+}
+	
 void Scene::Update()
 {
 	auto& tempSpr = m_sceneReg->get<Sprite>(m_helloWorldSign);
