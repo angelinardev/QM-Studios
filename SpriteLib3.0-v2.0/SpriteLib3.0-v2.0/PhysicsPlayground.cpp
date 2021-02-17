@@ -11,6 +11,15 @@ static int ghostBarBack = 0;
 static std::vector<int> ghostCount;
 static int uiBG = 0;
 
+static int pcount = 0;
+HealthBar hb;
+
+int PhysicsPlayground::ChangeScene()
+{
+
+	return selection;
+
+}
 
 PhysicsPlayground::PhysicsPlayground(std::string name)
 	: Scene(name)
@@ -137,12 +146,12 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	BoxMaker(75, 8, -185.f, -85.f, 5, 0);
 
 	//Setup for the first rock
-	BoxMaker(40, 3, -134.f, -55.f, 30, 0);
-	BoxMaker(5, 4, -115.f, -45.f, 0, 0);
+	BoxMaker(40, 3, -134.f, -55.f, 35, 0,0.2);
+	//BoxMaker(5, 4, -115.f, -45.f, 0, 0);
 
 	//Setup for the second rock
-	BoxMaker(35, 3, -95.f, -30.f, 30, 0);
-	BoxMaker(5, 4, -70.f, -23.f, 0, 0);
+	BoxMaker(35, 3, -95.f, -30.f, 30, 0, 0.2);
+	BoxMaker(10, 4, -74.f, -23.f, 0, 0);
 
 	//Setup Static after second rock
 	BoxMaker(60, 8, -55, -75, 0, 0);
@@ -161,7 +170,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	BoxMaker(30, 3, 95.f, -40.f, 0, 0);
 
 	//Setup for path after jump
-	BoxMaker(45, 3, 269.f, -65.f, 0, 0);
+	BoxMaker(43, 2, 272.f, -65.f, 0, 0);
 
 	//Set up for tree stump
 	BoxMaker(15, 3, 310.f, -35.f, 0, 0);
@@ -272,13 +281,17 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		healthBar = Scene::createHealthBar();
 	}
 
-	{//health bar back (brown)
+	//{//health bar back (brown)
 
-		healthBarBack = Scene::createHealthBarBack();
-	}
+	//	healthBarBack = Scene::createHealthBarBack();
+	//}
 	//UI background
 	{
 		uiBG = Scene::createUIBack();
+	}
+	//powers
+	{
+		pcount = Scene::createP();
 	}
 	
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
@@ -313,8 +326,22 @@ void PhysicsPlayground::Update()
 			jspeed = 0;
 		}
 
-	HealthBar hb;
-	hb.UpdateHealthBar(healthBar, healthBarBack, uiBG);
+	
+	hb.UpdateHealthBar(healthBar,uiBG);
+	hb.UpdatePowers(pcount);
+
+	//for jumping under the pit
+	if (player.GetPosition().y <= -90 && player.GetPosition().x <=800)
+	{
+		//bring player back to position before jump
+		player.GetBody()->SetTransform(b2Vec2(85, 20), 0);
+	}
+	//check for the lake
+	if (player.GetPosition().x >= 900 && player.GetPosition().y <= -90)
+	{
+		selection = 2; //next scene
+	}
+
 	//hb.UpdateGhostCounter(ghostCount, ghostBar, ghostBarBack);
 
 	//update invisibility
@@ -638,13 +665,15 @@ void PhysicsPlayground::KeyboardDown()
 			if (facing == 0) //left
 			{
 				//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-400000.f * 1000, 0.f), true);
-				player.GetBody()->SetTransform(b2Vec2(pos.x - 30, pos.y), 0);
+				//player.GetBody()->SetTransform(b2Vec2(pos.x - 30, pos.y), 0);
+				player.GetBody()->SetLinearVelocity(b2Vec2(-1000000, vel.y));
 				can_dash = false;
 			}
 			else if (facing == 1)
 			{
 				//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(400000.f * 1000, 0.f), true);
-				player.GetBody()->SetTransform(b2Vec2(pos.x + 30, pos.y), 0);
+				//player.GetBody()->SetTransform(b2Vec2(pos.x + 30, pos.y), 0);
+				player.GetBody()->SetLinearVelocity(b2Vec2(1000000, vel.y));
 				can_dash = false;
 			}
 			

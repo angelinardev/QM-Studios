@@ -31,6 +31,7 @@ public:
 	void EnviroMaker(int spriteSizeX, int spriteSizeY, float positionX, float positionY, int angle, float transparency, std::string name = "boxSprite.jpg");
 
 	int createHealthBar();
+	int createP();
 	int createHealthBarBack();
 	int createUIBack();
 	int createGhostBack();

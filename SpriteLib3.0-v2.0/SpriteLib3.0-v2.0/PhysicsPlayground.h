@@ -12,6 +12,7 @@ public:
 	void InitScene(float windowWidth, float windowHeight) override;
 
 	void Update() override;
+	int ChangeScene() override;
 
 	void GUI() override;
 
@@ -48,4 +49,6 @@ protected:
 	int jspeed = 0;
 
 	int test_e1 = 0;
+
+	int selection = -1;
 };

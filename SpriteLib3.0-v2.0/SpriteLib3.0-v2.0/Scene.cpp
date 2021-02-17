@@ -30,7 +30,21 @@ int Scene::createHealthBar() {
 
 	//Set up the components
 	std::string fileName = "Health.png";
-	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 50, 6);
+	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 10);
+	ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+	ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, 45.f, 71.f));
+	return entity;
+}
+int Scene::createP() {
+	auto entity = ECS::CreateEntity();
+
+	//Add components
+	ECS::AttachComponent<Sprite>(entity);
+	ECS::AttachComponent<Transform>(entity);
+
+	//Set up the components
+	std::string fileName = "page0.png";
+	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 10, 10);
 	ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 	ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, 45.f, 71.f));
 	return entity;
@@ -59,7 +73,7 @@ int Scene::createUIBack()
 
 	//Set up the components
 	std::string fileName = "Brown.png";
-	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, BackEnd::GetWindowWidth(), 15);
+	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, BackEnd::GetWindowWidth(), 17);
 	ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 	ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, 45.f, 69.f));
 	return entity;
@@ -152,12 +166,12 @@ void Scene::BoxMaker(int spriteSizeX, int spriteSizeY, float positionX, float po
 	b2BodyDef tempDef;
 	tempDef.type = b2_staticBody;
 	tempDef.position.Set(float32(positionX), float32(positionY));
-	ECS::GetComponent<Sprite>(entity).SetTransparency(transparency);
+	ECS::GetComponent<Sprite>(entity).SetTransparency(1);
 	tempDef.angle = Transform::ToRadians(angle);
 
 	tempBody = m_physicsWorld->CreateBody(&tempDef);
 
-	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS, density);
+	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS, friction, density);
 	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.f));
 }
 void Scene::EnviroMaker(int spriteSizeX, int spriteSizeY, float positionX, float positionY, int angle, float transparency, std::string name)

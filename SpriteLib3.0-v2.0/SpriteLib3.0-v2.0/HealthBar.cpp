@@ -1,47 +1,65 @@
 #include "HealthBar.h"
 #include "Utilities.h"
 
-void HealthBar::UpdateHealthBar(int hb, int hbb, int ui)
+void HealthBar::UpdateHealthBar(int hb, int ui)
 {
 	auto& hbui = ECS::GetComponent<Transform>(hb);
 	auto& hbspr = ECS::GetComponent<Sprite>(hb);
-	auto& hbbui = ECS::GetComponent<Transform>(hbb);
+	//auto& hbbui = ECS::GetComponent<Transform>(hbb);
 	auto& cameraH = ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera());
 	auto& cameraV = ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera());
 	auto& uibg = ECS::GetComponent<Transform>(ui);
 
 	auto& player = ECS::GetComponent<Transform>(MainEntities::MainPlayer());
 
-	hbbui.SetPositionX(cameraH.GetCam()->GetPosition().x - 80);
-	hbbui.SetPositionY(cameraV.GetCam()->GetPosition().y + 70);
+	//hbbui.SetPositionX(cameraH.GetCam()->GetPosition().x - 80);
+	//hbbui.SetPositionY(cameraV.GetCam()->GetPosition().y + 70);
 	
 	uibg.SetPositionX(cameraH.GetCam()->GetPosition().x);
 	uibg.SetPositionY(cameraV.GetCam()->GetPosition().y + 72);
 	int hboffset = 0;
+	std::string fileName;
 	if (MainEntities().Health() >= 0) {
-		hboffset = (100 - MainEntities().Health()) / 4;
-		hbspr.SetWidth(MainEntities().Health() / 2);
+		//hboffset = (100 - MainEntities().Health()) / 4;
+		//hbspr.SetWidth(MainEntities().Health() / 2);
+		if (MainEntities().Health() > 75)
+		{
+			fileName = "Health.png";
+		}
+		else if (MainEntities().Health() > 50)
+		{
+			fileName = "Health1.png";
+		}
+		else if (MainEntities().Health() > 25)
+		{
+			fileName = "Health2.png";
+		}
+		else if (MainEntities().Health() > 0)
+		{
+			fileName = "Health3.png";
+		}
 	}
 	else
 	{
 		hboffset = (100 - 0) / 4;
-		hbspr.SetWidth(0);
+		fileName = "Health4.png";
 	}
+	hbspr.LoadSprite(fileName, 40, 10);
 
 	//int hboffset = (100 - MainEntities().Health()) / 4;
 	
-	hbui.SetPositionX((cameraH.GetCam()->GetPosition().x - 80));
+	hbui.SetPositionX((cameraH.GetCam()->GetPosition().x - 90));
 	hbui.SetPositionY((cameraV.GetCam()->GetPosition().y + 70));
 
 	
 }
 
-void HealthBar::UpdatePowers(int p_count, int p)
+void HealthBar::UpdatePowers(int p_count) //int p
 {
 	auto& p_countui = ECS::GetComponent<Transform>(p_count);
 	auto& p_cspr = ECS::GetComponent<Sprite>(p_count);
-	auto& pui = ECS::GetComponent<Transform>(p);
-	auto& pspr = ECS::GetComponent<Sprite>(p);
+	//auto& pui = ECS::GetComponent<Transform>(p);
+	//auto& pspr = ECS::GetComponent<Sprite>(p);
 	auto& cameraH = ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera());
 	auto& cameraV = ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera());
 
@@ -70,12 +88,22 @@ void HealthBar::UpdatePowers(int p_count, int p)
 	std::string fileName;
 	switch (power_count)
 	{
+	case 0:
+		fileName = "page0.png";
+		break;
 	case 1: //display different count based on current amount obtained
 
-		fileName = "idk.png"; //filename
-		
+		fileName = "page1.png"; //filename
+		break;
+
+	case 2:
+		fileName = "page2.png";
+		break;
 	}
-	p_cspr.LoadSprite(fileName, 10, 10);
+	p_cspr.LoadSprite(fileName, 15, 15);
+
+	p_countui.SetPositionX((cameraH.GetCam()->GetPosition().x - 50));
+	p_countui.SetPositionY((cameraV.GetCam()->GetPosition().y + 71));
 }
 
 //void HealthBar::UpdateGhostCounter(std::vector<int> ghosts, int fillColour, int backColour)
