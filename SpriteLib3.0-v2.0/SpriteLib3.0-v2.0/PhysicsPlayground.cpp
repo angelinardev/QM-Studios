@@ -134,19 +134,19 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	}
 
 	//SetUp Invisible Wall at the beginning
-	BoxMaker(75, 8, -390.f, -70.f, 90, 0);
+	BoxMaker(75, 20, -410.f, -70.f, 90, 0);
 	
 	//Setup spawning static Platform
 	BoxMaker(198, 5, -310.f, -80.f, 0, 0);
 	
 	//Setup Downward log Log 
-	BoxMaker(75, 8, -220.f, -70.f, 160, 0);
+	BoxMaker(75, 15, -223.f, -70.f, 160, 0, 0.1);
 		
 	//Setup Static platform after log
 	BoxMaker(75, 8, -185.f, -85.f, 5, 0);
 
 	//Setup for the first rock
-	BoxMaker(40, 3, -134.f, -55.f, 35, 0,0.2);
+	BoxMaker(40, 10, -134.f, -55.f, 35, 0,0.10);
 	//BoxMaker(5, 4, -115.f, -45.f, 0, 0);
 
 	//Setup for the second rock
@@ -155,10 +155,10 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 	//Setup Static after second rock
 	BoxMaker(60, 8, -55, -75, 0, 0);
-	BoxMaker(40, 4, -65.f, -50.f, 90, 0);
+	BoxMaker(30, 50, -90.f, -58.f, 90, 0);
 
 	//Setup for the third rock
-	BoxMaker(15, 3, -10.f, -57.f, 30, 0);
+	BoxMaker(15, 3, -10.f, -55.f, 30, 0, 0.2);
 	BoxMaker(20, 3, 5.f, -52.f, 0, 0);
 
 		
@@ -166,8 +166,8 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	BoxMaker(40, 8, 30, -75, 0, 0);
 
 	//Setup for the fourth rock
-	BoxMaker(30, 3, 70.f, -47.f, 30, 0);
-	BoxMaker(30, 3, 95.f, -40.f, 0, 0);
+	BoxMaker(30, 3, 70.f, -47.f, 30, 0,0.2);
+	BoxMaker(30, 3, 95.f, -41.f, 0, 0);
 
 	//Setup for path after jump
 	BoxMaker(43, 2, 272.f, -65.f, 0, 0);
@@ -175,13 +175,13 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	//Set up for tree stump
 	BoxMaker(15, 3, 310.f, -35.f, 0, 0);
 
-	//Set up long after tree stump
+	//Set up log after tree stump
 	BoxMaker(45, 3, 350.f, -25.f, 165, 0);
-	BoxMaker(30, 3, 365.f, -20.f, 25, 0);
+	BoxMaker(30, 3, 365.f, -20.f, 25, 0,0.2);
 	BoxMaker(20, 3, 380.f, -30.f, 0, 0);
 	
 	//Setup stump after log
-	BoxMaker(30, 3, 410.f, -50.f, 140, 0);
+	BoxMaker(30, 3, 410.f, -50.f, 140, 0,0.2);
 	
 	//Setup Static platform
 	BoxMaker(80, 3, 465.f, -60.f, 0, 0);
@@ -189,14 +189,14 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	//Setup Top Platform
 	BoxMaker(60, 3, 540.f, -25.f, 0, 0);
 	BoxMaker(40, 3, 520.f, -50.f, 105, 0);
-	BoxMaker(15, 3, 575.f, -30.f, 145, 0);
-	BoxMaker(15, 3, 590.f, -30.f, 90, 0);
-	BoxMaker(30, 3, 608.f, -25.f, 170, 0);
-	BoxMaker(30, 3, 617.f, -25.f, 170, 0);
+	BoxMaker(15, 3, 575.f, -30.f, 145, 0,0.1);
+	BoxMaker(15, 3, 590.f, -30.f, 90, 0,0.2);
+	BoxMaker(30, 3, 608.f, -25.f, 170, 0,0.2);
+	BoxMaker(30, 3, 617.f, -25.f, 170, 0,0.2);
 
 	//Setup wood twist
 	BoxMaker(30, 3, 650.f, -27.f, 15, 0);
-	BoxMaker(10, 3, 668.f, -20.f, 45, 0);
+	BoxMaker(30, 3, 668.f, -20.f, 45, 0,0.1);
 
 	//Setup Platform after wood twist
 	BoxMaker(25, 3, 690.f, -10.f, 0, 0);
@@ -241,6 +241,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 	*/
 
+	/*
 	//testing pickup
 	{
 		//Creates entity
@@ -275,7 +276,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, PTRIGGER, PLAYER);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
 	}
-
+	*/
 	{//Health bar (green)
 
 		healthBar = Scene::createHealthBar();
@@ -652,7 +653,7 @@ void PhysicsPlayground::KeyboardDown()
 			//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(0.f, 1600000000.f), true);
 			canJump.m_canJump = false;
 		}
-		dash_timer = 1.5;
+		dash_timer = 0;
 	}
 	
 
@@ -678,7 +679,7 @@ void PhysicsPlayground::KeyboardDown()
 			}
 			
 		}
-		else if (dash_timer >= 1.5) //player can dash once in the air
+		else if (dash_timer >= 2.5) //player can dash once in the air
 		{
 			player.GetBody()->SetLinearVelocity(b2Vec2(0, vel.y));
 			if (facing == 0) //left
@@ -692,7 +693,26 @@ void PhysicsPlayground::KeyboardDown()
 				player.GetBody()->SetTransform(b2Vec2(pos.x + 30, pos.y), 0);
 			}
 
-			dash_timer = -1;
+			dash_timer = 0;
+		}
+
+		else if (!canJump.m_canJump && can_dash) //player can dash once in the air
+		{
+			player.GetBody()->SetLinearVelocity(b2Vec2(0, vel.y));
+			if (facing == 0) //left
+			{
+				player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-400000.f * 1000, 0.f), true);
+				player.GetBody()->SetTransform(b2Vec2(pos.x - 30, pos.y), 0);
+				player.GetBody()->SetLinearVelocity(b2Vec2(-1000000, vel.y));
+				//can_dash = false;
+			}
+			else if (facing == 1)
+			{
+				player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(400000.f * 1000, 0.f), true);
+				player.GetBody()->SetTransform(b2Vec2(pos.x + 30, pos.y), 0);
+				//player.GetBody()->SetLinearVelocity(b2Vec2(1000000, vel.y));
+				can_dash = false;
+			}
 		}
 	}
 	//dash cooldown

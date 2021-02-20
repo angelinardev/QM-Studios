@@ -166,7 +166,7 @@ void Scene::BoxMaker(int spriteSizeX, int spriteSizeY, float positionX, float po
 	b2BodyDef tempDef;
 	tempDef.type = b2_staticBody;
 	tempDef.position.Set(float32(positionX), float32(positionY));
-	ECS::GetComponent<Sprite>(entity).SetTransparency(1);
+	ECS::GetComponent<Sprite>(entity).SetTransparency(transparency);
 	tempDef.angle = Transform::ToRadians(angle);
 
 	tempBody = m_physicsWorld->CreateBody(&tempDef);
