@@ -137,13 +137,13 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	BoxMaker(75, 20, -410.f, -70.f, 90, 0);
 	
 	//Setup spawning static Platform
-	BoxMaker(198, 5, -310.f, -80.f, 0, 0);
+	BoxMaker(198, 5, -310.f, -80.f, 0, 0,2);
 	
 	//Setup Downward log Log 
 	BoxMaker(75, 15, -223.f, -70.f, 160, 0, 0.1);
 		
 	//Setup Static platform after log
-	BoxMaker(75, 8, -185.f, -85.f, 5, 0);
+	BoxMaker(75, 8, -185.f, -85.f, 5, 0,2);
 
 	//Setup for the first rock
 	BoxMaker(40, 10, -134.f, -55.f, 35, 0,0.10);
@@ -151,10 +151,10 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 	//Setup for the second rock
 	BoxMaker(35, 3, -95.f, -30.f, 30, 0, 0.2);
-	BoxMaker(10, 4, -74.f, -23.f, 0, 0);
+	BoxMaker(10, 4, -74.f, -23.f, 0, 0,2);
 
 	//Setup Static after second rock
-	BoxMaker(60, 8, -55, -75, 0, 0);
+	BoxMaker(60, 8, -55, -75, 0, 0,2);
 	BoxMaker(30, 50, -90.f, -58.f, 90, 0);
 
 	//Setup for the third rock
@@ -169,26 +169,29 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	BoxMaker(30, 3, 70.f, -47.f, 30, 0,0.2);
 	BoxMaker(30, 3, 95.f, -41.f, 0, 0);
 
+	//Setup a block for under the rock
+	BoxMaker(30, 25, 95.f, -75.f, 90, 1);
+
 	//Setup for path after jump
-	BoxMaker(43, 2, 272.f, -65.f, 0, 0);
+	BoxMaker(43, 2, 272.f, -65.f, 0, 0,2);
 
 	//Set up for tree stump
 	BoxMaker(15, 3, 310.f, -35.f, 0, 0);
 
 	//Set up log after tree stump
-	BoxMaker(45, 3, 350.f, -25.f, 165, 0);
+	BoxMaker(45, 3, 350.f, -25.f, 165, 0,2);
 	BoxMaker(30, 3, 365.f, -20.f, 25, 0,0.2);
-	BoxMaker(20, 3, 380.f, -30.f, 0, 0);
+	BoxMaker(20, 3, 380.f, -30.f, 0, 0,2);
 	
 	//Setup stump after log
 	BoxMaker(30, 3, 410.f, -50.f, 140, 0,0.2);
 	
 	//Setup Static platform
-	BoxMaker(80, 3, 465.f, -60.f, 0, 0);
+	BoxMaker(80, 3, 465.f, -60.f, 0, 0,2);
 
 	//Setup Top Platform
-	BoxMaker(60, 3, 540.f, -25.f, 0, 0);
-	BoxMaker(40, 3, 520.f, -50.f, 105, 0);
+	BoxMaker(60, 3, 540.f, -25.f, 0, 0,2);
+	BoxMaker(40, 3, 520.f, -50.f, 105, 0,2);
 	BoxMaker(15, 3, 575.f, -30.f, 145, 0,0.1);
 	BoxMaker(15, 3, 590.f, -30.f, 90, 0,0.2);
 	BoxMaker(30, 3, 608.f, -25.f, 170, 0,0.2);
@@ -199,13 +202,13 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	BoxMaker(30, 3, 668.f, -20.f, 45, 0,0.1);
 
 	//Setup Platform after wood twist
-	BoxMaker(25, 3, 690.f, -10.f, 0, 0);
+	BoxMaker(25, 3, 690.f, -10.f, 0, 0,2);
 
 	//Setup Down to last platfrom
 	BoxMaker(75, 4, 720.f, -40.f, 125, 0);
 
 	//Setup Last Platform
-	BoxMaker(170, 4, 840.f, -75.f, 0, 0);
+	BoxMaker(170, 4, 840.f, -75.f, 0, 0,2);
 
 
 	//Add components
