@@ -44,7 +44,7 @@ void HealthBar::UpdateHealthBar(int hb)
 		hboffset = (100 - 0) / 4;
 		fileName = "Health4.png";
 	}
-	hbspr.LoadSprite(fileName, 50, 20);
+	hbspr.LoadSprite(fileName, 60, 20);
 
 	//int hboffset = (100 - MainEntities().Health()) / 4;
 	
