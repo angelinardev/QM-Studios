@@ -1,22 +1,22 @@
 #include "HealthBar.h"
 #include "Utilities.h"
 
-void HealthBar::UpdateHealthBar(int hb, int ui)
+void HealthBar::UpdateHealthBar(int hb)
 {
 	auto& hbui = ECS::GetComponent<Transform>(hb);
 	auto& hbspr = ECS::GetComponent<Sprite>(hb);
 	//auto& hbbui = ECS::GetComponent<Transform>(hbb);
 	auto& cameraH = ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera());
 	auto& cameraV = ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera());
-	auto& uibg = ECS::GetComponent<Transform>(ui);
+	//auto& uibg = ECS::GetComponent<Transform>(ui);
 
 	auto& player = ECS::GetComponent<Transform>(MainEntities::MainPlayer());
 
 	//hbbui.SetPositionX(cameraH.GetCam()->GetPosition().x - 80);
 	//hbbui.SetPositionY(cameraV.GetCam()->GetPosition().y + 70);
 	
-	uibg.SetPositionX(cameraH.GetCam()->GetPosition().x);
-	uibg.SetPositionY(cameraV.GetCam()->GetPosition().y + 72);
+	//uibg.SetPositionX(cameraH.GetCam()->GetPosition().x);
+	//uibg.SetPositionY(cameraV.GetCam()->GetPosition().y + 72);
 	int hboffset = 0;
 	std::string fileName;
 	if (MainEntities().Health() >= 0) {
@@ -44,12 +44,12 @@ void HealthBar::UpdateHealthBar(int hb, int ui)
 		hboffset = (100 - 0) / 4;
 		fileName = "Health4.png";
 	}
-	hbspr.LoadSprite(fileName, 40, 10);
+	hbspr.LoadSprite(fileName, 50, 20);
 
 	//int hboffset = (100 - MainEntities().Health()) / 4;
 	
 	hbui.SetPositionX((cameraH.GetCam()->GetPosition().x - 90));
-	hbui.SetPositionY((cameraV.GetCam()->GetPosition().y + 70));
+	hbui.SetPositionY((cameraV.GetCam()->GetPosition().y + 67));
 
 	
 }
@@ -100,10 +100,10 @@ void HealthBar::UpdatePowers(int p_count) //int p
 		fileName = "page2.png";
 		break;
 	}
-	p_cspr.LoadSprite(fileName, 15, 15);
+	p_cspr.LoadSprite(fileName, 20, 20);
 
 	p_countui.SetPositionX((cameraH.GetCam()->GetPosition().x - 50));
-	p_countui.SetPositionY((cameraV.GetCam()->GetPosition().y + 71));
+	p_countui.SetPositionY((cameraV.GetCam()->GetPosition().y + 68));
 }
 
 //void HealthBar::UpdateGhostCounter(std::vector<int> ghosts, int fillColour, int backColour)

@@ -9,14 +9,13 @@ static int healthBarBack = 0;
 static int ghostBar = 0;
 static int ghostBarBack = 0;
 static std::vector<int> ghostCount;
-static int uiBG = 0;
+//static int uiBG = 0;
 
 static int pcount = 0;
 HealthBar hb;
 
 int PhysicsPlayground::ChangeScene()
 {
-
 	return selection;
 
 }
@@ -26,21 +25,26 @@ PhysicsPlayground::PhysicsPlayground(std::string name)
 {
 	//No gravity this is a top down scene
 	m_gravity = b2Vec2(0.f, -98.f);
-	m_physicsWorld->SetGravity(m_gravity);
 
-	m_physicsWorld->SetContactListener(&listener);
+	
 }
 
 void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 {
+	selection = -1;
 	//initialize the health
 	MainEntities::Health(100);
+
 	//Dynamically allocates the register
 	m_sceneReg = new entt::registry;
 
+	m_physicsWorld = new b2World(m_gravity);
+	m_physicsWorld->SetGravity(m_gravity);
+
+	m_physicsWorld->SetContactListener(&listener);
+
 	//Attach the register
 	ECS::AttachRegister(m_sceneReg);
-
 	//Sets up aspect ratio for the camera
 	float aspectRatio = windowWidth / windowHeight;
 
@@ -291,7 +295,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	//}
 	//UI background
 	{
-		uiBG = Scene::createUIBack();
+		//uiBG = Scene::createUIBack();
 	}
 	//powers
 	{
@@ -304,6 +308,11 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 void PhysicsPlayground::Update()
 {
+	if (MainEntities::Health() <= 0) //dying
+	{
+		selection = 2; //end screen? for now
+		
+	}
 	if (!dashcooldown) {
 		dash_timer = (clock() - dashtime) / CLOCKS_PER_SEC;
 		if (dash_timer >= cooldown) {
@@ -331,7 +340,7 @@ void PhysicsPlayground::Update()
 		}
 
 	
-	hb.UpdateHealthBar(healthBar,uiBG);
+	hb.UpdateHealthBar(healthBar);
 	hb.UpdatePowers(pcount);
 
 	//for jumping under the pit
@@ -339,11 +348,14 @@ void PhysicsPlayground::Update()
 	{
 		//bring player back to position before jump
 		player.GetBody()->SetTransform(b2Vec2(85, 20), 0);
+		
+		MainEntities::Health(MainEntities::Health() - 25); //remove 25 health
+	
 	}
 	//check for the lake
 	if (player.GetPosition().x >= 900 && player.GetPosition().y <= -90)
 	{
-		selection = 2; //next scene
+		selection = 3; //next scene
 	}
 
 	//hb.UpdateGhostCounter(ghostCount, ghostBar, ghostBarBack);
@@ -356,6 +368,7 @@ void PhysicsPlayground::Update()
 	//	&ECS::GetComponent<AnimationController>(MainEntities::MainPlayer()),
 	//	&ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer())
 	//);
+	
 }
 
 void PhysicsPlayground::GUI()
@@ -689,11 +702,13 @@ void PhysicsPlayground::KeyboardDown()
 			{
 				//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-400000.f * 1000, 0.f), true);
 				player.GetBody()->SetTransform(b2Vec2(pos.x - 30, pos.y), 0);
+			
 			}
 			else if (facing == 1)
 			{
 				//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(400000.f * 1000, 0.f), true);
 				player.GetBody()->SetTransform(b2Vec2(pos.x + 30, pos.y), 0);
+			
 			}
 
 			dash_timer = 0;
@@ -704,14 +719,14 @@ void PhysicsPlayground::KeyboardDown()
 			player.GetBody()->SetLinearVelocity(b2Vec2(0, vel.y));
 			if (facing == 0) //left
 			{
-				player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-400000.f * 1000, 0.f), true);
+				//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-400000.f * 1000, 0.f), true);
 				player.GetBody()->SetTransform(b2Vec2(pos.x - 30, pos.y), 0);
-				player.GetBody()->SetLinearVelocity(b2Vec2(-1000000, vel.y));
-				//can_dash = false;
+				//player.GetBody()->SetLinearVelocity(b2Vec2(-1000000, vel.y));
+				can_dash = false;
 			}
 			else if (facing == 1)
 			{
-				player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(400000.f * 1000, 0.f), true);
+				//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(400000.f * 1000, 0.f), true);
 				player.GetBody()->SetTransform(b2Vec2(pos.x + 30, pos.y), 0);
 				//player.GetBody()->SetLinearVelocity(b2Vec2(1000000, vel.y));
 				can_dash = false;
@@ -724,7 +739,6 @@ void PhysicsPlayground::KeyboardDown()
 		dashtime = clock();
 		dashcooldown = false;
 	}
-	
 	
 }
 

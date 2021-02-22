@@ -43,6 +43,7 @@ void Game::InitGame()
 	//Replace this with your own scene.
 	m_scenes.push_back(new TitleScreen("The Beyond"));
 	m_scenes.push_back(new PhysicsPlayground("PHYSICS PLAYGROUND TIEM!!!"));
+	m_scenes.push_back(new EndScreen("Game Over"));
 	
 	
 	 
@@ -106,22 +107,18 @@ void Game::Update()
 	//Update Physics System
 	PhysicsSystem::Update(m_register, m_activeScene->GetPhysicsWorld());
 
-
-
 	unsigned int index = m_activeScene->ChangeScene();
 	if (index != -1) {
 		m_activeScene->Unload();
-
-		//MainEntities::ClearUI();
-		//MainEntities::ClearObjects();
+	
+		PhysicsSystem::CleanupBodies();
 		m_activeScene = m_scenes[index];
 		m_activeScene->InitScene(BackEnd::GetWindowWidth(), BackEnd::GetWindowHeight());
 		m_register = m_activeScene->GetScene();
 		m_window->SetWindowName(m_activeScene->GetName());
 		PhysicsSystem::Init();
+		//PhysicsSystem::Update(m_register, m_activeScene->GetPhysicsWorld());
 	}
-
-
 	//Updates the active scene
 	m_activeScene->Update();
 }
