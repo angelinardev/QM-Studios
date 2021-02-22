@@ -24,7 +24,12 @@ PhysicsPlayground::PhysicsPlayground(std::string name)
 	: Scene(name)
 {
 	//No gravity this is a top down scene
+<<<<<<< Updated upstream
 	m_gravity = b2Vec2(0.f, -98.f);
+=======
+	m_gravity = b2Vec2(0.f, -100.f);
+	m_physicsWorld->SetGravity(m_gravity);
+>>>>>>> Stashed changes
 
 	
 }
@@ -174,7 +179,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	BoxMaker(30, 3, 95.f, -41.f, 0, 0);
 
 	//Setup a block for under the rock
-	BoxMaker(30, 25, 95.f, -75.f, 90, 1);
+	BoxMaker(30, 25, 95.f, -75.f, 90, 0);
 
 	//Setup for path after jump
 	BoxMaker(43, 2, 272.f, -65.f, 0, 0,2);
