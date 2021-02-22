@@ -87,9 +87,9 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 		//Set up the components
 		std::string fileName = "back_tutdeath.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 1845, 272);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 1790, 340);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(315.f, 0.f, 1.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(317.f, -5.f, 1.f));
 	}
 	//Setup new Entity
 	{
