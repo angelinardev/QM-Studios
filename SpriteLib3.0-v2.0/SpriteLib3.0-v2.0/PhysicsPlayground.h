@@ -47,6 +47,9 @@ protected:
 	clock_t dashtime;
 	float cooldown = 1.5f;
 	int jspeed = 0;
+	double jump_timer;
+	clock_t jumptime;
+	bool jumphold = false;
 
 	int test_e1 = 0;
 
