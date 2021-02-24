@@ -37,11 +37,17 @@ void Player::InitPlayer(std::string& fileName, std::string& animationJSON, int w
 	//IDLE ANIMATIONS\\
 	
 	//Idle Left
-	m_animController->AddAnimation(animations["IDLE"].get<Animation>());
-
+	m_animController->AddAnimation(animations["IDLELEFT"].get<Animation>()); //0
+	m_animController->AddAnimation(animations["IDLERIGHT"].get<Animation>()); //1
+	//walk
+	m_animController->AddAnimation(animations["WALKLEFT"].get<Animation>()); //2
+	m_animController->AddAnimation(animations["WALKRIGHT"].get<Animation>()); //3
+	//dashing
+	m_animController->AddAnimation(animations["DASHLEFT"].get<Animation>()); //4
+	m_animController->AddAnimation(animations["DASHRIGHT"].get<Animation>()); //5
 
 	//Set Default Animation
-	m_animController->SetActiveAnim(0);
+	m_animController->SetActiveAnim(1);
 
 
 }
@@ -80,11 +86,17 @@ void Player::MovementUpdate()
 			m_moving = true;
 		}
 
-	if (Input::GetKeyDown(Key::Space))
+	/*if (Input::GetKeyDown(Key::Space))
 	{
 		m_moving = false;
 
 		m_jump = true;
+		m_locked = true;
+	}*/
+	if (Input::GetKeyDown(Key::Shift))
+	{
+		m_moving = false;
+		m_dash = true;
 		m_locked = true;
 	}
 }
@@ -96,19 +108,34 @@ void Player::AnimationUpdate()
 	if (m_moving)
 	{
 		//Puts it into the WALK category
-		//activeAnimation = WALK;
-		activeAnimation = 0;
+		activeAnimation = WALK;
 	}
-	else if (m_jump)
+	//else if (m_jump)
+	//{
+	//	activeAnimation = DASH;
+
+	//	//Check if the attack animation is done
+	//	if (m_animController->GetAnimation(m_animController->GetActiveAnim()).GetAnimationDone())
+	//	{
+	//		//Will auto set to idle
+	//		m_locked = false;
+	//		m_jump = false;
+	//		//Resets the attack animation
+	//		m_animController->GetAnimation(m_animController->GetActiveAnim()).Reset();
+
+	//		activeAnimation = IDLE;
+	//	}
+	//}
+	else if (m_dash)
 	{
-		activeAnimation = ATTACK;
+		activeAnimation = DASH;
 
 		//Check if the attack animation is done
 		if (m_animController->GetAnimation(m_animController->GetActiveAnim()).GetAnimationDone())
 		{
 			//Will auto set to idle
 			m_locked = false;
-			m_jump = false;
+			m_dash = false;
 			//Resets the attack animation
 			m_animController->GetAnimation(m_animController->GetActiveAnim()).Reset();
 
@@ -118,6 +145,7 @@ void Player::AnimationUpdate()
 	else
 	{
 		activeAnimation = IDLE;
+		
 	}
 
 	SetActiveAnimation(activeAnimation + (int)m_facing);

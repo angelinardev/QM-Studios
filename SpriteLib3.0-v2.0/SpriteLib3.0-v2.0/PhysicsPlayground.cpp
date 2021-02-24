@@ -170,8 +170,8 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	EnviroMaker(30, 50, -94.f, -58.f, 90, 0);
 
 	//Setup for the third rock
-	BoxMaker(15, 3, -10.f, -55.f, 30, 0, 0.2);
-	BoxMaker(20, 3, 5.f, -52.f, 0, 0);
+	BoxMaker(25, 3, -13.f, -57.f, 27, 0, 0.2);
+	BoxMaker(20, 3, 7.f, -51.8f, 0, 0);
 
 		
 	//Setup Static after third rock
@@ -292,8 +292,8 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<AnimationController>(entity);
 
 		//Sets up the components
-		std::string fileName = "spritesheets/idlechar.png";
-		std::string animations = "IdleChar.json";
+		std::string fileName = "spritesheets/charspriteupside.png";
+		std::string animations = "Char.json";
 		//ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 2.f));
@@ -324,6 +324,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody.SetRotationAngleDeg(0.f);
 		tempPhsBody.SetFixedRotation(true);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
+		ECS::GetComponent<AnimationController>(entity).SetActiveAnim(1); //right
 	}
 
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
@@ -332,6 +333,9 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 void PhysicsPlayground::Update()
 {
+	auto& player2 = ECS::GetComponent<Player>(MainEntities::MainPlayer());
+	player2.Update();
+
 	if (MainEntities::Health() <= 0) //dying
 	{
 		selection = 2; //end screen? for now
@@ -389,9 +393,9 @@ void PhysicsPlayground::Update()
 	//ECS::GetComponent<Invisibility>(test_e1).update_invisible();
 
 	//setup animation component again so the player doesnt lose their animations
-	ECS::GetComponent<Player>(MainEntities::MainPlayer()).ReassignComponents(
+	player2.ReassignComponents(
 		&ECS::GetComponent<AnimationController>(MainEntities::MainPlayer()),
-		&ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()), &ECS::GetComponent<Sprite>(MainEntities::MainPlayer())
+		&player, &ECS::GetComponent<Sprite>(MainEntities::MainPlayer())
 	);
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
