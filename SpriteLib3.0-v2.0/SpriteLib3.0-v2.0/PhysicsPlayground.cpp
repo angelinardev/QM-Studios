@@ -265,7 +265,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 	*/
 
-	/*
+	
 	//testing pickup
 	{
 		//Creates entity
@@ -277,8 +277,8 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Trigger*>(entity);
 
 		//Sets up components
-		std::string fileName = "Book.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 10, 10);
+		std::string fileName = "page.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 15, 20);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, -20.f, 80.f));
 		ECS::GetComponent<Trigger*>(entity) = new PickupTrigger(1); //first powerup
@@ -293,14 +293,14 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_kinematicBody;
-		tempDef.position.Set(float32(50), float32(0));
+		tempDef.position.Set(float32(-310), float32(-70));
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
 		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, PTRIGGER, PLAYER);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
 	}
-	*/
+	
 	{//Health bar (green)
 
 		healthBar = Scene::createHealthBar();
