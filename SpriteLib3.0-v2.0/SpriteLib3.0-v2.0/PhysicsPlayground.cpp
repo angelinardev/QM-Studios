@@ -80,6 +80,22 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<VerticalScroll>(entity).SetCam(&ECS::GetComponent<Camera>(entity));
 	}
 
+	{
+		/*Scene::CreateSprite(m_sceneReg, "HelloWorld.png", 100, 60, 0.5f, vec3(0.f, 0.f, 0.f));*/
+
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components
+		std::string fileName = "back_tutdeath.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 1790, 340);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(317.f, -5.f, 1.f));
+	}
 	//Setup new Entity
 	{
 		/*Scene::CreateSprite(m_sceneReg, "HelloWorld.png", 100, 60, 0.5f, vec3(0.f, 0.f, 0.f));*/
@@ -95,8 +111,9 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		std::string fileName = "back_tut.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 1440, 194);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(315.f, 0.f, 0.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(315.f, 0.f, 2.f));
 	}
+	
 	
 	//Link entity
 	{
@@ -111,17 +128,23 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<PhysicsBody>(entity);
 		ECS::AttachComponent<CanJump>(entity);
 		ECS::AttachComponent<Player_Power>(entity);
+		ECS::AttachComponent<Player>(entity);
+		ECS::AttachComponent<AnimationController>(entity);
 
 		//Sets up the components
-		std::string fileName = "LinkStandby.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30);
+		std::string fileName = "spritesheets/idlechar.png";
+		std::string animations = "IdleChar.json";
+		//ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 2.f));
+		ECS::GetComponent<Player>(entity).InitPlayer(fileName, animations, 50, 40, &ECS::GetComponent<Sprite>(entity),
+			&ECS::GetComponent<AnimationController>(entity),
+			&ECS::GetComponent<Transform>(entity));
 
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 
-		float shrinkX = 0.f;
+		float shrinkX = 30.f;
 		float shrinkY = 0.f;
 
 		b2Body* tempBody;
@@ -131,8 +154,10 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
-		//tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, PLAYER, ENVIRONMENT| ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
-		tempPhsBody = PhysicsBody(entity, tempBody, float((tempSpr.GetHeight() - shrinkY)/2.f), vec2(0.f, 0.f), false, PLAYER, ENVIRONMENT | ENEMY | OBJECTS | PICKUP | TRIGGER | HEXAGON, 0.5f, 3.f);
+
+		//tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER |ENVIRONMENT, 0.5f, 3.f);
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, PLAYER, ENVIRONMENT| ENEMY | OBJECTS | PICKUP | TRIGGER, 0.4f, 3.f);
+		//tempPhsBody = PhysicsBody(entity, tempBody, float((tempSpr.GetHeight() - shrinkY)/2.f), vec2(0.f, 0.f), false, PLAYER, ENVIRONMENT | ENEMY | OBJECTS | PICKUP | TRIGGER | HEXAGON, 0.5f, 3.f);
 		//std::vector<b2Vec2> points = {b2Vec2(-tempSpr.GetWidth()/2.f, -tempSpr.GetHeight()/2.f), b2Vec2(tempSpr.GetWidth()/2.f, -tempSpr.GetHeight()/2.f), b2Vec2(0.f, tempSpr.GetHeight()/2.f)};
 		//tempPhsBody = PhysicsBody(entity, BodyType::TRIANGLE, tempBody, points, vec2(0.f, 0.f), false, PLAYER, ENVIRONMENT|ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
 
@@ -143,7 +168,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	}
 
 	//SetUp Invisible Wall at the beginning
-	BoxMaker(75, 20, -410.f, -70.f, 90, 0);
+	BoxMaker(90, 20, -410.f, -70.f, 90, 0);
 	
 	//Setup spawning static Platform
 	BoxMaker(198, 5, -310.f, -80.f, 0, 0,2);
@@ -253,7 +278,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 	*/
 
-	/*
+	
 	//testing pickup
 	{
 		//Creates entity
@@ -265,8 +290,8 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Trigger*>(entity);
 
 		//Sets up components
-		std::string fileName = "Book.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 10, 10);
+		std::string fileName = "page.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 15, 20);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, -20.f, 80.f));
 		ECS::GetComponent<Trigger*>(entity) = new PickupTrigger(1); //first powerup
@@ -281,14 +306,14 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_kinematicBody;
-		tempDef.position.Set(float32(50), float32(0));
+		tempDef.position.Set(float32(-310), float32(-70));
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
 		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, PTRIGGER, PLAYER);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
 	}
-	*/
+	
 	{//Health bar (green)
 
 		healthBar = Scene::createHealthBar();
@@ -368,11 +393,11 @@ void PhysicsPlayground::Update()
 	//update invisibility
 	//ECS::GetComponent<Invisibility>(test_e1).update_invisible();
 
-	////setup animation component again so the player doesnt lose their animations
-	//ECS::GetComponent<Player>(MainEntities::MainPlayer()).ReassignComponents(
-	//	&ECS::GetComponent<AnimationController>(MainEntities::MainPlayer()),
-	//	&ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer())
-	//);
+	//setup animation component again so the player doesnt lose their animations
+	ECS::GetComponent<Player>(MainEntities::MainPlayer()).ReassignComponents(
+		&ECS::GetComponent<AnimationController>(MainEntities::MainPlayer()),
+		&ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer())
+	);
 	
 }
 
