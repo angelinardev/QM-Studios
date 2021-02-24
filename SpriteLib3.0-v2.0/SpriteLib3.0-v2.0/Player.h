@@ -9,55 +9,27 @@ enum AnimEnums
 {
 	IDLELEFT,
 	IDLERIGHT,
-	
-	//Only in Top down
-#ifdef TOPDOWN
-	IDLEUP,
-	IDLEDOWN,
-#endif
-
 	WALKLEFT,
 	WALKRIGHT,
 
-	//Only in Top down
-#ifdef TOPDOWN
-	WALKUP,
-	WALKDOWN,
-#endif
-	
 	ATTACKLEFT,
 	ATTACKRIGHT,
 
-	//Only in Top down
-#ifdef TOPDOWN
-	ATTACKUP,
-	ATTACKDOWN
-#endif
 };
 
 enum AnimTypes
 {
-#ifdef TOPDOWN
-	IDLE = 0,
-	WALK = 4,
-	ATTACK = 8
-#endif
-#ifndef TOPDOWN
 	IDLE = 0,
 	WALK = 2,
-	ATTACK = 4
-#endif
+	DASH = 4
+
 };
 
 enum AnimDir
 {
 	LEFT,
 	RIGHT,
-	//Only in Top Down
-#ifdef TOPDOWN
-	UP,
-	DOWN
-#endif
+
 };
 
 class Player
@@ -70,7 +42,7 @@ public:
 	void InitPlayer(std::string& fileName, std::string& animationJSON, int width, int height, 
 		Sprite* sprite, AnimationController* controller, Transform* transform, bool hasPhys = false, PhysicsBody* body = nullptr);
 
-	void ReassignComponents(AnimationController* controller, PhysicsBody* body);
+	void ReassignComponents(AnimationController* controller, PhysicsBody* body, Sprite* sprite);
 
 	void Update();
 	void MovementUpdate();
@@ -88,6 +60,7 @@ private:
 	//Have we locked the player from moving during this animation?
 	bool m_locked = false;
 
+	bool m_dash = false;
 	//A reference to our sprite
 	Sprite* m_sprite = nullptr;
 	//A reference to our animation controller

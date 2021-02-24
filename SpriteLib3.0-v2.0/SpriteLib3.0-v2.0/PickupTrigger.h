@@ -14,7 +14,7 @@ public:
 	void OnExit() override;
 
 	int type;
-
+	std::vector<bool> powers;
 
 };
 
