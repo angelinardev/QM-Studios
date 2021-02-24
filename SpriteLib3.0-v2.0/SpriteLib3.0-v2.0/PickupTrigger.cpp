@@ -1,10 +1,12 @@
 #include "PickupTrigger.h"
 #include "ECS.h"
+#include "Player.h"
 
 
 PickupTrigger::PickupTrigger(int n)
 {
 	type = n;
+	powers = MainEntities::Powerups();
 }
 
 void PickupTrigger::OnTrigger()
@@ -15,8 +17,6 @@ void PickupTrigger::OnTrigger()
 void PickupTrigger::OnEnter()
 {
 	Trigger::OnEnter();
-	std::vector<bool> powers;
-	powers = MainEntities::Powerups();
 	powers[type - 1] = true;
 	//switch (type)
 	//{
@@ -31,6 +31,8 @@ void PickupTrigger::OnEnter()
 
 	//MainEntities::Health(MainEntities::Health() + 25); //recover health
 	PhysicsBody::m_bodiesToDelete.push_back(m_triggerEntity); //deletes itself
+
+	
 }
 
 
@@ -38,4 +40,6 @@ void PickupTrigger::OnEnter()
 void PickupTrigger::OnExit()
 {
 	Trigger::OnExit();
+
+
 }

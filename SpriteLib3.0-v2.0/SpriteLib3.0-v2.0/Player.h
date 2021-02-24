@@ -70,7 +70,7 @@ public:
 	void InitPlayer(std::string& fileName, std::string& animationJSON, int width, int height, 
 		Sprite* sprite, AnimationController* controller, Transform* transform, bool hasPhys = false, PhysicsBody* body = nullptr);
 
-	void ReassignComponents(AnimationController* controller, PhysicsBody* body);
+	void ReassignComponents(AnimationController* controller, PhysicsBody* body, Sprite* sprite);
 
 	void Update();
 	void MovementUpdate();
