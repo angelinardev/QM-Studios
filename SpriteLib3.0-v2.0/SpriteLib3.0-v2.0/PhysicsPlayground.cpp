@@ -75,6 +75,22 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<VerticalScroll>(entity).SetCam(&ECS::GetComponent<Camera>(entity));
 	}
 
+	{
+		/*Scene::CreateSprite(m_sceneReg, "HelloWorld.png", 100, 60, 0.5f, vec3(0.f, 0.f, 0.f));*/
+
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components
+		std::string fileName = "back_tutdeath.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 1790, 340);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(317.f, -5.f, 1.f));
+	}
 	//Setup new Entity
 	{
 		/*Scene::CreateSprite(m_sceneReg, "HelloWorld.png", 100, 60, 0.5f, vec3(0.f, 0.f, 0.f));*/
@@ -90,8 +106,9 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		std::string fileName = "back_tut.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 1440, 194);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(315.f, 0.f, 0.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(315.f, 0.f, 2.f));
 	}
+	
 	
 	//Link entity
 	{
@@ -146,7 +163,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	}
 
 	//SetUp Invisible Wall at the beginning
-	BoxMaker(75, 20, -410.f, -70.f, 90, 0);
+	BoxMaker(90, 20, -410.f, -70.f, 90, 0);
 	
 	//Setup spawning static Platform
 	BoxMaker(198, 5, -310.f, -80.f, 0, 0,2);
@@ -182,7 +199,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	BoxMaker(30, 3, 95.f, -41.f, 0, 0);
 
 	//Setup a block for under the rock
-	BoxMaker(30, 25, 95.f, -75.f, 90, 1);
+	BoxMaker(30, 25, 95.f, -75.f, 90, 0);
 
 	//Setup for path after jump
 	BoxMaker(43, 2, 272.f, -65.f, 0, 0,2);
@@ -256,7 +273,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 	*/
 
-	/*
+	
 	//testing pickup
 	{
 		//Creates entity
@@ -268,8 +285,8 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Trigger*>(entity);
 
 		//Sets up components
-		std::string fileName = "Book.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 10, 10);
+		std::string fileName = "page.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 15, 20);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, -20.f, 80.f));
 		ECS::GetComponent<Trigger*>(entity) = new PickupTrigger(1); //first powerup
@@ -284,14 +301,14 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_kinematicBody;
-		tempDef.position.Set(float32(50), float32(0));
+		tempDef.position.Set(float32(-310), float32(-70));
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
 		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, PTRIGGER, PLAYER);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
 	}
-	*/
+	
 	{//Health bar (green)
 
 		healthBar = Scene::createHealthBar();
