@@ -210,6 +210,12 @@
     <ClInclude Include="EndScreen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Cutscene1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TutorialTrig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimationController.cpp">
@@ -396,6 +402,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EndScreen.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Cutscene1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TutorialTrig.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
