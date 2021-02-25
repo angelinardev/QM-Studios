@@ -6,7 +6,7 @@
 #include <cmath>
 
 ToneFire::FMODCore Fmod{};
-ToneFire::CoreSound Sound{ "tutorial slow.mp3" };
+ToneFire::CoreSound Sound{ "tutorial slow.mp3", FMOD_2D | FMOD_LOOP_NORMAL };
 static int healthBar = 0;
 static int healthBarBack = 0;
 static int ghostBar = 0;
@@ -27,14 +27,7 @@ PhysicsPlayground::PhysicsPlayground(std::string name)
 	: Scene(name)
 {
 	//No gravity this is a top down scene
-<<<<<<< Updated upstream
-	m_gravity = b2Vec2(0.f, -98.f);
-=======
 	m_gravity = b2Vec2(0.f, -100.f);
-	m_physicsWorld->SetGravity(m_gravity);
->>>>>>> Stashed changes
-
-	
 }
 
 
