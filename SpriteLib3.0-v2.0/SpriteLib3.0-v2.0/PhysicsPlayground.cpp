@@ -106,7 +106,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 		//Creates entity
 		auto entity = ECS::CreateEntity();
-
+		tut1 = entity;
 		//Add components
 		ECS::AttachComponent<Sprite>(entity);
 		ECS::AttachComponent<Transform>(entity);
@@ -122,7 +122,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 		//Creates entity
 		auto entity = ECS::CreateEntity();
-
+		tut2 = entity;
 		//Add components
 		ECS::AttachComponent<Sprite>(entity);
 		ECS::AttachComponent<Transform>(entity);
@@ -130,7 +130,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		//Set up the components
 		std::string fileName = "Jump.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 50, 10);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-240.f, -20.f, 3.f));
 	}
 
@@ -138,7 +138,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 		//Creates entity
 		auto entity = ECS::CreateEntity();
-
+		tut3 = entity;
 		//Add components
 		ECS::AttachComponent<Sprite>(entity);
 		ECS::AttachComponent<Transform>(entity);
@@ -146,7 +146,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		//Set up the components
 		std::string fileName = "Dash.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 120, 50);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(175.f, -20.f, 3.f));
 	}
 
@@ -202,7 +202,74 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, PTRIGGER, PLAYER);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
 	}
+	//tut sensor1
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		ECS::AttachComponent<Trigger*>(entity);
 
+		//Sets up components
+		std::string fileName = "page.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 15, 20);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, -20.f, 80.f));
+		ECS::GetComponent<Trigger*>(entity) = new TutorialTrig(tut2); //first tutorial
+		ECS::GetComponent<Trigger*>(entity)->SetTriggerEntity(entity);
+
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(-300), float32(-70));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, PTRIGGER, PLAYER);
+		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
+	}
+	//tut sensor2
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		ECS::AttachComponent<Trigger*>(entity);
+
+		//Sets up components
+		std::string fileName = "page.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 15, 20);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, -20.f, 80.f));
+		ECS::GetComponent<Trigger*>(entity) = new TutorialTrig(tut3); //first tutorial
+		ECS::GetComponent<Trigger*>(entity)->SetTriggerEntity(entity);
+
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(95), float32(-30));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, PTRIGGER, PLAYER);
+		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
+	}
 	
 	//SetUp Invisible Wall at the beginning
 	BoxMaker(90, 20, -410.f, -70.f, 90, 0);
@@ -241,7 +308,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	BoxMaker(25, 3, 96.f, -41.f, 0, 0);
 
 	//Setup a block for under the rock
-	BoxMaker(30, 25, 95.f, -75.f, 90, 0);
+	BoxMaker(30, 60, 95.f, -75.f, 0, 0);
 
 	//Setup for path after jump
 	BoxMaker(43, 2, 272.f, -65.f, 0, 0,2);

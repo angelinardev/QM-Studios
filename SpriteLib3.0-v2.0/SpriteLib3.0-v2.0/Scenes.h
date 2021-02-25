@@ -7,5 +7,6 @@
 #include "AnimationSpritePlayground.h"
 #include "TitleScreen.h"
 #include "EndScreen.h"
+#include "Cutscene1.h"
 
 #endif // !__SCENES_H__
