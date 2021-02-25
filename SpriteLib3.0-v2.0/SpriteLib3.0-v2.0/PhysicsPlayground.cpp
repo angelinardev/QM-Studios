@@ -91,6 +91,55 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(317.f, -5.f, 1.f));
 	}
+
+	{
+
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components
+		std::string fileName = "Walk.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 50, 10);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-370.f,-20.f, 3.f));
+	}
+
+	{
+
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components
+		std::string fileName = "Jump.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 50, 10);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-240.f, -20.f, 3.f));
+	}
+
+	{
+
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components
+		std::string fileName = "Dash.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 120, 50);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(175.f, -20.f, 3.f));
+	}
+
 	//Setup new Entity
 	{
 		/*Scene::CreateSprite(m_sceneReg, "HelloWorld.png", 100, 60, 0.5f, vec3(0.f, 0.f, 0.f));*/
@@ -170,8 +219,8 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	EnviroMaker(30, 50, -94.f, -58.f, 90, 0);
 
 	//Setup for the third rock
-	BoxMaker(15, 3, -10.f, -55.f, 30, 0, 0.2);
-	BoxMaker(20, 3, 5.f, -52.f, 0, 0);
+	BoxMaker(25, 3, -13.f, -57.f, 27, 0, 0.2);
+	BoxMaker(20, 3, 7.f, -51.8f, 0, 0);
 
 		
 	//Setup Static after third rock
@@ -186,6 +235,9 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 	//Setup for path after jump
 	BoxMaker(43, 2, 272.f, -65.f, 0, 0,2);
+	//under blocks
+	EnviroMaker(30, 90, 350.f, -57.f, 90, 0);
+	//EnviroMaker(30, 25, 390.f, -57.f, 90, 0);
 
 	//Set up for tree stump
 	BoxMaker(15, 3, 310.f, -35.f, 0, 0);
@@ -193,6 +245,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	//Set up log after tree stump
 	BoxMaker(45, 3, 350.f, -25.f, 165, 0,2);
 	BoxMaker(30, 3, 365.f, -20.f, 25, 0,0.2);
+	BoxMaker(10, 3, 383.f, -10.f, 43, 0, 0.2);
 	BoxMaker(20, 3, 380.f, -30.f, 0, 0,2);
 	
 	//Setup stump after log
@@ -204,10 +257,13 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	//Setup Top Platform
 	BoxMaker(60, 3, 540.f, -25.f, 0, 0,2);
 	BoxMaker(40, 3, 520.f, -50.f, 105, 0,2);
-	BoxMaker(15, 3, 575.f, -30.f, 145, 0,0.1);
-	BoxMaker(15, 3, 590.f, -30.f, 90, 0,0.2);
-	BoxMaker(30, 3, 608.f, -25.f, 170, 0,0.2);
-	BoxMaker(30, 3, 617.f, -25.f, 170, 0,0.2);
+
+	BoxMaker(15, 3, 575.f, -28.f, 145, 0,0.1);
+	BoxMaker(18, 3, 590.f, -29.8f, 90, 0,0.2);
+	BoxMaker(45, 3, 613.f, -26.f, 170, 0,0.2);
+	//BoxMaker(30, 3, 617.f, -25.f, 170, 0,0.2);
+
+	
 
 	//Setup wood twist
 	BoxMaker(30, 3, 650.f, -27.f, 15, 0);
@@ -218,6 +274,9 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 	//Setup Down to last platfrom
 	BoxMaker(75, 4, 720.f, -40.f, 125, 0);
+	//block underneath to block
+	EnviroMaker(200, 40, 615, -50.f, 0, 0);
+	
 
 	//Setup Last Platform
 	BoxMaker(170, 4, 840.f, -75.f, 0, 0,2);
@@ -292,11 +351,11 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<AnimationController>(entity);
 
 		//Sets up the components
-		std::string fileName = "spritesheets/idlechar.png";
-		std::string animations = "IdleChar.json";
+		std::string fileName = "spritesheets/charspriteupside.png";
+		std::string animations = "Char.json";
 		//ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 2.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 4.f));
 		ECS::GetComponent<Player>(entity).InitPlayer(fileName, animations, 50, 40, &ECS::GetComponent<Sprite>(entity),
 			&ECS::GetComponent<AnimationController>(entity),
 			&ECS::GetComponent<Transform>(entity));
@@ -324,6 +383,8 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody.SetRotationAngleDeg(0.f);
 		tempPhsBody.SetFixedRotation(true);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
+		ECS::GetComponent<AnimationController>(entity).SetActiveAnim(1); //right
+		tempPhsBody.SetGravityScale(2.5f);
 	}
 
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
@@ -332,6 +393,11 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 void PhysicsPlayground::Update()
 {
+	auto& player2 = ECS::GetComponent<Player>(MainEntities::MainPlayer());
+	player2.Update();
+
+	auto& dash = ECS::GetComponent<CanJump>(MainEntities::MainPlayer());
+
 	if (MainEntities::Health() <= 0) //dying
 	{
 		selection = 2; //end screen? for now
@@ -340,7 +406,7 @@ void PhysicsPlayground::Update()
 	if (!dashcooldown) {
 		dash_timer = (clock() - dashtime) / CLOCKS_PER_SEC;
 		if (dash_timer >= cooldown) {
-			can_dash = true;
+			dash.can_dash = true;
 			dashcooldown = true;
 		}
 	}
@@ -350,7 +416,14 @@ void PhysicsPlayground::Update()
 
 	if (player.GetBody()->GetLinearVelocity().y < 0 && !canJump.m_canJump)//peak of jump, position needs to be relative to the ground
 	{
-		player.SetGravityScale(4.5);
+		if (!jump_high)
+		{
+			player.SetGravityScale(5);
+		}
+		else
+		{
+			player.SetGravityScale(3);
+		}
 		jspeed += 0.8;
 		if (jspeed > 6)
 		{
@@ -362,6 +435,14 @@ void PhysicsPlayground::Update()
 	}
 		else {
 			jspeed = 0;
+			if (!jump_high)
+			{
+				player.SetGravityScale(2.2);
+			}
+			else
+			{
+				player.SetGravityScale(1.5);
+			}
 		}
 
 	
@@ -389,10 +470,9 @@ void PhysicsPlayground::Update()
 	//ECS::GetComponent<Invisibility>(test_e1).update_invisible();
 
 	//setup animation component again so the player doesnt lose their animations
-	ECS::GetComponent<Player>(MainEntities::MainPlayer()).ReassignComponents(
+	player2.ReassignComponents(
 		&ECS::GetComponent<AnimationController>(MainEntities::MainPlayer()),
-		&ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()), &ECS::GetComponent<Sprite>(MainEntities::MainPlayer())
-	);
+		&player, &ECS::GetComponent<Sprite>(MainEntities::MainPlayer()));
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 
@@ -656,6 +736,7 @@ void PhysicsPlayground::KeyboardDown()
 
 	auto& vel = player.GetBody()->GetLinearVelocity();
 	auto& pos = player.GetBody()->GetPosition();
+	auto& dash = ECS::GetComponent<CanJump>(MainEntities::MainPlayer());
 
 	if (Input::GetKeyDown(Key::T))
 	{
@@ -685,11 +766,13 @@ void PhysicsPlayground::KeyboardDown()
 		{
 			if (power.m_power[0]) //jump higher
 			{
-				player.SetGravityScale(1.f);
+				player.SetGravityScale(1.5f);
+				jump_high = true;
 			}
 			else
 			{
-				player.SetGravityScale(2.f);
+				jump_high = false;
+				player.SetGravityScale(2.2f);
 			}
 			theta = 1;
 			player.GetBody()->SetLinearVelocity(b2Vec2(vel.x, 1600000000));
@@ -704,7 +787,7 @@ void PhysicsPlayground::KeyboardDown()
 	//dash
 	if (Input::GetKeyDown(Key::Shift))
 	{
-		if (canJump.m_canJump && can_dash) //ground dash
+		if (canJump.m_canJump && dash.can_dash) //ground dash
 		{
 			player.GetBody()->SetLinearVelocity(b2Vec2(0, vel.y));
 			if (facing == 0) //left
@@ -712,15 +795,18 @@ void PhysicsPlayground::KeyboardDown()
 				//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-400000.f * 1000, 0.f), true);
 				//player.GetBody()->SetTransform(b2Vec2(pos.x - 30, pos.y), 0);
 				player.GetBody()->SetLinearVelocity(b2Vec2(-1000000, vel.y));
-				can_dash = false;
+				dash.can_dash = false;
 			}
 			else if (facing == 1)
 			{
 				//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(400000.f * 1000, 0.f), true);
 				//player.GetBody()->SetTransform(b2Vec2(pos.x + 30, pos.y), 0);
 				player.GetBody()->SetLinearVelocity(b2Vec2(1000000, vel.y));
-				can_dash = false;
+				dash.can_dash = false;
 			}
+			ECS::GetComponent<Player>(MainEntities::MainPlayer()).m_dash = true;
+			ECS::GetComponent<Player>(MainEntities::MainPlayer()).m_locked = true;
+			ECS::GetComponent<Player>(MainEntities::MainPlayer()).m_moving = false;
 			
 		}
 		else if (dash_timer >= 2.5) //player can dash once in the air
@@ -738,11 +824,14 @@ void PhysicsPlayground::KeyboardDown()
 				player.GetBody()->SetTransform(b2Vec2(pos.x + 30, pos.y), 0);
 			
 			}
+			ECS::GetComponent<Player>(MainEntities::MainPlayer()).m_dash = true;
+			ECS::GetComponent<Player>(MainEntities::MainPlayer()).m_locked = true;
+			ECS::GetComponent<Player>(MainEntities::MainPlayer()).m_moving = false;
 
 			dash_timer = 0;
 		}
 
-		else if (!canJump.m_canJump && can_dash) //player can dash once in the air
+		else if (!canJump.m_canJump && dash.can_dash) //player can dash once in the air
 		{
 			player.GetBody()->SetLinearVelocity(b2Vec2(0, vel.y));
 			if (facing == 0) //left
@@ -750,19 +839,22 @@ void PhysicsPlayground::KeyboardDown()
 				//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-400000.f * 1000, 0.f), true);
 				player.GetBody()->SetTransform(b2Vec2(pos.x - 30, pos.y), 0);
 				//player.GetBody()->SetLinearVelocity(b2Vec2(-1000000, vel.y));
-				can_dash = false;
+				dash.can_dash = false;
 			}
 			else if (facing == 1)
 			{
 				//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(400000.f * 1000, 0.f), true);
 				player.GetBody()->SetTransform(b2Vec2(pos.x + 30, pos.y), 0);
 				//player.GetBody()->SetLinearVelocity(b2Vec2(1000000, vel.y));
-				can_dash = false;
+				dash.can_dash = false;
 			}
+			ECS::GetComponent<Player>(MainEntities::MainPlayer()).m_dash = true;
+			ECS::GetComponent<Player>(MainEntities::MainPlayer()).m_locked = true;
+			ECS::GetComponent<Player>(MainEntities::MainPlayer()).m_moving = false;
 		}
 	}
 	//dash cooldown
-	if (!can_dash && dashcooldown)
+	if (!dash.can_dash && dashcooldown)
 	{
 		dashtime = clock();
 		dashcooldown = false;
