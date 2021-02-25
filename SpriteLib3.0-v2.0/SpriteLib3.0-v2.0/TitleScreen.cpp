@@ -207,7 +207,7 @@ void TitleScreen::KeyboardDown()
 		}
 		if (selectionCounter == 4) {
 			
-			selection = 1;
+			selection = 1; //first level
 		}
 	}
 }

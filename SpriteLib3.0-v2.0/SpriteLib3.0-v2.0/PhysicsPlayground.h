@@ -56,4 +56,8 @@ protected:
 	int test_e1 = 0;
 
 	int selection = -1;
+	//tutorial controls
+	int  tut1;
+	int tut2;
+	int tut3;
 };

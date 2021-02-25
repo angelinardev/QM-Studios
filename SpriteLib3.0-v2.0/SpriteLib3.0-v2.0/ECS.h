@@ -18,6 +18,7 @@
 #include "PickupTrigger.h"
 #include "Player_Power.h"
 #include "Invisibility.h"
+#include "TutorialTrig.h"
 
 
 
