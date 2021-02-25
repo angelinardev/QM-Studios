@@ -41,7 +41,7 @@ protected:
 
 	//testing purposes
 	int facing = 0;
-	bool can_dash = true;
+	
 	bool dashcooldown = true;
 	double dash_timer;
 	clock_t dashtime;
@@ -50,6 +50,8 @@ protected:
 	double jump_timer;
 	clock_t jumptime;
 	bool jumphold = false;
+
+	bool jump_high = false;
 
 	int test_e1 = 0;
 
