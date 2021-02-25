@@ -49,18 +49,21 @@ public:
 	void AnimationUpdate();
 	//Default animation direction (feel free to change this to suit your game. If you're making a side-scroller, left or right would be better
 	AnimDir m_facing = LEFT;
+	bool m_dash = false;
+	bool m_moving = false;
+	bool m_locked = false;
 
 private:
 	void SetActiveAnimation(int anim);
 
 	//Basically, any animation OTHER than moving will not have a cancel, and we'll be checking whether or not that animation is done
-	bool m_moving = false;
+	
 	//Are you currently jumping
 	bool m_jump = false;
 	//Have we locked the player from moving during this animation?
-	bool m_locked = false;
+	
 
-	bool m_dash = false;
+	
 	//A reference to our sprite
 	Sprite* m_sprite = nullptr;
 	//A reference to our animation controller
@@ -68,6 +71,7 @@ private:
 	//A reference to our player transform
 	Transform* m_transform = nullptr;
 
+	
 	//Physics importance
 	//A reference to our physics body
 	PhysicsBody* m_physBody = nullptr;

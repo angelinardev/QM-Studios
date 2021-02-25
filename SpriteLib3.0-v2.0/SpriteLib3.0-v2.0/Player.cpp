@@ -18,6 +18,7 @@ void Player::InitPlayer(std::string& fileName, std::string& animationJSON, int w
 	m_animController = controller;
 	m_transform = transform;
 	m_hasPhysics = hasPhys;
+	
 	if (hasPhys)
 	{
 		m_physBody = body;
@@ -56,6 +57,7 @@ void Player::ReassignComponents(AnimationController* controller, PhysicsBody* bo
 	m_animController = controller;
 	m_physBody = body;
 	m_sprite = sprite;
+	
 }
 
 void Player::Update()
@@ -95,9 +97,9 @@ void Player::MovementUpdate()
 	}*/
 	if (Input::GetKeyDown(Key::Shift))
 	{
-		m_moving = false;
-		m_dash = true;
-		m_locked = true;
+		//m_moving = false;
+		//m_dash = true;
+		//m_locked = true;
 	}
 }
 
