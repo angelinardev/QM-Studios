@@ -1,9 +1,12 @@
 #include "PhysicsPlayground.h"
 #include "Utilities.h"
+#include "ToneFire/ToneFire.h"
 
 #include <random>
 #include <cmath>
 
+ToneFire::FMODCore Fmod{};
+ToneFire::CoreSound Sound{ "tutorial slow.mp3" };
 static int healthBar = 0;
 static int healthBarBack = 0;
 static int ghostBar = 0;
@@ -29,9 +32,16 @@ PhysicsPlayground::PhysicsPlayground(std::string name)
 	
 }
 
+
 void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 {
+	
+
 	selection = -1;
+	
+	
+	Sound.Play();
+
 	//initialize the health
 	MainEntities::Health(100);
 
@@ -391,8 +401,11 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 }
 
+
 void PhysicsPlayground::Update()
 {
+	Fmod.Update();
+	
 	auto& player2 = ECS::GetComponent<Player>(MainEntities::MainPlayer());
 	player2.Update();
 
