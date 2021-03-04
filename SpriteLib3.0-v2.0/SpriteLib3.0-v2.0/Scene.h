@@ -17,10 +17,12 @@ public:
 
 	void Unload();
 	virtual int ChangeScene() { return -1; }
+	virtual void InitTexture();
 
 	//Each scene will need to have a different
 	//init, as each scene's contents will be different
 	virtual void InitScene(float windowWidth, float windowHeight);
+
 
 	virtual void Update();
 

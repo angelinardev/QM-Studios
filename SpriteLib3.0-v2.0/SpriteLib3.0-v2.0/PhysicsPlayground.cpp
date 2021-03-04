@@ -23,23 +23,13 @@ PhysicsPlayground::PhysicsPlayground(std::string name)
 
 void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 {
-	
-
 	selection = -1;
 	
-	
-	Sound.Play();
-
-	//initialize the health
-	MainEntities::Health(100);
-
 	//Dynamically allocates the register
-	m_sceneReg = new entt::registry;
+	//m_sceneReg = new entt::registry;
 
-	m_physicsWorld = new b2World(m_gravity);
-	m_physicsWorld->SetGravity(m_gravity);
-
-	m_physicsWorld->SetContactListener(&listener);
+	//m_physicsWorld = new b2World(m_gravity);
+	//m_physicsWorld->SetGravity(m_gravity);
 
 	//Attach the register
 	ECS::AttachRegister(m_sceneReg);
@@ -73,6 +63,62 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<VerticalScroll>(entity).SetCam(&ECS::GetComponent<Camera>(entity));
 	}
 
+	
+	//Add components
+
+	/* Invisibility platform example
+	{
+		auto entity = ECS::CreateEntity();
+
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		std::string fileName = "boxsprite.jpg";
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(30.f), float32(-10.f));
+
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+		ECS::AttachComponent<Invisibility>(entity);
+		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
+		test_e1 = entity;
+	}
+
+	*/
+
+	
+	ECS::SetIsMainPlayer(p_entity, true);
+	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(p_entity));
+	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(p_entity));
+
+	Sound.Play();
+
+}
+void PhysicsPlayground::InitTexture()
+{
+	//initialize the health
+	MainEntities::Health(100);
+
+	//Dynamically allocates the register
+	m_sceneReg = new entt::registry;
+
+	m_physicsWorld = new b2World(m_gravity);
+	m_physicsWorld->SetGravity(m_gravity);
+	m_physicsWorld->SetContactListener(&listener);
+
+	//Attach the register
+	ECS::AttachRegister(m_sceneReg);
 	{
 		/*Scene::CreateSprite(m_sceneReg, "HelloWorld.png", 100, 60, 0.5f, vec3(0.f, 0.f, 0.f));*/
 
@@ -103,7 +149,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		std::string fileName = "Walk.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 50, 10);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-370.f,-20.f, 3.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-370.f, -20.f, 3.f));
 	}
 
 	{
@@ -258,129 +304,7 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, PTRIGGER, PLAYER);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
 	}
-	
-	//SetUp Invisible Wall at the beginning
-	BoxMaker(90, 20, -410.f, -70.f, 90, 0);
-	
-	//Setup spawning static Platform
-	BoxMaker(198, 5, -310.f, -80.f, 0, 0,2);
-	
-	//Setup Downward log Log 
-	BoxMaker(75, 15, -223.f, -70.f, 157, 0, 0.1);
-		
-	//Setup Static platform after log
-	BoxMaker(75, 8, -185.f, -80.f, 0, 0,2);
 
-	//Setup for the first rock
-	BoxMaker(40, 10, -134.f, -58.f, 35, 0,0.10);
-	//BoxMaker(5, 4, -115.f, -45.f, 0, 0);
-
-	//Setup for the second rock
-	BoxMaker(40, 3, -95.f, -31.f, 30, 0, 0.2);
-	BoxMaker(10, 4, -73.5f, -21.8f, 0, 0,2);
-
-	//Setup Static after second rock
-	BoxMaker(60, 8, -55, -75, 0, 0,2);
-	EnviroMaker(30, 50, -94.f, -58.f, 90, 0);
-
-	//Setup for the third rock
-	BoxMaker(25, 3, -13.f, -57.f, 27, 0, 0.2);
-	BoxMaker(20, 3, 7.f, -51.8f, 0, 0);
-
-		
-	//Setup Static after third rock
-	BoxMaker(40, 8, 30, -75, 0, 0);
-
-	//Setup for the fourth rock
-	BoxMaker(30, 3, 70.f, -47.f, 24, 0,0.2);
-	BoxMaker(25, 3, 96.f, -41.f, 0, 0);
-
-	//Setup a block for under the rock
-	BoxMaker(30, 60, 95.f, -75.f, 0, 0);
-
-	//Setup for path after jump
-	BoxMaker(43, 2, 272.f, -65.f, 0, 0,2);
-	//under blocks
-	EnviroMaker(30, 90, 350.f, -57.f, 90, 0);
-	//EnviroMaker(30, 25, 390.f, -57.f, 90, 0);
-
-	//Set up for tree stump
-	BoxMaker(15, 3, 310.f, -35.f, 0, 0);
-
-	//Set up log after tree stump
-	BoxMaker(45, 3, 350.f, -25.f, 165, 0,2);
-	BoxMaker(30, 3, 365.f, -20.f, 25, 0,0.2);
-	BoxMaker(10, 3, 383.f, -10.f, 43, 0, 0.2);
-	BoxMaker(20, 3, 380.f, -30.f, 0, 0,2);
-	
-	//Setup stump after log
-	BoxMaker(30, 3, 410.f, -50.f, 140, 0,0.2);
-	
-	//Setup Static platform
-	BoxMaker(80, 3, 465.f, -60.f, 0, 0,2);
-
-	//Setup Top Platform
-	BoxMaker(60, 3, 540.f, -25.f, 0, 0,2);
-	BoxMaker(40, 3, 520.f, -50.f, 105, 0,2);
-
-	BoxMaker(15, 3, 575.f, -28.f, 145, 0,0.1);
-	BoxMaker(18, 3, 590.f, -29.8f, 90, 0,0.2);
-	BoxMaker(45, 3, 613.f, -26.f, 170, 0,0.2);
-	//BoxMaker(30, 3, 617.f, -25.f, 170, 0,0.2);
-
-	
-
-	//Setup wood twist
-	BoxMaker(30, 3, 650.f, -27.f, 15, 0);
-	BoxMaker(30, 3, 668.f, -20.f, 45, 0,0.1);
-
-	//Setup Platform after wood twist
-	BoxMaker(25, 3, 690.f, -10.f, 0, 0,2);
-
-	//Setup Down to last platfrom
-	BoxMaker(75, 4, 720.f, -40.f, 125, 0);
-	//block underneath to block
-	EnviroMaker(200, 40, 615, -50.f, 0, 0);
-	
-
-	//Setup Last Platform
-	BoxMaker(170, 4, 840.f, -75.f, 0, 0,2);
-
-
-	//Add components
-
-	/* Invisibility platform example
-	{
-		auto entity = ECS::CreateEntity();
-
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
-		ECS::AttachComponent<PhysicsBody>(entity);
-		std::string fileName = "boxsprite.jpg";
-		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
-		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
-
-		float shrinkX = 0.f;
-		float shrinkY = 0.f;
-
-		b2Body* tempBody;
-		b2BodyDef tempDef;
-		tempDef.type = b2_staticBody;
-		tempDef.position.Set(float32(30.f), float32(-10.f));
-
-
-		tempBody = m_physicsWorld->CreateBody(&tempDef);
-		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
-			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON);
-		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
-		ECS::AttachComponent<Invisibility>(entity);
-		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
-		test_e1 = entity;
-	}
-
-	*/
-
-	
 	{//Health bar (green)
 
 		healthBar = Scene::createHealthBar();
@@ -399,12 +323,102 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		pcount = Scene::createP();
 	}
 
+
+	//SetUp Invisible Wall at the beginning
+	BoxMaker(90, 20, -410.f, -70.f, 90, 0);
+
+	//Setup spawning static Platform
+	BoxMaker(198, 5, -310.f, -80.f, 0, 0, 2);
+
+	//Setup Downward log Log 
+	BoxMaker(75, 15, -223.f, -70.f, 157, 0, 0.1);
+
+	//Setup Static platform after log
+	BoxMaker(75, 8, -185.f, -80.f, 0, 0, 2);
+
+	//Setup for the first rock
+	BoxMaker(40, 10, -134.f, -58.f, 35, 0, 0.10);
+	//BoxMaker(5, 4, -115.f, -45.f, 0, 0);
+
+	//Setup for the second rock
+	BoxMaker(40, 3, -95.f, -31.f, 30, 0, 0.2);
+	BoxMaker(10, 4, -73.5f, -21.8f, 0, 0, 2);
+
+	//Setup Static after second rock
+	BoxMaker(60, 8, -55, -75, 0, 0, 2);
+	EnviroMaker(30, 50, -94.f, -58.f, 90, 0);
+
+	//Setup for the third rock
+	BoxMaker(25, 3, -13.f, -57.f, 27, 0, 0.2);
+	BoxMaker(20, 3, 7.f, -51.8f, 0, 0);
+
+
+	//Setup Static after third rock
+	BoxMaker(40, 8, 30, -75, 0, 0);
+
+	//Setup for the fourth rock
+	BoxMaker(30, 3, 70.f, -47.f, 24, 0, 0.2);
+	BoxMaker(25, 3, 96.f, -41.f, 0, 0);
+
+	//Setup a block for under the rock
+	BoxMaker(30, 60, 95.f, -75.f, 0, 0);
+
+	//Setup for path after jump
+	BoxMaker(43, 2, 272.f, -65.f, 0, 0, 2);
+	//under blocks
+	EnviroMaker(30, 90, 350.f, -57.f, 90, 0);
+	//EnviroMaker(30, 25, 390.f, -57.f, 90, 0);
+
+	//Set up for tree stump
+	BoxMaker(15, 3, 310.f, -35.f, 0, 0);
+
+	//Set up log after tree stump
+	BoxMaker(45, 3, 350.f, -25.f, 165, 0, 2);
+	BoxMaker(30, 3, 365.f, -20.f, 25, 0, 0.2);
+	BoxMaker(10, 3, 383.f, -10.f, 43, 0, 0.2);
+	BoxMaker(20, 3, 380.f, -30.f, 0, 0, 2);
+
+	//Setup stump after log
+	BoxMaker(30, 3, 410.f, -50.f, 140, 0, 0.2);
+
+	//Setup Static platform
+	BoxMaker(80, 3, 465.f, -60.f, 0, 0, 2);
+
+	//Setup Top Platform
+	BoxMaker(60, 3, 540.f, -25.f, 0, 0, 2);
+	BoxMaker(40, 3, 520.f, -50.f, 105, 0, 2);
+
+	BoxMaker(15, 3, 575.f, -28.f, 145, 0, 0.1);
+	BoxMaker(18, 3, 590.f, -29.8f, 90, 0, 0.2);
+	BoxMaker(45, 3, 613.f, -26.f, 170, 0, 0.2);
+	//BoxMaker(30, 3, 617.f, -25.f, 170, 0,0.2);
+
+
+
+	//Setup wood twist
+	BoxMaker(30, 3, 650.f, -27.f, 15, 0);
+	BoxMaker(30, 3, 668.f, -20.f, 45, 0, 0.1);
+
+	//Setup Platform after wood twist
+	BoxMaker(25, 3, 690.f, -10.f, 0, 0, 2);
+
+	//Setup Down to last platfrom
+	BoxMaker(75, 4, 720.f, -40.f, 125, 0);
+	//block underneath to block
+	EnviroMaker(200, 40, 615, -50.f, 0, 0);
+
+
+	//Setup Last Platform
+	BoxMaker(170, 4, 840.f, -75.f, 0, 0, 2);
+
+
 	//Link entity
 	{
 		/*Scene::CreatePhysicsSprite(m_sceneReg, "LinkStandby", 80, 60, 1.f, vec3(0.f, 30.f, 2.f), b2_dynamicBody, 0.f, 0.f, true, true)*/
 
 		auto entity = ECS::CreateEntity();
-		ECS::SetIsMainPlayer(entity, true);
+		p_entity = entity;
+
 
 		//Add components
 		ECS::AttachComponent<Sprite>(entity);
@@ -451,9 +465,6 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<AnimationController>(entity).SetActiveAnim(1); //right
 		tempPhsBody.SetGravityScale(2.5f);
 	}
-
-	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
-	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 }
 
 
@@ -461,10 +472,10 @@ void PhysicsPlayground::Update()
 {
 	Fmod.Update();
 	
-	auto& player2 = ECS::GetComponent<Player>(MainEntities::MainPlayer());
+	auto& player2 = ECS::GetComponent<Player>(p_entity);
 	player2.Update();
 
-	auto& dash = ECS::GetComponent<CanJump>(MainEntities::MainPlayer());
+	auto& dash = ECS::GetComponent<CanJump>(p_entity);
 
 	if (MainEntities::Health() <= 0) //dying
 	{
@@ -478,8 +489,8 @@ void PhysicsPlayground::Update()
 			dashcooldown = true;
 		}
 	}
-	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
-	auto& canJump = ECS::GetComponent<CanJump>(MainEntities::MainPlayer());
+	auto& player = ECS::GetComponent<PhysicsBody>(p_entity);
+	auto& canJump = ECS::GetComponent<CanJump>(p_entity);
 	
 
 	if (player.GetBody()->GetLinearVelocity().y < 0 && !canJump.m_canJump)//peak of jump, position needs to be relative to the ground
@@ -540,16 +551,17 @@ void PhysicsPlayground::Update()
 
 	//setup animation component again so the player doesnt lose their animations
 	player2.ReassignComponents(
-		&ECS::GetComponent<AnimationController>(MainEntities::MainPlayer()),
-		&player, &ECS::GetComponent<Sprite>(MainEntities::MainPlayer()));
-	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
-	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
+		&ECS::GetComponent<AnimationController>(p_entity),
+		&player, &ECS::GetComponent<Sprite>(p_entity));
+	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(p_entity));
+	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(p_entity));
 
 	
 }
+
 void PhysicsPlayground::KeyboardHold()
 {
-	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
+	auto& player = ECS::GetComponent<PhysicsBody>(p_entity);
 
 	b2Vec2 vel = b2Vec2(0.f, 0.f);
 
@@ -593,13 +605,13 @@ void PhysicsPlayground::KeyboardHold()
 
 void PhysicsPlayground::KeyboardDown()
 {
-	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
-	auto& canJump = ECS::GetComponent<CanJump>(MainEntities::MainPlayer());
-	auto& power = ECS::GetComponent<Player_Power>(MainEntities::MainPlayer());
+	auto& player = ECS::GetComponent<PhysicsBody>(p_entity);
+	auto& canJump = ECS::GetComponent<CanJump>(p_entity);
+	auto& power = ECS::GetComponent<Player_Power>(p_entity);
 
 	auto& vel = player.GetBody()->GetLinearVelocity();
 	auto& pos = player.GetBody()->GetPosition();
-	auto& dash = ECS::GetComponent<CanJump>(MainEntities::MainPlayer());
+	auto& dash = ECS::GetComponent<CanJump>(p_entity);
 
 	if (Input::GetKeyDown(Key::T))
 	{
@@ -667,9 +679,9 @@ void PhysicsPlayground::KeyboardDown()
 				player.GetBody()->SetLinearVelocity(b2Vec2(1000000, vel.y));
 				dash.can_dash = false;
 			}
-			ECS::GetComponent<Player>(MainEntities::MainPlayer()).m_dash = true;
-			ECS::GetComponent<Player>(MainEntities::MainPlayer()).m_locked = true;
-			ECS::GetComponent<Player>(MainEntities::MainPlayer()).m_moving = false;
+			ECS::GetComponent<Player>(p_entity).m_dash = true;
+			ECS::GetComponent<Player>(p_entity).m_locked = true;
+			ECS::GetComponent<Player>(p_entity).m_moving = false;
 			
 		}
 		else if (dash_timer >= 2.5) //player can dash once in the air
@@ -687,9 +699,9 @@ void PhysicsPlayground::KeyboardDown()
 				player.GetBody()->SetTransform(b2Vec2(pos.x + 30, pos.y), 0);
 			
 			}
-			ECS::GetComponent<Player>(MainEntities::MainPlayer()).m_dash = true;
-			ECS::GetComponent<Player>(MainEntities::MainPlayer()).m_locked = true;
-			ECS::GetComponent<Player>(MainEntities::MainPlayer()).m_moving = false;
+			ECS::GetComponent<Player>(p_entity).m_dash = true;
+			ECS::GetComponent<Player>(p_entity).m_locked = true;
+			ECS::GetComponent<Player>(p_entity).m_moving = false;
 
 			dash_timer = 0;
 		}
@@ -711,9 +723,9 @@ void PhysicsPlayground::KeyboardDown()
 				//player.GetBody()->SetLinearVelocity(b2Vec2(1000000, vel.y));
 				dash.can_dash = false;
 			}
-			ECS::GetComponent<Player>(MainEntities::MainPlayer()).m_dash = true;
-			ECS::GetComponent<Player>(MainEntities::MainPlayer()).m_locked = true;
-			ECS::GetComponent<Player>(MainEntities::MainPlayer()).m_moving = false;
+			ECS::GetComponent<Player>(p_entity).m_dash = true;
+			ECS::GetComponent<Player>(p_entity).m_locked = true;
+			ECS::GetComponent<Player>(p_entity).m_moving = false;
 		}
 	}
 	//dash cooldown

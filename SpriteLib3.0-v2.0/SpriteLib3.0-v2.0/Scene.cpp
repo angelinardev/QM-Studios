@@ -21,6 +21,9 @@ void Scene::Unload()
 		m_physicsWorld = nullptr;
 	}
 }
+void Scene::InitTexture()
+{
+}
 int Scene::createHealthBar() {
 	auto entity = ECS::CreateEntity();
 

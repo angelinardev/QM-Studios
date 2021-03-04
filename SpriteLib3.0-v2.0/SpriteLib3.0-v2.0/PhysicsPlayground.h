@@ -13,6 +13,7 @@ public:
 	void InitScene(float windowWidth, float windowHeight) override;
 
 	void Update() override;
+	void InitTexture() override;
 	int ChangeScene() override;
 	//Input overrides
 	void KeyboardHold() override;
@@ -26,9 +27,8 @@ protected:
 	std::string m_fileInput;
 
 	PhysicsPlaygroundListener listener;
+	int p_entity;
 
-	int puzzleWall1;
-	int puzzleWall2;
 	float speed = 0;
 	float theta = 0;
 
@@ -55,7 +55,7 @@ protected:
 	int tut3;
 
 	ToneFire::FMODCore Fmod{};
-	ToneFire::CoreSound Sound{ "tutorial slow.mp3", FMOD_2D | FMOD_LOOP_NORMAL };
+	ToneFire::CoreSound Sound{ "tutorial slow.mp3",FMOD_2D | FMOD_LOOP_NORMAL };
 	int healthBar;
 	 int healthBarBack;
 	 int ghostBar;

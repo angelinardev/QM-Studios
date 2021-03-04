@@ -47,10 +47,14 @@ void Game::InitGame()
 	m_scenes.push_back(new Cutscene1("Cutscene opening"));
 	m_scenes.push_back(new LevelOne("First level"));
 	
+	//preloads all scenes
+	m_scenes[1]->InitTexture();
+	m_scenes[3]->InitTexture();
+	m_scenes[4]->InitTexture();
 	
-	 
+
 	//Sets active scene reference to our scene
-	m_activeScene = m_scenes[3];
+	m_activeScene = m_scenes[0];
 
 	m_activeScene->InitScene(float(BackEnd::GetWindowWidth()), float(BackEnd::GetWindowHeight()));
 
@@ -112,8 +116,7 @@ void Game::Update()
 	unsigned int index = m_activeScene->ChangeScene();
 	if (index != -1) {
 		m_activeScene->Unload();
-	
-		PhysicsSystem::CleanupBodies();
+		//PhysicsSystem::CleanupBodies();
 		m_activeScene = m_scenes[index];
 		m_activeScene->InitScene(BackEnd::GetWindowWidth(), BackEnd::GetWindowHeight());
 		m_register = m_activeScene->GetScene();

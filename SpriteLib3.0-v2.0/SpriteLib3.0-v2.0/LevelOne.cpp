@@ -23,20 +23,6 @@ void LevelOne::InitScene(float windowWidth, float windowHeight)
 {
 	
 	selection = -1;
-
-	Sound.Play();
-
-	//initialize the health
-	MainEntities::Health(100);
-
-	//Dynamically allocates the register
-	m_sceneReg = new entt::registry;
-
-	m_physicsWorld = new b2World(m_gravity);
-	m_physicsWorld->SetGravity(m_gravity);
-
-	m_physicsWorld->SetContactListener(&listener);
-
 	//Attach the register
 	ECS::AttachRegister(m_sceneReg);
 	//Sets up aspect ratio for the camera
@@ -69,6 +55,26 @@ void LevelOne::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<VerticalScroll>(entity).SetCam(&ECS::GetComponent<Camera>(entity));
 	}
 
+	
+	ECS::SetIsMainPlayer(p_entity, true);
+	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(p_entity));
+	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(p_entity));
+	Sound.Play();
+
+}
+void LevelOne::InitTexture()
+{
+
+	//Dynamically allocates the register
+	m_sceneReg = new entt::registry;
+
+	m_physicsWorld = new b2World(m_gravity);
+	m_physicsWorld->SetGravity(m_gravity);
+
+	m_physicsWorld->SetContactListener(&listener);
+
+	//Attach the register
+	ECS::AttachRegister(m_sceneReg);
 	{
 		/*Scene::CreateSprite(m_sceneReg, "HelloWorld.png", 100, 60, 0.5f, vec3(0.f, 0.f, 0.f));*/
 
@@ -80,7 +86,7 @@ void LevelOne::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Transform>(entity);
 
 		//Set up the components
-		std::string fileName = "back_tutdeath.png";
+		std::string fileName = "b.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 1790, 340);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(317.f, -5.f, 1.f));
@@ -98,25 +104,29 @@ void LevelOne::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Transform>(entity);
 
 		//Set up the components
-		std::string fileName = "back_tut.png";
+		std::string fileName = "b.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 1440, 194);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(315.f, 0.f, 2.f));
 	}
-	//enemy sample
+
+	////enemy trigger
 	//{
-	//	MainEntities::Health(MainEntities::Health() + 5);
+
 	//	auto entity = ECS::CreateEntity();
 	//	
-
 	//	//Add components  
+	//	//ECS::AttachComponent<EnemyBlue>(entity);
 	//	ECS::AttachComponent<Sprite>(entity);
 	//	ECS::AttachComponent<Transform>(entity);
 	//	ECS::AttachComponent<PhysicsBody>(entity);
-	//	ECS::AttachComponent<AnimationController>(entity);
+	//ECS::AttachComponent<AnimationController>(entity);
+	//	ECS::AttachComponent<Trigger*>(entity);
 	//	ECS::AttachComponent<CanDamage>(entity);
 
 	//	ECS::GetComponent<CanDamage>(entity).m_candamage = true;
+
+	//	//Sets up the components  
 
 	//	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 	//	auto& animController = ECS::GetComponent<AnimationController>(entity);
@@ -135,53 +145,12 @@ void LevelOne::InitScene(float windowWidth, float windowHeight)
 	//	animController.AddAnimation(animations2["Boss1Suck2"].get<Animation>());//face right?
 	//	animController.SetActiveAnim(0);
 
-	//	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30, true, &animController);
-	//	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
-
-
-	//	float shrinkX = 0.f;
-	//	float shrinkY = 0.f;
-
-	//	b2Body* tempBody;
-	//	b2BodyDef tempDef;
-	//	tempDef.type = b2_dynamicBody;
-	//	tempDef.position.Set(float32(-85.f), float32(25.f));
-
-	//	tempBody = m_physicsWorld->CreateBody(&tempDef);
-
-	//	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, ENEMY, OBJECTS | PICKUP | TRIGGER | PTRIGGER, 0.5f, 3.f);
-	//	//tempPhsBody = PhysicsBody(entity, tempBody, float((tempSpr.GetHeight() - shrinkY)/2.f), vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);  
-
-	//	tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
-	//	tempPhsBody.SetGravityScale(0.f);
-	//	tempPhsBody.SetFixedRotation(true);
-
-	//}
-	
-	////enemy trigger
-	//{
-
-	//	auto entity = ECS::CreateEntity();
-	//	
-	//	//Add components  
-	//	//ECS::AttachComponent<EnemyBlue>(entity);
-	//	ECS::AttachComponent<Sprite>(entity);
-	//	ECS::AttachComponent<Transform>(entity);
-	//	ECS::AttachComponent<PhysicsBody>(entity);
-	//	ECS::AttachComponent<Trigger*>(entity);
-	//	ECS::AttachComponent<CanDamage>(entity);
-
-	//	ECS::GetComponent<CanDamage>(entity).m_candamage = true;
-
-	//	//Sets up the components  
-	//	std::string fileName = "neville.png";
-	//	//std::string animations = "BLUETWRL.json";
 	//	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30);
 	//	ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
 	//	ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 3.f));
 	//	ECS::GetComponent<Trigger*>(entity) = new EnemyTrigger();
 	//	ECS::GetComponent<Trigger*>(entity)->SetTriggerEntity(entity);
-	//	ECS::GetComponent<Trigger*>(entity)->AddTargetEntity(MainEntities::MainPlayer());
+	//	ECS::GetComponent<Trigger*>(entity)->AddTargetEntity(p_entity);
 
 
 	//	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
@@ -270,7 +239,8 @@ void LevelOne::InitScene(float windowWidth, float windowHeight)
 		/*Scene::CreatePhysicsSprite(m_sceneReg, "LinkStandby", 80, 60, 1.f, vec3(0.f, 30.f, 2.f), b2_dynamicBody, 0.f, 0.f, true, true)*/
 
 		auto entity = ECS::CreateEntity();
-		ECS::SetIsMainPlayer(entity, true);
+		p_entity = entity;
+
 
 		//Add components
 		ECS::AttachComponent<Sprite>(entity);
@@ -318,19 +288,16 @@ void LevelOne::InitScene(float windowWidth, float windowHeight)
 		tempPhsBody.SetGravityScale(2.5f);
 	}
 
-	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
-	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 }
-
 
 void LevelOne::Update()
 {
 	Fmod.Update();
 
-	auto& player2 = ECS::GetComponent<Player>(MainEntities::MainPlayer());
+	auto& player2 = ECS::GetComponent<Player>(p_entity);
 	player2.Update();
 
-	auto& dash = ECS::GetComponent<CanJump>(MainEntities::MainPlayer());
+	auto& dash = ECS::GetComponent<CanJump>(p_entity);
 	//enemy checks
 	//auto& ghost = ECS::GetComponent<PhysicsBody>(ghost1);
 	//auto& c_ghost = ECS::GetComponent<CanDamage>(ghost1);
@@ -377,8 +344,8 @@ void LevelOne::Update()
 			dashcooldown = true;
 		}
 	}
-	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
-	auto& canJump = ECS::GetComponent<CanJump>(MainEntities::MainPlayer());
+	auto& player = ECS::GetComponent<PhysicsBody>(p_entity);
+	auto& canJump = ECS::GetComponent<CanJump>(p_entity);
 
 
 	if (player.GetBody()->GetLinearVelocity().y < 0 && !canJump.m_canJump)//peak of jump, position needs to be relative to the ground
@@ -418,17 +385,17 @@ void LevelOne::Update()
 
 	//setup animation component again so the player doesnt lose their animations
 	player2.ReassignComponents(
-		&ECS::GetComponent<AnimationController>(MainEntities::MainPlayer()),
-		&player, &ECS::GetComponent<Sprite>(MainEntities::MainPlayer()));
-	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
-	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
+		&ECS::GetComponent<AnimationController>(p_entity),
+		&player, &ECS::GetComponent<Sprite>(p_entity));
+	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(p_entity));
+	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(p_entity));
 
 
 }
 
 void LevelOne::KeyboardHold()
 {
-	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
+	auto& player = ECS::GetComponent<PhysicsBody>(p_entity);
 
 	b2Vec2 vel = b2Vec2(0.f, 0.f);
 
@@ -472,13 +439,13 @@ void LevelOne::KeyboardHold()
 
 void LevelOne::KeyboardDown()
 {
-	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
-	auto& canJump = ECS::GetComponent<CanJump>(MainEntities::MainPlayer());
-	auto& power = ECS::GetComponent<Player_Power>(MainEntities::MainPlayer());
+	auto& player = ECS::GetComponent<PhysicsBody>(p_entity);
+	auto& canJump = ECS::GetComponent<CanJump>(p_entity);
+	auto& power = ECS::GetComponent<Player_Power>(p_entity);
 
 	auto& vel = player.GetBody()->GetLinearVelocity();
 	auto& pos = player.GetBody()->GetPosition();
-	auto& dash = ECS::GetComponent<CanJump>(MainEntities::MainPlayer());
+	auto& dash = ECS::GetComponent<CanJump>(p_entity);
 
 	if (Input::GetKeyDown(Key::T))
 	{
@@ -546,9 +513,9 @@ void LevelOne::KeyboardDown()
 				player.GetBody()->SetLinearVelocity(b2Vec2(1000000, vel.y));
 				dash.can_dash = false;
 			}
-			ECS::GetComponent<Player>(MainEntities::MainPlayer()).m_dash = true;
-			ECS::GetComponent<Player>(MainEntities::MainPlayer()).m_locked = true;
-			ECS::GetComponent<Player>(MainEntities::MainPlayer()).m_moving = false;
+			ECS::GetComponent<Player>(p_entity).m_dash = true;
+			ECS::GetComponent<Player>(p_entity).m_locked = true;
+			ECS::GetComponent<Player>(p_entity).m_moving = false;
 
 		}
 		else if (dash_timer >= 2.5) //player can dash once in the air
@@ -566,9 +533,9 @@ void LevelOne::KeyboardDown()
 				player.GetBody()->SetTransform(b2Vec2(pos.x + 30, pos.y), 0);
 
 			}
-			ECS::GetComponent<Player>(MainEntities::MainPlayer()).m_dash = true;
-			ECS::GetComponent<Player>(MainEntities::MainPlayer()).m_locked = true;
-			ECS::GetComponent<Player>(MainEntities::MainPlayer()).m_moving = false;
+			ECS::GetComponent<Player>(p_entity).m_dash = true;
+			ECS::GetComponent<Player>(p_entity).m_locked = true;
+			ECS::GetComponent<Player>(p_entity).m_moving = false;
 
 			dash_timer = 0;
 		}
@@ -590,9 +557,9 @@ void LevelOne::KeyboardDown()
 				//player.GetBody()->SetLinearVelocity(b2Vec2(1000000, vel.y));
 				dash.can_dash = false;
 			}
-			ECS::GetComponent<Player>(MainEntities::MainPlayer()).m_dash = true;
-			ECS::GetComponent<Player>(MainEntities::MainPlayer()).m_locked = true;
-			ECS::GetComponent<Player>(MainEntities::MainPlayer()).m_moving = false;
+			ECS::GetComponent<Player>(p_entity).m_dash = true;
+			ECS::GetComponent<Player>(p_entity).m_locked = true;
+			ECS::GetComponent<Player>(p_entity).m_moving = false;
 		}
 	}
 	//dash cooldown
