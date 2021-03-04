@@ -24,11 +24,7 @@ void LevelOne::InitScene(float windowWidth, float windowHeight)
 	
 	selection = -1;
 
-	Sound.Play();
-
-	//initialize the health
-	MainEntities::Health(100);
-
+	
 	//Dynamically allocates the register
 	m_sceneReg = new entt::registry;
 
@@ -80,7 +76,7 @@ void LevelOne::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Transform>(entity);
 
 		//Set up the components
-		std::string fileName = "back_tutdeath.png";
+		std::string fileName = "b.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 1790, 340);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(317.f, -5.f, 1.f));
@@ -98,25 +94,29 @@ void LevelOne::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Transform>(entity);
 
 		//Set up the components
-		std::string fileName = "back_tut.png";
+		std::string fileName = "b.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 1440, 194);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(315.f, 0.f, 2.f));
 	}
-	//enemy sample
+	
+	////enemy trigger
 	//{
-	//	MainEntities::Health(MainEntities::Health() + 5);
+
 	//	auto entity = ECS::CreateEntity();
 	//	
-
 	//	//Add components  
+	//	//ECS::AttachComponent<EnemyBlue>(entity);
 	//	ECS::AttachComponent<Sprite>(entity);
 	//	ECS::AttachComponent<Transform>(entity);
 	//	ECS::AttachComponent<PhysicsBody>(entity);
-	//	ECS::AttachComponent<AnimationController>(entity);
+	//ECS::AttachComponent<AnimationController>(entity);
+	//	ECS::AttachComponent<Trigger*>(entity);
 	//	ECS::AttachComponent<CanDamage>(entity);
 
 	//	ECS::GetComponent<CanDamage>(entity).m_candamage = true;
+
+	//	//Sets up the components  
 
 	//	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 	//	auto& animController = ECS::GetComponent<AnimationController>(entity);
@@ -135,47 +135,6 @@ void LevelOne::InitScene(float windowWidth, float windowHeight)
 	//	animController.AddAnimation(animations2["Boss1Suck2"].get<Animation>());//face right?
 	//	animController.SetActiveAnim(0);
 
-	//	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30, true, &animController);
-	//	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
-
-
-	//	float shrinkX = 0.f;
-	//	float shrinkY = 0.f;
-
-	//	b2Body* tempBody;
-	//	b2BodyDef tempDef;
-	//	tempDef.type = b2_dynamicBody;
-	//	tempDef.position.Set(float32(-85.f), float32(25.f));
-
-	//	tempBody = m_physicsWorld->CreateBody(&tempDef);
-
-	//	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, ENEMY, OBJECTS | PICKUP | TRIGGER | PTRIGGER, 0.5f, 3.f);
-	//	//tempPhsBody = PhysicsBody(entity, tempBody, float((tempSpr.GetHeight() - shrinkY)/2.f), vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);  
-
-	//	tempPhsBody.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
-	//	tempPhsBody.SetGravityScale(0.f);
-	//	tempPhsBody.SetFixedRotation(true);
-
-	//}
-	
-	////enemy trigger
-	//{
-
-	//	auto entity = ECS::CreateEntity();
-	//	
-	//	//Add components  
-	//	//ECS::AttachComponent<EnemyBlue>(entity);
-	//	ECS::AttachComponent<Sprite>(entity);
-	//	ECS::AttachComponent<Transform>(entity);
-	//	ECS::AttachComponent<PhysicsBody>(entity);
-	//	ECS::AttachComponent<Trigger*>(entity);
-	//	ECS::AttachComponent<CanDamage>(entity);
-
-	//	ECS::GetComponent<CanDamage>(entity).m_candamage = true;
-
-	//	//Sets up the components  
-	//	std::string fileName = "neville.png";
-	//	//std::string animations = "BLUETWRL.json";
 	//	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30);
 	//	ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
 	//	ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 3.f));
@@ -320,6 +279,8 @@ void LevelOne::InitScene(float windowWidth, float windowHeight)
 
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(MainEntities::MainPlayer()));
+	Sound.Play();
+
 }
 
 
