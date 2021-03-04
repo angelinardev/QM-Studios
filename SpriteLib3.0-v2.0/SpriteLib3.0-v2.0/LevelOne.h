@@ -4,11 +4,11 @@
 #include "PhysicsPlaygroundListener.h"
 #include "ToneFire/ToneFire.h"
 #include <string>
-
-class PhysicsPlayground : public Scene
+class LevelOne :
+    public Scene
 {
 public:
-	PhysicsPlayground(std::string name);
+	LevelOne(std::string name);
 
 	void InitScene(float windowWidth, float windowHeight) override;
 
@@ -34,7 +34,7 @@ protected:
 
 	//testing purposes
 	int facing = 0;
-	
+
 	bool dashcooldown = true;
 	double dash_timer;
 	clock_t dashtime;
@@ -53,7 +53,6 @@ protected:
 	int  tut1;
 	int tut2;
 	int tut3;
-
 	ToneFire::FMODCore Fmod{};
 	ToneFire::CoreSound Sound{ "tutorial slow.mp3" };
 	static int healthBar;
@@ -63,5 +62,5 @@ protected:
 	static int pcount;
 	HealthBar hb;
 
-
 };
+

@@ -8,5 +8,6 @@
 #include "TitleScreen.h"
 #include "EndScreen.h"
 #include "Cutscene1.h"
+#include "LevelOne.h"
 
 #endif // !__SCENES_H__

@@ -168,6 +168,7 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="Invisibility.h" />
     <ClInclude Include="JSON.h" />
+    <ClInclude Include="LevelOne.h" />
     <ClInclude Include="MainEntities.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="PhysicsBody.h" />
@@ -234,6 +235,7 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Invisibility.cpp" />
     <ClCompile Include="JSON.cpp" />
+    <ClCompile Include="LevelOne.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainEntities.cpp" />
     <ClCompile Include="Matrix.cpp" />

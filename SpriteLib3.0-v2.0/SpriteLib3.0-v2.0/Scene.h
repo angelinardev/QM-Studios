@@ -8,7 +8,6 @@
 #include "MainEntities.h"
 #include <SDL2/SDL.h>
 
-
 class Scene
 {
 public:
@@ -35,6 +34,8 @@ public:
 	int createHealthBarBack();
 	int createUIBack();
 	int createGhostBack();
+
+	
 
 	virtual void GUI();
 
