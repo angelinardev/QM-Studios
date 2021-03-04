@@ -29,7 +29,8 @@ enum EntityCategories
 	PICKUP		= 0x0064,
 	TRIGGER		= 0x0128,
 	HEXAGON		= 0x0256,
-	PTRIGGER = 0x0512
+	PTRIGGER = 0x0512,
+	ETRIGGER = 0x1024
 };
 
 

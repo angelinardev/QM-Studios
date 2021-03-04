@@ -55,11 +55,11 @@ protected:
 	int tut3;
 	ToneFire::FMODCore Fmod{};
 	ToneFire::CoreSound Sound{ "tutorial slow.mp3" };
-	static int healthBar;
-	static int healthBarBack;
-	static int ghostBar;
-	static int ghostBarBack;
-	static int pcount;
+	 int healthBar;
+	 int healthBarBack;
+	 int ghostBar;
+	 int ghostBarBack;
+	 int pcount;
 	HealthBar hb;
 
 };

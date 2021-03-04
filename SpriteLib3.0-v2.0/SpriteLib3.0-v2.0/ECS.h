@@ -19,7 +19,8 @@
 #include "Player_Power.h"
 #include "Invisibility.h"
 #include "TutorialTrig.h"
-
+#include "EnemyTrigger.h"
+#include "CanDamage.h"
 
 
 class ECS abstract
