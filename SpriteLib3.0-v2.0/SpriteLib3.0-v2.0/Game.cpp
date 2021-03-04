@@ -118,6 +118,11 @@ void Game::Update()
 		m_activeScene->Unload();
 		//PhysicsSystem::CleanupBodies();
 		m_activeScene = m_scenes[index];
+		//reload the scene if we need to enter it again
+		if (!m_activeScene->is_done)
+		{
+			m_activeScene->InitTexture();
+		}
 		m_activeScene->InitScene(BackEnd::GetWindowWidth(), BackEnd::GetWindowHeight());
 		m_register = m_activeScene->GetScene();
 		m_window->SetWindowName(m_activeScene->GetName());

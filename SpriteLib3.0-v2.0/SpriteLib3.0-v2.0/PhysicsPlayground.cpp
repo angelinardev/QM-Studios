@@ -481,6 +481,7 @@ void PhysicsPlayground::Update()
 	{
 		selection = 2; //end screen? for now
 		
+		
 	}
 	if (!dashcooldown) {
 		dash_timer = (clock() - dashtime) / CLOCKS_PER_SEC;
@@ -541,6 +542,7 @@ void PhysicsPlayground::Update()
 	if (player.GetPosition().x >= 900 && player.GetPosition().y <= -90)
 	{
 		selection = 3; //next scene
+		is_done = true;
 	}
 
 	//hb.UpdateGhostCounter(ghostCount, ghostBar, ghostBarBack);

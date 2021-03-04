@@ -112,6 +112,7 @@ void Cutscene1::Update()
 	if (m_animController.GetAnimation(m_animController.GetActiveAnim()).GetAnimationDone())
 	{
 		selection = 4; //go to next level
+		is_done = true;
 	}
 }
 

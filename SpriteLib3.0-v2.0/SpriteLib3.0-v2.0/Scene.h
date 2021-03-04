@@ -15,6 +15,8 @@ public:
 	Scene(std::string name);
 	~Scene() { }
 
+	bool is_done = false;
+
 	void Unload();
 	virtual int ChangeScene() { return -1; }
 	virtual void InitTexture();
