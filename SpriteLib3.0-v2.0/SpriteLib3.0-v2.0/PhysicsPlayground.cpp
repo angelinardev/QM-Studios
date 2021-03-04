@@ -17,9 +17,7 @@ PhysicsPlayground::PhysicsPlayground(std::string name)
 	: Scene(name)
 {
 	//No gravity this is a top down scene
-	m_gravity = b2Vec2(0.f, -98.f);
-
-	
+	m_gravity = b2Vec2(0.f, -100.f);
 }
 
 
