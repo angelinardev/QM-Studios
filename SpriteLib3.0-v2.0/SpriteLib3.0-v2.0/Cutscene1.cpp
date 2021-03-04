@@ -12,7 +12,7 @@ Cutscene1::Cutscene1(std::string name)
 void Cutscene1::InitScene(float windowWidth, float windowHeight)
 {
 	selection = -1;
-	m_sceneReg = new entt::registry;
+	//m_sceneReg = new entt::registry;
 	//Attach the register
 	ECS::AttachRegister(m_sceneReg);
 
@@ -40,7 +40,22 @@ void Cutscene1::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<HorizontalScroll>(entity).SetCam(&ECS::GetComponent<Camera>(entity));
 		ECS::GetComponent<VerticalScroll>(entity).SetCam(&ECS::GetComponent<Camera>(entity));
 	}
-	int background;
+	
+	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(background));
+	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(background));
+	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetOffset(200);
+	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetOffset(0);
+
+	//set up the cutscene
+	ECS::GetComponent<AnimationController>(scene).SetActiveAnim(0);
+
+}
+
+void Cutscene1::InitTexture()
+{
+	m_sceneReg = new entt::registry;
+	//Attach the register
+	ECS::AttachRegister(m_sceneReg);
 	{
 		/*Scene::CreateSprite(m_sceneReg, "HelloWorld.png", 100, 60, 0.5f, vec3(0.f, 0.f, 0.f));*/
 
@@ -58,7 +73,7 @@ void Cutscene1::InitScene(float windowWidth, float windowHeight)
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 1.f));
 		background = entity;
 	}
-	
+
 	//cutscene
 	{
 		//Creates entity
@@ -81,16 +96,11 @@ void Cutscene1::InitScene(float windowWidth, float windowHeight)
 		animController.InitUVs(fileName);
 		nlohmann::json animations2 = File::LoadJSON(animations);
 		animController.AddAnimation(animations2["PLAY"].get<Animation>());
-		animController.SetActiveAnim(0);
+		//animController.SetActiveAnim(0);
 
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 215, 120, true, &animController);
 
 	}
-	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(background));
-	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(background));
-	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetOffset(200);
-	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetOffset(0);
-
 }
 
 void Cutscene1::Update()
@@ -104,6 +114,7 @@ void Cutscene1::Update()
 		selection = 4; //go to next level
 	}
 }
+
 
 int Cutscene1::ChangeScene()
 {

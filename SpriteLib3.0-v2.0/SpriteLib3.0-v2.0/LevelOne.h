@@ -14,6 +14,7 @@ public:
 
 	void Update() override;
 	int ChangeScene() override;
+	void InitTexture() override;
 	//Input overrides
 	void KeyboardHold() override;
 	void KeyboardDown() override;
@@ -27,8 +28,8 @@ protected:
 
 	PhysicsPlaygroundListener listener;
 
-	int puzzleWall1;
-	int puzzleWall2;
+	int p_entity;
+
 	float speed = 0;
 	float theta = 0;
 

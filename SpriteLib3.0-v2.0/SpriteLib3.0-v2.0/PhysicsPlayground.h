@@ -27,9 +27,8 @@ protected:
 	std::string m_fileInput;
 
 	PhysicsPlaygroundListener listener;
+	int p_entity;
 
-	int puzzleWall1;
-	int puzzleWall2;
 	float speed = 0;
 	float theta = 0;
 

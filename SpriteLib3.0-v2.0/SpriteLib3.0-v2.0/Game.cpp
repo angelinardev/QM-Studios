@@ -49,6 +49,8 @@ void Game::InitGame()
 	
 	//preloads all scenes
 	m_scenes[1]->InitTexture();
+	m_scenes[3]->InitTexture();
+	m_scenes[4]->InitTexture();
 	
 
 	//Sets active scene reference to our scene
@@ -114,8 +116,7 @@ void Game::Update()
 	unsigned int index = m_activeScene->ChangeScene();
 	if (index != -1) {
 		m_activeScene->Unload();
-	
-		PhysicsSystem::CleanupBodies();
+		//PhysicsSystem::CleanupBodies();
 		m_activeScene = m_scenes[index];
 		m_activeScene->InitScene(BackEnd::GetWindowWidth(), BackEnd::GetWindowHeight());
 		m_register = m_activeScene->GetScene();
