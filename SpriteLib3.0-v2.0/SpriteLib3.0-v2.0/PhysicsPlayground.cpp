@@ -6,9 +6,9 @@
 #include <cmath>
 
 
-
 int PhysicsPlayground::ChangeScene()
 {
+
 	return selection;
 
 }
@@ -542,6 +542,7 @@ void PhysicsPlayground::Update()
 	if (player.GetPosition().x >= 900 && player.GetPosition().y <= -90)
 	{
 		selection = 3; //next scene
+		Sound.Mute();
 		is_done = true;
 	}
 
