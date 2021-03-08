@@ -480,6 +480,7 @@ void PhysicsPlayground::Update()
 	if (MainEntities::Health() <= 0) //dying
 	{
 		selection = 2; //end screen? for now
+		Sound.Mute();
 		
 		
 	}
