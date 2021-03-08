@@ -43,6 +43,18 @@ void PhysicsPlaygroundListener::BeginContact(b2Contact* contact)
 			ECS::GetComponent<CanJump>((int)fixtureB->GetBody()->GetUserData()).m_canJump = true;
 		}
 	}
+	//enemy collisions
+	if ((filterA.categoryBits == PLAYER && filterB.categoryBits == ENEMY) || (filterB.categoryBits == PLAYER && filterA.categoryBits == ENEMY))
+	{
+		if (filterA.categoryBits == ENEMY)
+		{
+			ECS::GetComponent<CanDamage>((int)fixtureA->GetBody()->GetUserData()).Attack();
+		}
+		else if (filterB.categoryBits == ENEMY)
+		{
+			ECS::GetComponent<CanDamage>((int)fixtureB->GetBody()->GetUserData()).Attack();
+		}
+	}
 
 }
 

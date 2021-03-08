@@ -1,0 +1,37 @@
+{
+  "Boss1Idle": {
+    "Frame0": [ 0.0, 70.0, 60.0, 0.0 ],
+    "NumFrames": 1,
+    "Repeating": false,
+    "SecsPerFrame": 0.30000001192092896
+  },
+  "Boss1Fingermove": {
+    "Frame0": [ 60.0, 70.0, 120.0, 0.0 ],
+    "Frame1": [ 120.0, 70.0, 180.0, 0.0 ],
+    "NumFrames": 2,
+    "Repeating": false,
+    "SecsPerFrame": 0.30000001192092896
+  },
+  "Boss1Yawn": {
+    "Frame0": [ 180.0, 70.0, 240.0, 0.0 ],
+    "Frame1": [ 240.0, 70.0, 300.0, 0.0 ],
+    "NumFrames": 2,
+    "Repeating": false,
+    "SecsPerFrame": 0.5
+  },
+  "Boss1Suck": {
+    "Frame0": [ 300.0, 70.0, 360.0, 0.0 ],
+    "Frame1": [ 360.0, 70.0, 420.0, 0.0 ],
+    "NumFrames": 2,
+    "Repeating": true,
+    "SecsPerFrame": 0.30000001192092896
+  },
+  "Boss1Suck2": {
+    "Frame0": [ 420.0, 70.0, 480.0, 0.0 ],
+    "Frame1": [ 480.0, 70.0, 540.0, 0.0 ],
+    "NumFrames": 2,
+    "Repeating": true,
+    "SecsPerFrame": 0.30000001192092896
+  }
+
+}

@@ -59,7 +59,7 @@ void LevelOne::InitScene(float windowWidth, float windowHeight)
 	ECS::SetIsMainPlayer(p_entity, true);
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(p_entity));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(p_entity));
-	Sound.Play();
+	//Sound.Play();
 
 }
 void LevelOne::InitTexture()
@@ -86,7 +86,7 @@ void LevelOne::InitTexture()
 		ECS::AttachComponent<Transform>(entity);
 
 		//Set up the components
-		std::string fileName = "b.png";
+		std::string fileName = "back_tutdeath.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 1790, 340);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(317.f, -5.f, 1.f));
@@ -104,74 +104,73 @@ void LevelOne::InitTexture()
 		ECS::AttachComponent<Transform>(entity);
 
 		//Set up the components
-		std::string fileName = "b.png";
+		std::string fileName = "back_tut.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 1440, 194);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(315.f, 0.f, 2.f));
 	}
 
-	////enemy trigger
-	//{
+	//enemy
+	{
 
-	//	auto entity = ECS::CreateEntity();
-	//	
-	//	//Add components  
-	//	//ECS::AttachComponent<EnemyBlue>(entity);
-	//	ECS::AttachComponent<Sprite>(entity);
-	//	ECS::AttachComponent<Transform>(entity);
-	//	ECS::AttachComponent<PhysicsBody>(entity);
-	//ECS::AttachComponent<AnimationController>(entity);
-	//	ECS::AttachComponent<Trigger*>(entity);
-	//	ECS::AttachComponent<CanDamage>(entity);
+		auto entity = ECS::CreateEntity();
+		enemy = entity;
+		
+		//Add components  
+	
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		ECS::AttachComponent<AnimationController>(entity);
+		ECS::AttachComponent<CanDamage>(entity);
 
-	//	ECS::GetComponent<CanDamage>(entity).m_candamage = true;
+		ECS::GetComponent<CanDamage>(entity).m_candamage = true;
 
-	//	//Sets up the components  
+		//Sets up the components  
 
-	//	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
-	//	auto& animController = ECS::GetComponent<AnimationController>(entity);
-	//	ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-	//	ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 4.f));
-	//	//Sets up the components  
-	//	std::string fileName = "spritesheets/neville.png";
-	//	std::string animations = "Boss1.json";
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& animController = ECS::GetComponent<AnimationController>(entity);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 4.f));
+		//Sets up the components  
+		std::string fileName = "spritesheets/neville.png";
+		std::string animations = "Boss1.json";
 
-	//	animController.InitUVs(fileName);
-	//	nlohmann::json animations2 = File::LoadJSON(animations);
-	//	animController.AddAnimation(animations2["Boss1Idle"].get<Animation>());
-	//	animController.AddAnimation(animations2["Boss1Fingermove"].get<Animation>());
-	//	animController.AddAnimation(animations2["Boss1Yawn"].get<Animation>());
-	//	animController.AddAnimation(animations2["Boss1Suck"].get<Animation>());
-	//	animController.AddAnimation(animations2["Boss1Suck2"].get<Animation>());//face right?
-	//	animController.SetActiveAnim(0);
+		animController.InitUVs(fileName);
+		nlohmann::json animations2 = File::LoadJSON(animations);
+		animController.AddAnimation(animations2["Boss1Idle"].get<Animation>());
+		animController.AddAnimation(animations2["Boss1Fingermove"].get<Animation>());
+		animController.AddAnimation(animations2["Boss1Yawn"].get<Animation>());
+		animController.AddAnimation(animations2["Boss1Suck"].get<Animation>());
+		animController.AddAnimation(animations2["Boss1Suck2"].get<Animation>());//face right?
+		animController.SetActiveAnim(0);
 
-	//	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30);
-	//	ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
-	//	ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 3.f));
-	//	ECS::GetComponent<Trigger*>(entity) = new EnemyTrigger();
-	//	ECS::GetComponent<Trigger*>(entity)->SetTriggerEntity(entity);
-	//	ECS::GetComponent<Trigger*>(entity)->AddTargetEntity(p_entity);
+		//ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30);
+		//ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+		//ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 3.f));
+	
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30, true, &animController);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
 
-	//	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
-	//	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_dynamicBody;
+		tempDef.position.Set(float32(-300.f), float32(-60.f));
 
-	//	float shrinkX = 0.f;
-	//	float shrinkY = 0.f;
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
-	//	b2Body* tempBody;
-	//	b2BodyDef tempDef;
-	//	tempDef.type = b2_kinematicBody;
-	//	tempDef.position.Set(float32(-85.f), float32(25.f));
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, ENEMY, OBJECTS | ENVIRONMENT | PLAYER | GROUND, 0.5f, 3.f);
+	
 
-	//	tempBody = m_physicsWorld->CreateBody(&tempDef);
-
-	//	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, ETRIGGER, OBJECTS | PICKUP | TRIGGER | PTRIGGER, 0.5f, 3.f);
-	//	//tempPhsBody = PhysicsBody(entity, tempBody, float((tempSpr.GetHeight() - shrinkY)/2.f), vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);  
-
-	//	tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
-	//	//tempSpr.SetTransparency(0);
-	//}
+		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
+		tempPhsBody.SetGravityScale(2.5f);
+		tempPhsBody.SetFixedRotation(true);
+		ECS::GetComponent<CanDamage>(entity).InitBody(tempPhsBody, animController);
+		//tempSpr.SetTransparency(0);
+	}
 
 	//SetUp Invisible Wall at the beginning
 	BoxMaker(90, 20, -410.f, -70.f, 90, 0);
@@ -181,6 +180,84 @@ void LevelOne::InitTexture()
 
 	//Setup Downward log Log 
 	BoxMaker(75, 15, -223.f, -70.f, 157, 0, 0.1);
+
+	//Setup Static platform after log
+	BoxMaker(75, 8, -185.f, -80.f, 0, 0, 2);
+
+	//Setup for the first rock
+	BoxMaker(40, 10, -134.f, -58.f, 35, 0, 0.10);
+	//BoxMaker(5, 4, -115.f, -45.f, 0, 0);
+
+	//Setup for the second rock
+	BoxMaker(40, 3, -95.f, -31.f, 30, 0, 0.2);
+	BoxMaker(10, 4, -73.5f, -21.8f, 0, 0, 2);
+
+	//Setup Static after second rock
+	BoxMaker(60, 8, -55, -75, 0, 0, 2);
+	EnviroMaker(30, 50, -94.f, -58.f, 90, 0);
+
+	//Setup for the third rock
+	BoxMaker(25, 3, -13.f, -57.f, 27, 0, 0.2);
+	BoxMaker(20, 3, 7.f, -51.8f, 0, 0);
+
+
+	//Setup Static after third rock
+	BoxMaker(40, 8, 30, -75, 0, 0);
+
+	//Setup for the fourth rock
+	BoxMaker(30, 3, 70.f, -47.f, 24, 0, 0.2);
+	BoxMaker(25, 3, 96.f, -41.f, 0, 0);
+
+	//Setup a block for under the rock
+	BoxMaker(30, 60, 95.f, -75.f, 0, 0);
+
+	//Setup for path after jump
+	BoxMaker(43, 2, 272.f, -65.f, 0, 0, 2);
+	//under blocks
+	EnviroMaker(30, 90, 350.f, -57.f, 90, 0);
+	//EnviroMaker(30, 25, 390.f, -57.f, 90, 0);
+
+	//Set up for tree stump
+	BoxMaker(15, 3, 310.f, -35.f, 0, 0);
+
+	//Set up log after tree stump
+	BoxMaker(45, 3, 350.f, -25.f, 165, 0, 2);
+	BoxMaker(30, 3, 365.f, -20.f, 25, 0, 0.2);
+	BoxMaker(10, 3, 383.f, -10.f, 43, 0, 0.2);
+	BoxMaker(20, 3, 380.f, -30.f, 0, 0, 2);
+
+	//Setup stump after log
+	BoxMaker(30, 3, 410.f, -50.f, 140, 0, 0.2);
+
+	//Setup Static platform
+	BoxMaker(80, 3, 465.f, -60.f, 0, 0, 2);
+
+	//Setup Top Platform
+	BoxMaker(60, 3, 540.f, -25.f, 0, 0, 2);
+	BoxMaker(40, 3, 520.f, -50.f, 105, 0, 2);
+
+	BoxMaker(15, 3, 575.f, -28.f, 145, 0, 0.1);
+	BoxMaker(18, 3, 590.f, -29.8f, 90, 0, 0.2);
+	BoxMaker(45, 3, 613.f, -26.f, 170, 0, 0.2);
+	//BoxMaker(30, 3, 617.f, -25.f, 170, 0,0.2);
+
+
+
+	//Setup wood twist
+	BoxMaker(30, 3, 650.f, -27.f, 15, 0);
+	BoxMaker(30, 3, 668.f, -20.f, 45, 0, 0.1);
+
+	//Setup Platform after wood twist
+	BoxMaker(25, 3, 690.f, -10.f, 0, 0, 2);
+
+	//Setup Down to last platfrom
+	BoxMaker(75, 4, 720.f, -40.f, 125, 0);
+	//block underneath to block
+	EnviroMaker(200, 40, 615, -50.f, 0, 0);
+
+
+	//Setup Last Platform
+	BoxMaker(170, 4, 840.f, -75.f, 0, 0, 2);
 
 	//Add components
 
@@ -292,10 +369,13 @@ void LevelOne::InitTexture()
 
 void LevelOne::Update()
 {
-	Fmod.Update();
+	//Fmod.Update();
 
 	auto& player2 = ECS::GetComponent<Player>(p_entity);
 	player2.Update();
+
+	auto& enemy_c = ECS::GetComponent<CanDamage>(enemy);
+	enemy_c.Walk();
 
 	auto& dash = ECS::GetComponent<CanJump>(p_entity);
 	//enemy checks

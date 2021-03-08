@@ -63,5 +63,6 @@ protected:
 	 int pcount;
 	HealthBar hb;
 
+	int enemy;
 };
 
