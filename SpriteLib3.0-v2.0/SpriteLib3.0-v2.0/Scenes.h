@@ -9,5 +9,6 @@
 #include "EndScreen.h"
 #include "Cutscene1.h"
 #include "LevelOne.h"
+#include "CreditScene.h"
 
 #endif // !__SCENES_H__

@@ -1,15 +1,13 @@
-#include "TitleScreen.h"
+#include "CreditScene.h"
 #include "Utilities.h"
 
 
-TitleScreen::TitleScreen(std::string name)
+CreditScene::CreditScene(std::string name)
 {
 	m_gravity = b2Vec2(0.f, -98.f);
-
-	
 }
 
-void TitleScreen::InitScene(float windowWidth, float windowHeight)
+void CreditScene::InitScene(float windowWidth, float windowHeight)
 {
 	selection = -1;
 	
@@ -60,25 +58,44 @@ void TitleScreen::InitScene(float windowWidth, float windowHeight)
 		background = entity;
 	}
 	
-	
+
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(background));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(background));
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetOffset(200);
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetOffset(0);
-	
 
-	setSelect(4);
-	selectionCounter == 4;
+
+	setSelect(1);
+	selectionCounter == 1;
+	is_done = true;
 }
 
-void TitleScreen::InitTexture()
+void CreditScene::Update()
+{
+	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).Update();
+	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).Update();
+
+	ECS::GetComponent<Transform>(selector).SetPositionX(0);
+	ECS::GetComponent<Transform>(selector).SetPositionY(-20);
+	ECS::GetComponent<Sprite>(selector).SetWidth(170);
+	ECS::GetComponent<Sprite>(selector).SetHeight(20);
+}
+
+int CreditScene::ChangeScene()
+{
+
+	return selection;
+
+}
+
+void CreditScene::InitTexture()
 {
 	m_physicsWorld = new b2World(m_gravity);
 	m_physicsWorld->SetGravity(m_gravity);
+
 	m_sceneReg = new entt::registry;
 	//Attach the register
 	ECS::AttachRegister(m_sceneReg);
-
 	{
 		/*Scene::CreatePhysicsSprite(m_sceneReg, "LinkStandby", 80, 60, 1.f, vec3(0.f, 30.f, 2.f), b2_dynamicBody, 0.f, 0.f, true, true)*/
 
@@ -92,9 +109,11 @@ void TitleScreen::InitTexture()
 
 		//Sets up the components
 		std::string fileName = "Selector.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 10, 5);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 300, 5);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-40.f, 30.f, 3.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-100.f, 30.f, 3.f));
+
+
 
 		selector = entity;
 	}
@@ -102,128 +121,39 @@ void TitleScreen::InitTexture()
 	{
 		//Creates entity
 		auto entity = ECS::CreateEntity();
-		firef = entity;
 
 		//Add components  
 		ECS::AttachComponent<Sprite>(entity);
 		ECS::AttachComponent<Transform>(entity);
-		ECS::AttachComponent<AnimationController>(entity);
-
-		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
-		auto& animController = ECS::GetComponent<AnimationController>(entity);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 20.f, 2.f));
-		//Sets up the components  
-		std::string fileName = "spritesheets/fireflies.png";
-		std::string animations = "fireflies.json";
-
-		animController.InitUVs(fileName);
-		nlohmann::json animations2 = File::LoadJSON(animations);
-		animController.AddAnimation(animations2["FLICKER"].get<Animation>());
-		animController.SetActiveAnim(0);
-
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 215, 120, true, &animController);
-
-	}
-	//options
-	{
-		//Creates entity
-		auto entity = ECS::CreateEntity();
-
-		//Add components
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
 
 		//Set up the components
-		std::string fileName = "Menu_Text.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 120, 70);
+		std::string fileName = "creditsfull.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 215, 120);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-40.f, 30.f, 3.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 2.f));
 
-	}
-	//logo
-	{
-		//Creates entity
-		auto entity = ECS::CreateEntity();
-
-		//Add components
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
-
-		//Set up the components
-		std::string fileName = "QM_Studios_Transparent.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 32, 20);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(88.f, -20.f, 3.f));
-
-	}
-}
-
-void TitleScreen::Update()
-{
-	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).Update();
-	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).Update();
-}
-
-int TitleScreen::ChangeScene()
-{
-
-	return selection;
-
-}
-
-void TitleScreen::KeyboardHold()
-{
-}
-
-void TitleScreen::KeyboardDown()
-{
-	if (Input::GetKeyDown(Key::UpArrow) || Input::GetKeyDown(Key::W))
-	{
-		if (selectionCounter + 1 < 5) {
-			selectionCounter++;
-		}
-		else
-		{
-			selectionCounter = 1;
-		}
-		setSelect(selectionCounter);
-	}
-	if (Input::GetKeyDown(Key::DownArrow) || Input::GetKeyDown(Key::S))
-	{
-		if (selectionCounter - 1 > 0) {
-			selectionCounter--;
-		}
-		else
-		{
-			selectionCounter = 4;
-		}
-		setSelect(selectionCounter);
 
 	}
 
+}
+
+void CreditScene::KeyboardHold()
+{
+}
+
+void CreditScene::KeyboardDown()
+{
+	
 	if (Input::GetKeyDown(Key::Space) || Input::GetKeyDown(Key::Enter))
 	{
-		if (selectionCounter == 1) {
-			exit(0);
-		}
-		if (selectionCounter == 2) {
-			exit(0); //controls
-		}
-		if (selectionCounter == 3) {
-			selection = 5; //credits
-		}
-		if (selectionCounter == 4) {
-			
-			selection = 1; //first level
-		}
+		selection = 0; //return to menu
 	}
 }
 
-void TitleScreen::KeyboardUp()
+void CreditScene::KeyboardUp()
 {
 }
-void TitleScreen::setSelect(int i) {
+void CreditScene::setSelect(int i) {
 	auto& selectTransform = ECS::GetComponent<Transform>(selector);
 	auto& selectSprite = ECS::GetComponent<Sprite>(selector);
 
@@ -234,7 +164,7 @@ void TitleScreen::setSelect(int i) {
 
 }
 
-int TitleScreen::setY(int i) {
+int CreditScene::setY(int i) {
 	switch (i) {
 	case 1:
 		return -2;
@@ -250,7 +180,7 @@ int TitleScreen::setY(int i) {
 		break;
 	}
 }
-int TitleScreen::setW(int i) {
+int CreditScene::setW(int i) {
 	switch (i) {
 	case 1:
 		return 45;
