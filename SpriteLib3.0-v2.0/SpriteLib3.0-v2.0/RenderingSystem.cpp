@@ -30,35 +30,6 @@ void RenderingSystem::Update(entt::registry* reg)
 		}
 	}
 
-	{
-		//Creates a view consisting of all entityies containing horizontal scroll
-		auto view = reg->view<HorizontalScroll>();
-
-		//Loops through all the entities within view2_1
-		for (auto entity : view)
-		{
-			//Grabs a reference to the scroll component
-			auto& scroll = view.get(entity);
-
-			//Updates the scroll
-			scroll.Update();
-		}
-	}
-
-	{
-		//Creates a view of all entities consisting of vertical scroill
-		auto view = reg->view<VerticalScroll>();
-
-		//Loops through all the entities within view2
-		for (auto entity : view)
-		{
-			//Grabs a reference to the Camera component (in x entity)
-			auto& scroll = view.get(entity);
-
-			//Updates the camera
-			scroll.Update();
-		}
-	}
 
 	{
 		//Creates a view of all entities consisting of Camera

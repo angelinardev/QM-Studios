@@ -133,6 +133,36 @@ void Game::Update()
 	}
 	//Updates the active scene
 	m_activeScene->Update();
+
+	{
+		//Creates a view consisting of all entityies containing horizontal scroll
+		auto view = m_register->view<HorizontalScroll>();
+
+		//Loops through all the entities within view2_1
+		for (auto entity : view)
+		{
+			//Grabs a reference to the scroll component
+			auto& scroll = view.get(entity);
+
+			//Updates the scroll
+			scroll.Update();
+		}
+	}
+
+	{
+		//Creates a view of all entities consisting of vertical scroill
+		auto view = m_register->view<VerticalScroll>();
+
+		//Loops through all the entities within view2
+		for (auto entity : view)
+		{
+			//Grabs a reference to the Camera component (in x entity)
+			auto& scroll = view.get(entity);
+
+			//Updates the camera
+			scroll.Update();
+		}
+	}
 }
 
 void Game::GUI()
