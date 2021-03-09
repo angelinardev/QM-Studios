@@ -578,7 +578,7 @@ void PhysicsPlayground::KeyboardHold()
 			speed = 3;
 		}
 		
-		player.GetBody()->ApplyForceToCenter(b2Vec2(-400000.f * speed, 0.f), true);
+		player.GetBody()->SetLinearVelocity(b2Vec2(-400000.f * speed, 0.f));
 		
 		
 	}
@@ -591,7 +591,7 @@ void PhysicsPlayground::KeyboardHold()
 		{
 			speed = 3;
 		}
-		player.GetBody()->ApplyForceToCenter(b2Vec2(400000.f * speed, 0.f), true);
+		player.GetBody()->SetLinearVelocity(b2Vec2(400000.f * speed, 0.f));
 		
 	}
 	else
