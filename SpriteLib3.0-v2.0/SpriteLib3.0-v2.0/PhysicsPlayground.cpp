@@ -570,6 +570,7 @@ void PhysicsPlayground::KeyboardHold()
 	auto& canJump = ECS::GetComponent<CanJump>(p_entity);
 
 	b2Vec2 pvel = player.GetBody()->GetLinearVelocity();
+
 	if (Input::GetKey(Key::A)) //left
 	{
 		facing = 0;
@@ -581,13 +582,14 @@ void PhysicsPlayground::KeyboardHold()
 		if (canJump.m_canJump)
 		{
 			player.GetBody()->SetLinearVelocity(b2Vec2(-400000.f * speed, 0.f));
+			
 		}
 		else
 		{
-			player.GetBody()->ApplyForceToCenter(b2Vec2(-400000.f * speed, 0.f),true);
+			player.GetBody()->ApplyForceToCenter(b2Vec2(-400000.f * speed, 0.f), true);
 		}
-		
-		
+
+
 	}
 	else if (Input::GetKey(Key::D)) //right
 	{
@@ -601,12 +603,13 @@ void PhysicsPlayground::KeyboardHold()
 		if (canJump.m_canJump)
 		{
 			player.GetBody()->SetLinearVelocity(b2Vec2(400000.f * speed, 0.f));
+			
 		}
 		else
 		{
 			player.GetBody()->ApplyForceToCenter(b2Vec2(400000.f * speed, 0.f), true);
 		}
-		
+
 	}
 	else
 	{
@@ -618,6 +621,7 @@ void PhysicsPlayground::KeyboardHold()
 			speed = 0;
 		}
 	}
+
 	
 	
 }
@@ -631,6 +635,8 @@ void PhysicsPlayground::KeyboardDown()
 	auto& vel = player.GetBody()->GetLinearVelocity();
 	auto& pos = player.GetBody()->GetPosition();
 	//auto& dash = ECS::GetComponent<CanJump>(p_entity);
+
+
 
 	if (Input::GetKeyDown(Key::T))
 	{

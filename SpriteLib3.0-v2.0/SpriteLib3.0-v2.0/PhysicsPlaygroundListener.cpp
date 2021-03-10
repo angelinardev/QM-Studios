@@ -43,6 +43,10 @@ void PhysicsPlaygroundListener::BeginContact(b2Contact* contact)
 			ECS::GetComponent<CanJump>((int)fixtureB->GetBody()->GetUserData()).m_canJump = true;
 		}
 	}
+	else
+	{
+
+	}
 	//enemy collisions
 	if ((filterA.categoryBits == PLAYER && filterB.categoryBits == ENEMY) || (filterB.categoryBits == PLAYER && filterA.categoryBits == ENEMY))
 	{
@@ -65,6 +69,20 @@ void PhysicsPlaygroundListener::EndContact(b2Contact* contact)
 
 	bool sensorA = fixtureA->IsSensor();
 	bool sensorB = fixtureB->IsSensor();
+	b2Filter filterA = fixtureA->GetFilterData();
+	b2Filter filterB = fixtureB->GetFilterData();
+
+	if ((filterA.categoryBits == PLAYER && filterB.categoryBits == GROUND) || (filterB.categoryBits == PLAYER && filterA.categoryBits == GROUND) || (filterA.categoryBits == PLAYER && filterB.categoryBits == OBJECTS) || (filterB.categoryBits == PLAYER && filterA.categoryBits == OBJECTS))
+	{
+		if (filterA.categoryBits == PLAYER)
+		{
+			ECS::GetComponent<CanJump>((int)fixtureA->GetBody()->GetUserData()).m_canJump = false;
+		}
+		else if (filterB.categoryBits == PLAYER)
+		{
+			ECS::GetComponent<CanJump>((int)fixtureB->GetBody()->GetUserData()).m_canJump = false;
+		}
+	}
 
 	//if neither or both are sensors, will be false
 	if ((sensorA ^ sensorB))
