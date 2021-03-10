@@ -1,7 +1,7 @@
 #include "PhysicsPlayground.h"
 #include "Utilities.h"
 #include "ToneFire/ToneFire.h"
-
+#include "PhysicsPlaygroundListener.h"
 #include <random>
 #include <cmath>
 
@@ -325,7 +325,7 @@ void PhysicsPlayground::InitTexture()
 
 
 	//SetUp Invisible Wall at the beginning
-	BoxMaker(90, 20, -410.f, -70.f, 90, 0);
+	BoxMaker(1000, 20, -410.f, -70.f, 90, 0);
 
 	//Setup spawning static Platform
 	BoxMaker(198, 5, -310.f, -80.f, 0, 0, 2);
@@ -410,6 +410,9 @@ void PhysicsPlayground::InitTexture()
 
 	//Setup Last Platform
 	BoxMaker(170, 4, 840.f, -75.f, 0, 0, 2);
+	
+	//Wall at the end
+	BoxMaker(170, 4, 1000.f, 0.f, 90, 0, 2);
 
 
 	//Link entity
@@ -472,9 +475,16 @@ void PhysicsPlayground::Update()
 {
 	Fmod.Update();
 	
+	
+	
+	bool colliding;
+
+	
 	auto& player2 = ECS::GetComponent<Player>(p_entity);
 	player2.Update();
 
+	
+	
 	auto& dash = ECS::GetComponent<CanJump>(p_entity);
 
 	if (MainEntities::Health() <= 0) //dying
@@ -492,6 +502,7 @@ void PhysicsPlayground::Update()
 		}
 	}
 	auto& player = ECS::GetComponent<PhysicsBody>(p_entity);
+	
 	auto& canJump = ECS::GetComponent<CanJump>(p_entity);
 	
 
