@@ -15,7 +15,7 @@ void CanDamage::Walk()
 	float desireVel = vel.x;
 
 	//enemy is within 100 of player
-	if (selfX > playerX - 100 && selfX < playerX + 100)
+	if (selfX > playerX - 150 && selfX < playerX + 150)
 	{
 		if (playerX > selfX) //move right
 		{
@@ -26,6 +26,10 @@ void CanDamage::Walk()
 		{
 			desireVel = b2Min(vel.x - 2.f, -20.f);
 		}
+	}
+	else //walk cycle?
+	{
+
 	}
 	//doesnt mean when not close
 	float velC = desireVel - vel.x;
@@ -40,8 +44,8 @@ void CanDamage::Attack()
 	//start timer
 	//if timer allows:
 	//remove health
-	MainEntities::Health(MainEntities::Health() - 25);
-
+	//MainEntities::Health(MainEntities::Health() - 25);
+	ECS::GetComponent<CanJump>(MainEntities::MainPlayer()).hp -= 25;
 	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
 	auto& selfX = body.GetBody()->GetPosition().x;
 	if (player.GetBody()->GetPosition().x > selfX) //move right

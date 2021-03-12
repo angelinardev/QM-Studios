@@ -208,7 +208,7 @@ void TitleScreen::KeyboardDown()
 			exit(0);
 		}
 		if (selectionCounter == 2) {
-			exit(0); //controls
+			selection = 6; //controls
 		}
 		if (selectionCounter == 3) {
 			selection = 5; //credits

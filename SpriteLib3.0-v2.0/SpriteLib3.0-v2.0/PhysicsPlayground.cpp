@@ -24,6 +24,21 @@ PhysicsPlayground::PhysicsPlayground(std::string name)
 void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 {
 	selection = -1;
+
+	//open the hp file and initialize it to 100
+	inputS.open("HP.txt");
+	if (inputS.is_open())
+	{
+		inputS << 100 << "\n";
+	}
+	inputS.close();
+	//open the level file
+	inputS.open("Progress.txt");
+	if (inputS.is_open())
+	{
+		inputS << 1 << "\n";
+	}
+	inputS.close();
 	
 	//Dynamically allocates the register
 	//m_sceneReg = new entt::registry;
@@ -103,12 +118,15 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(p_entity));
 
 	Sound.Play();
+	ECS::GetComponent<CanJump>(MainEntities::MainPlayer()).hp = 100;
 
 }
 void PhysicsPlayground::InitTexture()
 {
 	//initialize the health
-	MainEntities::Health(100);
+	//MainEntities::Health(100);
+
+	
 
 	//Dynamically allocates the register
 	m_sceneReg = new entt::registry;
@@ -432,6 +450,8 @@ void PhysicsPlayground::InitTexture()
 		ECS::AttachComponent<Player>(entity);
 		ECS::AttachComponent<AnimationController>(entity);
 
+		
+
 		//Sets up the components
 		std::string fileName = "spritesheets/charspriteupside.png";
 		std::string animations = "Char.json";
@@ -484,14 +504,13 @@ void PhysicsPlayground::Update()
 	player2.Update();
 
 	
-	
 	auto& dash = ECS::GetComponent<CanJump>(p_entity);
 
-	if (MainEntities::Health() <= 0) //dying
+	if (dash.hp <= 0) //dying
 	{
 		selection = 2; //end screen? for now
 		Sound.Mute();
-		
+			
 		
 	}
 	if (!dashcooldown) {
@@ -547,7 +566,7 @@ void PhysicsPlayground::Update()
 		//bring player back to position before jump
 		player.GetBody()->SetTransform(b2Vec2(85, 20), 0);
 		
-		MainEntities::Health(MainEntities::Health() - 25); //remove 25 health
+		ECS::GetComponent<CanJump>(MainEntities::MainPlayer()).hp -=25; //remove 25 health
 	
 	}
 	//check for the lake
@@ -556,6 +575,18 @@ void PhysicsPlayground::Update()
 		selection = 3; //next scene
 		Sound.Mute();
 		is_done = true;
+		inputS.open("HP.txt");
+		if (inputS.is_open())
+		{
+			inputS << dash.hp << "\n";
+		}
+		inputS.close();
+		inputS.open("Progress.txt");
+		if (inputS.is_open())
+		{
+			inputS << 2 << "\n";
+		}
+		inputS.close();
 	}
 
 	//hb.UpdateGhostCounter(ghostCount, ghostBar, ghostBarBack);
@@ -570,7 +601,6 @@ void PhysicsPlayground::Update()
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(p_entity));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(p_entity));
 
-	
 }
 
 void PhysicsPlayground::KeyboardHold()

@@ -228,10 +228,10 @@
     <ClInclude Include="CanDamage.h">
       <Filter>Source Files</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyTrigger.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="CreditScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Controls.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -434,10 +434,10 @@
     <ClCompile Include="CanDamage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyTrigger.cpp">
+    <ClCompile Include="CreditScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CreditScene.cpp">
+    <ClCompile Include="Controls.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

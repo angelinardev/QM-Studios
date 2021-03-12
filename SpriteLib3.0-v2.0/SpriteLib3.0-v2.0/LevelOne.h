@@ -4,6 +4,7 @@
 #include "PhysicsPlaygroundListener.h"
 #include "ToneFire/ToneFire.h"
 #include <string>
+#include <fstream>
 class LevelOne :
     public Scene
 {
@@ -64,5 +65,6 @@ protected:
 	HealthBar hb;
 
 	int enemy;
+	std::fstream inputS;
 };
 

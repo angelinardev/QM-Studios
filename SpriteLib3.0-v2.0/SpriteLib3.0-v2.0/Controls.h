@@ -1,18 +1,17 @@
 #pragma once
 #include "Scene.h"
-class EndScreen :
+class Controls :
     public Scene
 {
 public:
-	EndScreen(std::string name);
+	Controls(std::string name);
 
 	void InitScene(float windowWidth, float windowHeight) override;
-	void InitTexture() override;
 
 	void Update() override;
 
 	int ChangeScene() override;
-	
+	void InitTexture() override;
 
 	//Input overrides
 	void KeyboardHold() override;
@@ -28,7 +27,5 @@ public:
 	int selector = 0;
 	int background = 0;
 	int selection = -1;
-	int firef = 0;
-
 };
 

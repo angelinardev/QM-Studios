@@ -19,22 +19,24 @@ void HealthBar::UpdateHealthBar(int hb)
 	//uibg.SetPositionY(cameraV.GetCam()->GetPosition().y + 72);
 	int hboffset = 0;
 	std::string fileName;
-	if (MainEntities().Health() >= 0) {
+	auto& hp = ECS::GetComponent<CanJump>(MainEntities::MainPlayer()).hp;
+
+	if (hp >= 0) {
 		//hboffset = (100 - MainEntities().Health()) / 4;
 		//hbspr.SetWidth(MainEntities().Health() / 2);
-		if (MainEntities().Health() > 75)
+		if (hp > 75)
 		{
 			fileName = "Health.png";
 		}
-		else if (MainEntities().Health() > 50)
+		else if (hp > 50)
 		{
 			fileName = "Health1.png";
 		}
-		else if (MainEntities().Health() > 25)
+		else if (hp > 25)
 		{
 			fileName = "Health2.png";
 		}
-		else if (MainEntities().Health() > 0)
+		else if (hp > 0)
 		{
 			fileName = "Health3.png";
 		}
@@ -50,8 +52,6 @@ void HealthBar::UpdateHealthBar(int hb)
 	
 	hbui.SetPositionX((cameraH.GetCam()->GetPosition().x - 90));
 	hbui.SetPositionY((cameraV.GetCam()->GetPosition().y + 67));
-
-	
 }
 
 void HealthBar::UpdatePowers(int p_count) //int p

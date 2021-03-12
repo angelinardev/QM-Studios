@@ -7,6 +7,7 @@
 #include "Xinput.h"
 #include "MainEntities.h"
 #include <SDL2/SDL.h>
+#include <fstream>
 
 class Scene
 {
@@ -97,6 +98,8 @@ protected:
 
 	entt::registry* m_sceneReg = nullptr;	
 	std::string m_name = "Default Name";
+
+	std::fstream inputS;
 private:
 	//Hello world entity number
 	int m_helloWorldSign = 0;

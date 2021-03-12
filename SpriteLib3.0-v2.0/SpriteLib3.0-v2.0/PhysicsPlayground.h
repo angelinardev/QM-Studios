@@ -4,6 +4,7 @@
 #include "PhysicsPlaygroundListener.h"
 #include "ToneFire/ToneFire.h"
 #include <string>
+#include <fstream>
 
 class PhysicsPlayground : public Scene
 {
@@ -63,5 +64,5 @@ protected:
 	int pcount;
 	HealthBar hb;
 
-
+	//std::fstream inputS;
 };

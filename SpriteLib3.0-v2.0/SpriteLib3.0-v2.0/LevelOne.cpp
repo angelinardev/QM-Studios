@@ -61,6 +61,15 @@ void LevelOne::InitScene(float windowWidth, float windowHeight)
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(p_entity));
 	//Sound.Play();
 
+	inputS.open("HP.txt");
+	int var;
+	if (inputS.is_open())
+	{
+		inputS >> var;
+		ECS::GetComponent<CanJump>(MainEntities::MainPlayer()).hp = var;
+	}
+	inputS.close();
+
 }
 void LevelOne::InitTexture()
 {
@@ -412,7 +421,7 @@ void LevelOne::Update()
 	//	}
 	//}
 
-	if (MainEntities::Health() <= 0) //dying
+	if (dash.hp <= 0) //dying
 	{
 		selection = 2; //end screen? for now
 

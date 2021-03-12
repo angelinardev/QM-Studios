@@ -1,18 +1,19 @@
-#include "EndScreen.h"
+#include "Controls.h"
 #include "Utilities.h"
 
 
-EndScreen::EndScreen(std::string name)
+Controls::Controls(std::string name)
 {
 	m_gravity = b2Vec2(0.f, -98.f);
-
 }
 
-void EndScreen::InitScene(float windowWidth, float windowHeight)
+void Controls::InitScene(float windowWidth, float windowHeight)
 {
 	selection = -1;
+
 	//Attach the register
 	ECS::AttachRegister(m_sceneReg);
+
 	//Sets up aspect ratio for the camera
 	float aspectRatio = windowWidth / windowHeight;
 
@@ -50,24 +51,44 @@ void EndScreen::InitScene(float windowWidth, float windowHeight)
 		ECS::AttachComponent<Transform>(entity);
 
 		//Set up the components
-		std::string fileName = "unknown2.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 235, 121);
+		std::string fileName = "background.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 215, 120);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 20.f, 1.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 1.f));
 		background = entity;
 	}
 
+
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(background));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(background));
-	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetOffset(190);
+	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetOffset(200);
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetOffset(0);
 
 
 	setSelect(1);
 	selectionCounter == 1;
+	is_done = false;
 }
 
-void EndScreen::InitTexture()
+void Controls::Update()
+{
+	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).Update();
+	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).Update();
+
+	ECS::GetComponent<Transform>(selector).SetPositionX(0);
+	ECS::GetComponent<Transform>(selector).SetPositionY(-19);
+	ECS::GetComponent<Sprite>(selector).SetWidth(75);
+	ECS::GetComponent<Sprite>(selector).SetHeight(25);
+}
+
+int Controls::ChangeScene()
+{
+
+	return selection;
+
+}
+
+void Controls::InitTexture()
 {
 	m_physicsWorld = new b2World(m_gravity);
 	m_physicsWorld->SetGravity(m_gravity);
@@ -75,7 +96,6 @@ void EndScreen::InitTexture()
 	m_sceneReg = new entt::registry;
 	//Attach the register
 	ECS::AttachRegister(m_sceneReg);
-
 	{
 		/*Scene::CreatePhysicsSprite(m_sceneReg, "LinkStandby", 80, 60, 1.f, vec3(0.f, 30.f, 2.f), b2_dynamicBody, 0.f, 0.f, true, true)*/
 
@@ -89,120 +109,103 @@ void EndScreen::InitTexture()
 
 		//Sets up the components
 		std::string fileName = "Selector.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 10, 5);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 50, 5);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-40.f, 30.f, 3.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-100.f, 32.f, 3.f));
+
+
 
 		selector = entity;
 	}
-
-}
-
-void EndScreen::Update()
-{
-	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).Update();
-	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).Update();
-}
-
-int EndScreen::ChangeScene()
-{
-	return selection;
-
-}
-
-void EndScreen::KeyboardHold()
-{
-}
-
-void EndScreen::KeyboardDown()
-{
-	if (Input::GetKeyDown(Key::UpArrow) || Input::GetKeyDown(Key::W))
+	//fireflies
 	{
-		if (selectionCounter + 1 < 3) {
-			selectionCounter++;
-		}
-		else
-		{
-			selectionCounter = 1;
-		}
-		setSelect(selectionCounter);
-	}
-	if (Input::GetKeyDown(Key::DownArrow) || Input::GetKeyDown(Key::S))
-	{
-		if (selectionCounter - 1 > 0) {
-			selectionCounter--;
-		}
-		else
-		{
-			selectionCounter = 2;
-		}
-		setSelect(selectionCounter);
+		//Creates entity
+		auto entity = ECS::CreateEntity();
 
+		//Add components  
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components
+		std::string fileName = "The_beyond_controls.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 180, 80);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 2.f));
 	}
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+
+		//Add components  
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components
+		std::string fileName = "Back_To_Menu.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 50, 20);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, -20.f, 2.f));
+	}
+
+}
+
+void Controls::KeyboardHold()
+{
+}
+
+void Controls::KeyboardDown()
+{
 
 	if (Input::GetKeyDown(Key::Space) || Input::GetKeyDown(Key::Enter))
 	{
-		if (selectionCounter == 1) {
-			exit(0);
-		}
-		if (selectionCounter == 2) {
-			inputS.open("Progress.txt");
-			int var =0;
-			if (inputS.is_open())
-			{
-				inputS >> var;
-			}
-			if (var == 1)
-			{
-				selection = 1; //last save?
-			}
-			if (var == 2)
-			{
-				selection = 4;
-			}
-		}
+		selection = 0; //return to menu
 	}
 }
 
-void EndScreen::KeyboardUp()
+void Controls::KeyboardUp()
 {
 }
-void EndScreen::setSelect(int i) {
+void Controls::setSelect(int i) {
 	auto& selectTransform = ECS::GetComponent<Transform>(selector);
 	auto& selectSprite = ECS::GetComponent<Sprite>(selector);
 
-	selectTransform.SetPositionX(2);
+	selectTransform.SetPositionX(-40);
 	selectTransform.SetPositionY(setY(i));
 	selectSprite.SetWidth(setW(i));
-	selectSprite.SetHeight(15);
+	selectSprite.SetHeight(13);
 
 }
 
-int EndScreen::setY(int i) {
+int Controls::setY(int i) {
 	switch (i) {
 	case 1:
-		return -16;
+		return -2;
 		break;
 	case 2:
-		return 10;
+		return 12;
 		break;
-	default:
-		return -16;
-		
-	
+	case 3:
+		return 24;
+		break;
+	case 4:
+		return 36;
+		break;
 	}
 }
-int EndScreen::setW(int i) {
+int Controls::setW(int i) {
 	switch (i) {
 	case 1:
-		return 40;
+		return 45;
 		break;
 	case 2:
-		return 80;
+		return 75;
 		break;
-	default:
-		return 40;
-	
+	case 3:
+		return 53;
+		break;
+	case 4:
+		return 88;
+		break;
 	}
 }
 

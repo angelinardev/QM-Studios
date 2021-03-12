@@ -175,7 +175,7 @@ void Scene::BoxMaker(int spriteSizeX, int spriteSizeY, float positionX, float po
 	tempBody = m_physicsWorld->CreateBody(&tempDef);
 
 	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS, friction, density);
-	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.f));
+	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 }
 void Scene::EnviroMaker(int spriteSizeX, int spriteSizeY, float positionX, float positionY, int angle, float transparency, float friction, float density)
 {

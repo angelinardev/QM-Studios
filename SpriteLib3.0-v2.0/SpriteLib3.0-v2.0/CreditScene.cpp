@@ -67,7 +67,7 @@ void CreditScene::InitScene(float windowWidth, float windowHeight)
 
 	setSelect(1);
 	selectionCounter == 1;
-	is_done = true;
+	is_done = false;
 }
 
 void CreditScene::Update()
