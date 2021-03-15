@@ -288,6 +288,23 @@ void PhysicsPlayground::InitTexture()
 		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, PTRIGGER, PLAYER);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
 	}
+	//Setup new Entity
+	{
+		/*Scene::CreateSprite(m_sceneReg, "HelloWorld.png", 100, 60, 0.5f, vec3(0.f, 0.f, 0.f));*/
+
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components
+		std::string fileName = "back_tutgrass.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 1440, 194);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(315.f, 0.f, 3.f));
+	}
 	//tut sensor2
 	{
 		//Creates entity
@@ -346,28 +363,28 @@ void PhysicsPlayground::InitTexture()
 	BoxMaker(1000, 20, -410.f, -70.f, 90, 0);
 
 	//Setup spawning static Platform
-	BoxMaker(198, 5, -310.f, -80.f, 0, 0, 2);
+	BoxMaker(198, 5, -310.f, -80.f, 0, 0, 6);
 
 	//Setup Downward log Log 
-	BoxMaker(75, 15, -223.f, -70.f, 157, 0, 0.1);
+	BoxMaker(75, 15, -223.f, -70.f, 157, 0, 0.4);
 
 	//Setup Static platform after log
-	BoxMaker(75, 8, -185.f, -80.f, 0, 0, 2);
+	BoxMaker(75, 8, -185.f, -80.f, 0, 0, 6);
 
 	//Setup for the first rock
-	BoxMaker(40, 10, -134.f, -58.f, 35, 0, 0.10);
+	BoxMaker(40, 10, -134.f, -58.f, 35, 0, 0.4);
 	//BoxMaker(5, 4, -115.f, -45.f, 0, 0);
 
 	//Setup for the second rock
-	BoxMaker(40, 3, -95.f, -31.f, 30, 0, 0.2);
-	BoxMaker(10, 4, -73.5f, -21.8f, 0, 0, 2);
+	BoxMaker(40, 3, -95.f, -31.f, 30, 0, 0.4);
+	BoxMaker(10, 4, -73.5f, -21.8f, 0, 0, 6);
 
 	//Setup Static after second rock
 	BoxMaker(60, 8, -55, -75, 0, 0, 2);
 	EnviroMaker(30, 50, -94.f, -58.f, 90, 0);
 
 	//Setup for the third rock
-	BoxMaker(25, 3, -13.f, -57.f, 27, 0, 0.2);
+	BoxMaker(25, 3, -13.f, -57.f, 27, 0, 0.4);
 	BoxMaker(20, 3, 7.f, -51.8f, 0, 0);
 
 
@@ -375,14 +392,14 @@ void PhysicsPlayground::InitTexture()
 	BoxMaker(40, 8, 30, -75, 0, 0);
 
 	//Setup for the fourth rock
-	BoxMaker(30, 3, 70.f, -47.f, 24, 0, 0.2);
+	BoxMaker(30, 3, 70.f, -47.f, 24, 0, 0.4);
 	BoxMaker(25, 3, 96.f, -41.f, 0, 0);
 
 	//Setup a block for under the rock
 	BoxMaker(30, 60, 95.f, -75.f, 0, 0);
 
 	//Setup for path after jump
-	BoxMaker(43, 2, 272.f, -65.f, 0, 0, 2);
+	BoxMaker(43, 2, 272.f, -65.f, 0, 0, 6);
 	//under blocks
 	EnviroMaker(30, 90, 350.f, -57.f, 90, 0);
 	//EnviroMaker(30, 25, 390.f, -57.f, 90, 0);
@@ -391,34 +408,34 @@ void PhysicsPlayground::InitTexture()
 	BoxMaker(15, 3, 310.f, -35.f, 0, 0);
 
 	//Set up log after tree stump
-	BoxMaker(45, 3, 350.f, -25.f, 165, 0, 2);
-	BoxMaker(30, 3, 365.f, -20.f, 25, 0, 0.2);
-	BoxMaker(10, 3, 383.f, -10.f, 43, 0, 0.2);
-	BoxMaker(20, 3, 380.f, -30.f, 0, 0, 2);
+	BoxMaker(45, 3, 350.f, -25.f, 165, 0, 6);
+	BoxMaker(30, 3, 365.f, -20.f, 25, 0, 0.4);
+	BoxMaker(10, 3, 383.f, -10.f, 43, 0, 0.8);
+	BoxMaker(20, 3, 380.f, -30.f, 0, 0, 6);
 
 	//Setup stump after log
-	BoxMaker(30, 3, 410.f, -50.f, 140, 0, 0.2);
+	BoxMaker(30, 3, 410.f, -50.f, 140, 0, 0.4);
 
 	//Setup Static platform
-	BoxMaker(80, 3, 465.f, -60.f, 0, 0, 2);
+	BoxMaker(80, 3, 465.f, -60.f, 0, 0, 6);
 
 	//Setup Top Platform
-	BoxMaker(60, 3, 540.f, -25.f, 0, 0, 2);
-	BoxMaker(40, 3, 520.f, -50.f, 105, 0, 2);
+	BoxMaker(60, 3, 540.f, -28.f, 0, 0, 6);
+	BoxMaker(40, 3, 520.f, -50.f, 105, 0, 6);
 
-	BoxMaker(15, 3, 575.f, -28.f, 145, 0, 0.1);
-	BoxMaker(18, 3, 590.f, -29.8f, 90, 0, 0.2);
-	BoxMaker(45, 3, 613.f, -26.f, 170, 0, 0.2);
+	BoxMaker(20, 3, 578.f, -28.f, 210, 0, 0.9);
+	BoxMaker(18, 3, 590.f, -29.8f, 90, 0, 0.4);
+	BoxMaker(45, 3, 613.f, -26.f, 170, 0, 0.4);
 	//BoxMaker(30, 3, 617.f, -25.f, 170, 0,0.2);
 
 
 
 	//Setup wood twist
 	BoxMaker(30, 3, 650.f, -27.f, 15, 0);
-	BoxMaker(30, 3, 668.f, -20.f, 45, 0, 0.1);
+	BoxMaker(30, 3, 668.f, -20.f, 45, 0, 0.8);
 
 	//Setup Platform after wood twist
-	BoxMaker(25, 3, 690.f, -10.f, 0, 0, 2);
+	BoxMaker(23, 3, 690.f, -10.f, 0, 0, 6);
 
 	//Setup Down to last platfrom
 	BoxMaker(75, 4, 720.f, -40.f, 125, 0);
@@ -427,7 +444,7 @@ void PhysicsPlayground::InitTexture()
 
 
 	//Setup Last Platform
-	BoxMaker(170, 4, 840.f, -75.f, 0, 0, 2);
+	BoxMaker(170, 4, 840.f, -75.f, 0, 0, 6);
 	
 	//Wall at the end
 	BoxMaker(170, 4, 1000.f, 0.f, 90, 0, 2);
@@ -489,23 +506,7 @@ void PhysicsPlayground::InitTexture()
 		tempPhsBody.SetGravityScale(2.5f);
 	}
 
-	//Setup new Entity
-	{
-		/*Scene::CreateSprite(m_sceneReg, "HelloWorld.png", 100, 60, 0.5f, vec3(0.f, 0.f, 0.f));*/
-
-		//Creates entity
-		auto entity = ECS::CreateEntity();
-
-		//Add components
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
-
-		//Set up the components
-		std::string fileName = "back_tutgrass.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 1440, 194);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(315.f, 0.f, 2.f));
-	}
+	
 }
 
 
