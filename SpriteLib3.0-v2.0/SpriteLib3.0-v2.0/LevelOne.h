@@ -48,7 +48,16 @@ protected:
 
 	bool jump_high = false;
 
-	int test_e1 = 0;
+	int invis1 = 0;
+	int invis2 = 1;
+	int invis3 = 2;
+	int invis4 = 3;
+	int invis5 = 4;
+	int invis6 = 5;
+	int invis7 = 6;
+	int invis8 = 7;
+	int invis9 = 8;
+	int invis10 = 9;
 
 	int selection = -1;
 	//tutorial controls

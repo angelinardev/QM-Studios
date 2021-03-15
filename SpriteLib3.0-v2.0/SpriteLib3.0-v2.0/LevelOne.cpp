@@ -113,13 +113,14 @@ void LevelOne::InitTexture()
 		ECS::AttachComponent<Transform>(entity);
 
 		//Set up the components
-		std::string fileName = "back_tut.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 1440, 194);
+		std::string fileName = "lvl1back.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 1700, 300);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(315.f, 0.f, 2.f));
 	}
 
 	//enemy
+	/*
 	{
 
 		auto entity = ECS::CreateEntity();
@@ -180,21 +181,138 @@ void LevelOne::InitTexture()
 		ECS::GetComponent<CanDamage>(entity).InitBody(tempPhsBody, animController);
 		//tempSpr.SetTransparency(0);
 	}
+	*/
 
 	//SetUp Invisible Wall at the beginning
-	BoxMaker(90, 20, -410.f, -70.f, 90, 0);
+	BoxMaker(90, 20, -435.f, 0.f, 90, 1);
 
 	//Setup spawning static Platform
-	BoxMaker(198, 5, -310.f, -80.f, 0, 0, 2);
+	BoxMaker(210, 5, -360.f, -20.f, 0, 1, 2);
+
+	//Setup first invis platform
+	{
+		auto entity = ECS::CreateEntity();
+
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		std::string fileName = "boxsprite.jpg";
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(-330.f), float32(-10.f));
+
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+		ECS::AttachComponent<Invisibility>(entity);
+		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
+		invis1 = entity;
+	}
+
+	//Setup second invis
+	{
+		auto entity = ECS::CreateEntity();
+
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		std::string fileName = "boxsprite.jpg";
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(-315.f), float32(0.f));
+
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+		ECS::AttachComponent<Invisibility>(entity);
+		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
+		invis2 = entity;
+	}
+
+	//Setup third invis
+	{
+		auto entity = ECS::CreateEntity();
+
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		std::string fileName = "boxsprite.jpg";
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(45.f), float32(15.f));
+
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+		ECS::AttachComponent<Invisibility>(entity);
+		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
+		invis3 = entity;
+	}
+
+	//Setup fourth invis platform
+	{
+		auto entity = ECS::CreateEntity();
+
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		std::string fileName = "boxsprite.jpg";
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(55.f), float32(5.f));
+
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+		ECS::AttachComponent<Invisibility>(entity);
+		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
+		invis1 = entity;
+	}
 
 	//Setup Downward log Log 
-	BoxMaker(75, 15, -223.f, -70.f, 157, 0, 0.1);
+	BoxMaker(75, 15, -223.f, -70.f, 157, 1, 0.1);
 
 	//Setup Static platform after log
-	BoxMaker(75, 8, -185.f, -80.f, 0, 0, 2);
+	BoxMaker(75, 8, -185.f, -80.f, 0, 1, 2);
 
 	//Setup for the first rock
-	BoxMaker(40, 10, -134.f, -58.f, 35, 0, 0.10);
+	BoxMaker(40, 10, -134.f, -58.f, 35, 1, 0.10);
 	//BoxMaker(5, 4, -115.f, -45.f, 0, 0);
 
 	//Setup for the second rock
@@ -296,7 +414,7 @@ void LevelOne::InitTexture()
 		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 		ECS::AttachComponent<Invisibility>(entity);
 		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
-		test_e1 = entity;
+		invis1 = entity;
 	}
 
 	*/
@@ -356,7 +474,7 @@ void LevelOne::InitTexture()
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(-380.f), float32(-60.f));
+		tempDef.position.Set(float32(-425.f), float32(-10.f));
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
@@ -383,8 +501,8 @@ void LevelOne::Update()
 	auto& player2 = ECS::GetComponent<Player>(p_entity);
 	player2.Update();
 
-	auto& enemy_c = ECS::GetComponent<CanDamage>(enemy);
-	enemy_c.Walk();
+	//auto& enemy_c = ECS::GetComponent<CanDamage>(enemy);
+	//enemy_c.Walk();
 
 	auto& dash = ECS::GetComponent<CanJump>(p_entity);
 	//enemy checks
