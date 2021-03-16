@@ -46,7 +46,9 @@ void Player::InitPlayer(std::string& fileName, std::string& animationJSON, int w
 	//dashing
 	m_animController->AddAnimation(animations["DASHLEFT"].get<Animation>()); //4
 	m_animController->AddAnimation(animations["DASHRIGHT"].get<Animation>()); //5
-
+	//attack
+	m_animController->AddAnimation(animations["ATKLEFT"].get<Animation>()); //6
+	m_animController->AddAnimation(animations["ATKRIGHT"].get<Animation>()); //7
 	//Set Default Animation
 	m_animController->SetActiveAnim(1);
 
@@ -101,6 +103,12 @@ void Player::MovementUpdate()
 		//m_dash = true;
 		//m_locked = true;
 	}
+	if (Input::GetKeyDown(Key::X))
+	{
+		m_attack = true;
+		m_locked = true;
+		m_moving = false;
+	}
 }
 
 void Player::AnimationUpdate()
@@ -144,18 +152,37 @@ void Player::AnimationUpdate()
 			activeAnimation = IDLE;
 		}
 	}
-	else if (m_animController->GetActiveAnim() == 10) //attacked animation?
+	else if (m_attack) //attacked animation?
 	{
+		activeAnimation = ATTACK;
 		//Check if the attack animation is done
 		if (m_animController->GetAnimation(m_animController->GetActiveAnim()).GetAnimationDone())
 		{
 			//Will auto set to idle
 			m_locked = false;
-			m_dash = false;
+			m_attack = false;
 			//Resets the attack animation
 			m_animController->GetAnimation(m_animController->GetActiveAnim()).Reset();
 
 			activeAnimation = IDLE;
+			//ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).ScaleBody(1/2, 0);
+			ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).SetCenterOffset(vec2(0.f, -4.f));
+			
+		}
+		else //not done
+		{
+			//make player not move
+			ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetBody()->SetLinearVelocity(b2Vec2(0, 0));
+			//scale physics body
+			//ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).ScaleBody(1.2,0);
+			if (m_facing == RIGHT)
+			{
+				ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).SetCenterOffset(vec2(20, -4.f));
+			}
+			else
+			{
+				ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).SetCenterOffset(vec2(-20, -4.f));
+			}
 		}
 	}
 	else

@@ -21,7 +21,8 @@ enum AnimTypes
 {
 	IDLE = 0,
 	WALK = 2,
-	DASH = 4
+	DASH = 4,
+	ATTACK = 6
 
 };
 
@@ -52,6 +53,7 @@ public:
 	bool m_dash = false;
 	bool m_moving = false;
 	bool m_locked = false;
+	bool m_attack = false;
 
 private:
 	void SetActiveAnimation(int anim);
