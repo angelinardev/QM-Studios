@@ -317,15 +317,24 @@ void LevelOne::InitTexture()
 	BoxMaker(40, 5, -130, -40, 125, 0);
 
 	//Static Platform after slide
-	BoxMaker(60, 5, -80, -60, 0, 0);
+	BoxMaker(60, 5, -80, -60, 0, 0,6);
 
 	//Rock
 	EnviroMaker(5, 5, -82, -50, 90, 0);
-	BoxMaker(30, 5, -70, -45, 10, 0);
-	BoxMaker(25, 5, -47, -50, 135,0,0.8);
+	BoxMaker(30, 5, -65, -45, 10, 0);
+	BoxMaker(25, 5, -43, -50, 135,0,0.8);
 
 	//Static platform after rock
-	BoxMaker(60, 5, 0, -60, 0, 0);
+	BoxMaker(245, 5, 80, -60, 0, 0,6);
+
+	//Static platform after jump
+	BoxMaker(230, 5, 410, -60, 0, 0,6);
+
+	//Upwards platform
+	BoxMaker(100, 5, 560, -50,20,0, 0.8);
+
+	//Static platform after upwards
+	
 
 	//testing pickup
 	{
