@@ -321,22 +321,14 @@ void LevelOne::InitTexture()
 	}
 
 	//testing pickup
-	//{
-	//	//Creates entity
-	//	auto entity = ECS::CreateEntity();
-	//	//Add components
-	//	ECS::AttachComponent<Sprite>(entity);
-	//	ECS::AttachComponent<Transform>(entity);
-	//	ECS::AttachComponent<PhysicsBody>(entity);
-	//	ECS::AttachComponent<Trigger*>(entity);
-	//
-	//	//Sets up components
-	//	std::string fileName = "page.png";
-	//	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 15, 20);
-	//	ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-	//	ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, -20.f, 80.f));
-	//	ECS::GetComponent<Trigger*>(entity) = new PickupTrigger(2); //first powerup
-	//	ECS::GetComponent<Trigger*>(entity)->SetTriggerEntity(entity);
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		ECS::AttachComponent<Trigger*>(entity);
 
 		//Sets up components
 		std::string fileName = "page.png";

@@ -156,7 +156,7 @@ void Player::AnimationUpdate()
 		//std::cout << m_animController->GetAnimations().size() << std::endl;
 		activeAnimation = ATTACK;
 		//make player not move
-		ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetBody()->SetLinearVelocity(b2Vec2(0, 0));
+		//ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetBody()->SetLinearVelocity(b2Vec2(0, 0));
 		//scale physics body
 		//ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).ScaleBody(1.2,0);
 		if (m_facing == RIGHT)

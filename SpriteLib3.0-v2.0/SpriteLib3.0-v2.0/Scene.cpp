@@ -212,7 +212,7 @@ void Scene::EnviroMaker(int spriteSizeX, int spriteSizeY, float positionX, float
 
 void Scene::Attack(int player, int enemy)
 {
-	//ECS::GetComponent<PhysicsBody>(player).GetBody()->SetLinearVelocity(b2Vec2(0, 0));
+	ECS::GetComponent<PhysicsBody>(player).GetBody()->SetLinearVelocity(b2Vec2(0, 0));
 	auto playerx = ECS::GetComponent<PhysicsBody>(player).GetBody()->GetWorldCenter().x;
 	//auto playery = player.GetBody()->GetWorldCenter().y;
 
