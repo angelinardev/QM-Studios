@@ -608,7 +608,6 @@ void PhysicsPlayground::Update()
 		inputS.close();
 	}
 
-	//hb.UpdateGhostCounter(ghostCount, ghostBar, ghostBarBack);
 
 	//update invisibility
 	//ECS::GetComponent<Invisibility>(test_e1).update_invisible();

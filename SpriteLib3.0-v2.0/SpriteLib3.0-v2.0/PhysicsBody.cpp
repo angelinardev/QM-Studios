@@ -48,6 +48,7 @@ PhysicsBody::PhysicsBody(int entity, b2Body* body, float width, float height, ve
 	b2PolygonShape tempShape;
 	tempShape.SetAsBox(float32(width / 2.f), float32(height / 2.f),
 		b2Vec2(float32(centerOffset.x), float32(centerOffset.y)), float32(0.f));
+	
 
 	//Creates the actual fixture (aka, shape, mass, etc);
 	b2FixtureDef tempFixture;

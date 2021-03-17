@@ -75,5 +75,7 @@ protected:
 
 	int enemy;
 	std::fstream inputS;
+
+	bool enemy1 = true;
 };
 

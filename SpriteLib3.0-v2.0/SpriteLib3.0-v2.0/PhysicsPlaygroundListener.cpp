@@ -50,13 +50,30 @@ void PhysicsPlaygroundListener::BeginContact(b2Contact* contact)
 	//enemy collisions
 	if ((filterA.categoryBits == PLAYER && filterB.categoryBits == ENEMY) || (filterB.categoryBits == PLAYER && filterA.categoryBits == ENEMY))
 	{
-		if (filterA.categoryBits == ENEMY)
+		auto attack = ECS::GetComponent<AnimationController>(MainEntities::MainPlayer()).GetActiveAnim();
+		if (attack == 6 || attack == 7) //attack animation hit
 		{
-			ECS::GetComponent<CanDamage>((int)fixtureA->GetBody()->GetUserData()).Attack();
+			if (filterA.categoryBits == ENEMY)
+			{
+				//take 50 health
+				ECS::GetComponent<CanDamage>((int)fixtureA->GetBody()->GetUserData()).hp -= 50;
+			}
+			else if (filterB.categoryBits == ENEMY)
+			{
+
+				ECS::GetComponent<CanDamage>((int)fixtureB->GetBody()->GetUserData()).hp -= 50;
+			}
 		}
-		else if (filterB.categoryBits == ENEMY)
+		else //not attacking but getting hit
 		{
-			ECS::GetComponent<CanDamage>((int)fixtureB->GetBody()->GetUserData()).Attack();
+			if (filterA.categoryBits == ENEMY)
+			{
+				ECS::GetComponent<CanDamage>((int)fixtureA->GetBody()->GetUserData()).Attack();
+			}
+			else if (filterB.categoryBits == ENEMY)
+			{
+				ECS::GetComponent<CanDamage>((int)fixtureB->GetBody()->GetUserData()).Attack();
+			}
 		}
 	}
 
