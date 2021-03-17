@@ -201,7 +201,7 @@ void Scene::EnviroMaker(int spriteSizeX, int spriteSizeY, float positionX, float
 	tempDef.type = b2_staticBody;
 	tempDef.position.Set(float32(positionX), float32(positionY));
 	ECS::GetComponent<Sprite>(entity).SetTransparency(transparency);
-	tempDef.angle = Transform::ToRadians(90);
+	tempDef.angle = Transform::ToRadians(angle);
 
 	tempBody = m_physicsWorld->CreateBody(&tempDef);
 
