@@ -209,6 +209,27 @@ void Scene::EnviroMaker(int spriteSizeX, int spriteSizeY, float positionX, float
 	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 
 }
+
+void Scene::Attack(int player, int enemy)
+{
+	//ECS::GetComponent<PhysicsBody>(player).GetBody()->SetLinearVelocity(b2Vec2(0, 0));
+	auto playerx = ECS::GetComponent<PhysicsBody>(player).GetBody()->GetWorldCenter().x;
+	//auto playery = player.GetBody()->GetWorldCenter().y;
+
+	auto& enemy_b = ECS::GetComponent<PhysicsBody>(enemy);
+	auto enemyx = enemy_b.GetBody()->GetWorldCenter().x;
+	//auto enemyy = enemy_b.GetBody()->GetWorldCenter().y;
+
+	if (enemyx >= playerx - 45 && enemyx <= playerx + 45)
+	{
+		ECS::GetComponent<CanDamage>(enemy).hp -= 50;
+		std::cout << "Succes\n";
+	}
+	else
+	{
+		std::cout << "\nFail";
+	}
+}
 	
 void Scene::Update()
 {

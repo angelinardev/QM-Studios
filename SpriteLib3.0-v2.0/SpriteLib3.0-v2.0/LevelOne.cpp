@@ -70,7 +70,8 @@ void LevelOne::InitScene(float windowWidth, float windowHeight)
 	}
 	inputS.close();
 
-	enemy1 = true;
+
+	alive.push_back(true);
 
 	//ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetBody()->SetAwake(true);
 	//ECS::GetComponent<PhysicsBody>(enemy).GetBody()->SetAwake(true);
@@ -127,9 +128,7 @@ void LevelOne::InitTexture()
 	
 	{
 
-		auto entity = ECS::CreateEntity();
-		enemy = entity;
-		
+		auto entity = ECS::CreateEntity();		
 		//Add components  
 	
 		ECS::AttachComponent<Sprite>(entity);
@@ -172,7 +171,7 @@ void LevelOne::InitTexture()
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(-300.f), float32(0.f));
+		tempDef.position.Set(float32(-400.f), float32(20.f));
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
@@ -184,6 +183,9 @@ void LevelOne::InitTexture()
 		tempPhsBody.SetFixedRotation(true);
 		ECS::GetComponent<CanDamage>(entity).InitBody(tempPhsBody, animController);
 		//tempSpr.SetTransparency(0);
+		//add enemy to enemy array
+		enemies.push_back(entity);
+
 	}
 	
 
@@ -327,49 +329,48 @@ void LevelOne::InitTexture()
 	//BoxMaker(60, 8, -55, -75, 0, 0, 2);
 	//EnviroMaker(30, 50, -94.f, -58.f, 90, 0);
 	//testing pickup
-	{
-		//Creates entity
-		auto entity = ECS::CreateEntity();
-		//Add components
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
-		ECS::AttachComponent<PhysicsBody>(entity);
-		ECS::AttachComponent<Trigger*>(entity);
+	//{
+	//	//Creates entity
+	//	auto entity = ECS::CreateEntity();
+	//	//Add components
+	//	ECS::AttachComponent<Sprite>(entity);
+	//	ECS::AttachComponent<Transform>(entity);
+	//	ECS::AttachComponent<PhysicsBody>(entity);
+	//	ECS::AttachComponent<Trigger*>(entity);
+	//
+	//	//Sets up components
+	//	std::string fileName = "page.png";
+	//	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 15, 20);
+	//	ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+	//	ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, -20.f, 80.f));
+	//	ECS::GetComponent<Trigger*>(entity) = new PickupTrigger(2); //first powerup
+	//	ECS::GetComponent<Trigger*>(entity)->SetTriggerEntity(entity);
+
+	//	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+	//	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+	//	float shrinkX = 0.f;
+	//	float shrinkY = 0.f;
+	//	b2Body* tempBody;
+	//	b2BodyDef tempDef;
+	//	tempDef.type = b2_staticBody;
+	//	tempDef.position.Set(float32(-375), float32(0));
+	//
+	//	tempBody = m_physicsWorld->CreateBody(&tempDef);
+	//	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, PTRIGGER, PLAYER);
+	//	tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
+	//}
 
 	////Setup for the third rock
 	//BoxMaker(25, 3, -13.f, -57.f, 27, 0, 0.2);
 	//BoxMaker(20, 3, 7.f, -51.8f, 0, 0);
-		//Sets up components
-		std::string fileName = "page.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 15, 20);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, -20.f, 80.f));
-		ECS::GetComponent<Trigger*>(entity) = new PickupTrigger(2); //first powerup
-		ECS::GetComponent<Trigger*>(entity)->SetTriggerEntity(entity);
-
-
 	////Setup Static after third rock
 	//BoxMaker(40, 8, 30, -75, 0, 0);
-		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
-		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
-
-		float shrinkX = 0.f;
-		float shrinkY = 0.f;
-		b2Body* tempBody;
-		b2BodyDef tempDef;
-		tempDef.type = b2_staticBody;
-		tempDef.position.Set(float32(-375), float32(0));
 	////Setup for the fourth rock
 	//BoxMaker(30, 3, 70.f, -47.f, 24, 0, 0.2);
 	//BoxMaker(25, 3, 96.f, -41.f, 0, 0);
 
-		tempBody = m_physicsWorld->CreateBody(&tempDef);
 	////Setup a block for under the rock
 	//BoxMaker(30, 60, 95.f, -75.f, 0, 0);
-
-		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, PTRIGGER, PLAYER);
-		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
-	}
 	////Setup for path after jump
 	//BoxMaker(43, 2, 272.f, -65.f, 0, 0, 2);
 	////under blocks
@@ -498,69 +499,40 @@ void LevelOne::Update()
 	//Fmod.Update();
 
 	auto& player2 = ECS::GetComponent<Player>(p_entity);
-	player2.Update();
-
-	//if (enemy1)
-	//{
-	//	auto& enemy_c = ECS::GetComponent<CanDamage>(enemy);
-	//	enemy_c.Walk();
-	//	//check if enemy is dead
-	//	if (enemy_c.hp <= 0)
-	//	{
-	//		PhysicsBody::m_bodiesToDelete.push_back(enemy);
-	//		enemy1 = false;
-	//	}
-	//}
 	
-	ECS::GetComponent<Invisibility>(invis1).update_invisible();
-	ECS::GetComponent<Invisibility>(invis2).update_invisible();
-	ECS::GetComponent<Invisibility>(invis3).update_invisible();
-	ECS::GetComponent<Invisibility>(invis4).update_invisible();
+	//setup animation component again so the player doesnt lose their animations
+	player2.ReassignComponents(&ECS::GetComponent<AnimationController>(p_entity), &ECS::GetComponent<Sprite>(p_entity));
+	player2.Update();
+	auto& animations = ECS::GetComponent<AnimationController>(p_entity);
+	
+
+	if (alive[0])
+	{
+		auto& enemy_c = ECS::GetComponent<CanDamage>(enemies[0]);
+		enemy_c.Walk();
+		//check if enemy is dead
+		if (enemy_c.hp <= 0)
+		{
+			
+			PhysicsBody::m_bodiesToDelete.push_back(enemies[0]);
+			alive[0] = false;
+			
+		}
+	}
+	
+	
+	//ECS::GetComponent<Invisibility>(invis1).update_invisible();
+	//ECS::GetComponent<Invisibility>(invis2).update_invisible();
+	//ECS::GetComponent<Invisibility>(invis3).update_invisible();
+	//ECS::GetComponent<Invisibility>(invis4).update_invisible();
 	//ECS::GetComponent<Invisibility>(invis5).update_invisible();
 	//ECS::GetComponent<Invisibility>(invis6).update_invisible();
 	//ECS::GetComponent<Invisibility>(invis7).update_invisible();
 	//ECS::GetComponent<Invisibility>(invis8).update_invisible();
 	//ECS::GetComponent<Invisibility>(invis9).update_invisible();
 
-	//auto& enemy_c = ECS::GetComponent<CanDamage>(enemy);
-	//enemy_c.Walk();
-
-
-
 	auto& dash = ECS::GetComponent<CanJump>(p_entity);
-	//enemy checks
-	//auto& ghost = ECS::GetComponent<PhysicsBody>(ghost1);
-	//auto& c_ghost = ECS::GetComponent<CanDamage>(ghost1);
-	//auto& anims = ECS::GetComponent<AnimationController>(ghost1);
-	//auto& c_ghost2 = ECS::GetComponent<CanDamage>(ghost2);
-	//auto& ghost_2 = ECS::GetComponent<PhysicsBody>(ghost2);
-	//ghost_2.SetPosition(b2Vec2(ghost.GetBody()->GetWorldCenter()), false);
-	//if (c_ghost.m_candamage) //default
-	//{
-	//	ghost.GetBody()->SetLinearVelocity(b2Vec2(0, 0));
-	//	startstuntime = clock();
-	//	isyawn = false;
-	//	//anims.SetActiveAnim(0); //default
-	//}
-	//else if (!c_ghost.m_stun) { //stunned
-	//	float elapsedtime;
-	//	float stuntime = 5.0f;
-	//	//anims.SetActiveAnim(loop_anim);
-	//	c_ghost2.m_candamage = false;
-	//	isstunned = true;
-	//	if (isstunned) {
-	//		elapsedtime = (clock() - startstuntime) / CLOCKS_PER_SEC;
-
-	//		if (elapsedtime >= stuntime) { //unstun
-	//			c_ghost.m_candamage = true;
-	//			c_ghost.m_stun = false;
-	//			c_ghost2.m_candamage = true;
-	//			c_ghost2.m_stun = false;
-	//			//ghost.GetBody()->SetLinearVelocity(b2Vec2(15, 0));
-	//			isstunned = false;
-	//		}
-	//	}
-	//}
+	
 
 	if (dash.hp <= 0) //dying
 	{
@@ -613,10 +585,7 @@ void LevelOne::Update()
 	hb.UpdateHealthBar(healthBar);
 	hb.UpdatePowers(pcount);
 
-	//setup animation component again so the player doesnt lose their animations
-	player2.ReassignComponents(
-		&ECS::GetComponent<AnimationController>(p_entity),
-		&player, &ECS::GetComponent<Sprite>(p_entity));
+	
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(p_entity));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(p_entity));
 
@@ -688,6 +657,7 @@ void LevelOne::KeyboardHold()
 void LevelOne::KeyboardDown()
 {
 	auto& player = ECS::GetComponent<PhysicsBody>(p_entity);
+	
 	auto& canJump = ECS::GetComponent<CanJump>(p_entity);
 	auto& power = ECS::GetComponent<Player_Power>(p_entity);
 
@@ -695,7 +665,19 @@ void LevelOne::KeyboardDown()
 	auto& pos = player.GetBody()->GetPosition();
 	//auto& dash = ECS::GetComponent<CanJump>(p_entity);
 
+	if (Input::GetKeyDown(Key::X))
+	{
+		//manual box collision calculation
 
+			for (int i = 0; i < enemies.size(); i++)
+			{
+				if (alive[i])
+				{
+					Scene::Attack(p_entity, enemies[i]);
+
+				}
+			}
+	}
 
 	if (Input::GetKeyDown(Key::T))
 	{
@@ -708,7 +690,7 @@ void LevelOne::KeyboardDown()
 			power.m_power[0] = !power.m_power[0]; //reverses choice
 		}
 	}
-	
+
 	if (Input::GetKeyDown(Key::Two)) //vision
 	{
 		if (MainEntities::Powerups()[1])
@@ -726,7 +708,7 @@ void LevelOne::KeyboardDown()
 			//ECS::GetComponent<Invisibility>(invis9).is_invisible = !ECS::GetComponent<Invisibility>(invis9).is_invisible;
 		}
 	}
-	
+
 	if (canJump.m_canJump)
 	{
 		if (Input::GetKeyDown(Key::Space))
@@ -749,7 +731,7 @@ void LevelOne::KeyboardDown()
 		}
 		dash_timer = 0;
 	}
-
+	
 
 	//dash
 	if (Input::GetKeyDown(Key::Shift))

@@ -615,7 +615,7 @@ void PhysicsPlayground::Update()
 	//setup animation component again so the player doesnt lose their animations
 	player2.ReassignComponents(
 		&ECS::GetComponent<AnimationController>(p_entity),
-		&player, &ECS::GetComponent<Sprite>(p_entity));
+		&ECS::GetComponent<Sprite>(p_entity));
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(p_entity));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(p_entity));
 

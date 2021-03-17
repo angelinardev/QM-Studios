@@ -73,9 +73,11 @@ protected:
 	 int pcount;
 	HealthBar hb;
 
-	int enemy;
+	
 	std::fstream inputS;
 
-	bool enemy1 = true;
+	//track enemies
+	std::vector<int>enemies;
+	std::vector<bool>alive;
 };
 

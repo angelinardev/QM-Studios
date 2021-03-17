@@ -54,10 +54,9 @@ void Player::InitPlayer(std::string& fileName, std::string& animationJSON, int w
 
 
 }
-void Player::ReassignComponents(AnimationController* controller, PhysicsBody* body, Sprite* sprite)
+void Player::ReassignComponents(AnimationController* controller, Sprite* sprite)
 {
 	m_animController = controller;
-	m_physBody = body;
 	m_sprite = sprite;
 	
 }
@@ -154,7 +153,20 @@ void Player::AnimationUpdate()
 	}
 	else if (m_attack) //attacked animation?
 	{
+		//std::cout << m_animController->GetAnimations().size() << std::endl;
 		activeAnimation = ATTACK;
+		//make player not move
+		ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetBody()->SetLinearVelocity(b2Vec2(0, 0));
+		//scale physics body
+		//ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).ScaleBody(1.2,0);
+		if (m_facing == RIGHT)
+		{
+			ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).SetCenterOffset(vec2(20, -4.f));
+		}
+		else
+		{
+			ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).SetCenterOffset(vec2(-20, -4.f));
+		}
 		//Check if the attack animation is done
 		if (m_animController->GetAnimation(m_animController->GetActiveAnim()).GetAnimationDone())
 		{
@@ -169,21 +181,7 @@ void Player::AnimationUpdate()
 			ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).SetCenterOffset(vec2(0.f, -4.f));
 			
 		}
-		else //not done
-		{
-			//make player not move
-			ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetBody()->SetLinearVelocity(b2Vec2(0, 0));
-			//scale physics body
-			//ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).ScaleBody(1.2,0);
-			if (m_facing == RIGHT)
-			{
-				ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).SetCenterOffset(vec2(20, -4.f));
-			}
-			else
-			{
-				ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).SetCenterOffset(vec2(-20, -4.f));
-			}
-		}
+
 	}
 	else
 	{
