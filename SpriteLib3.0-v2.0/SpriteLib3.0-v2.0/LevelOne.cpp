@@ -372,8 +372,12 @@ void LevelOne::InitTexture()
 	BoxMaker(100, 5, 560, -50,20,0, 0.8);
 
 	//Static platform after upwards
-	BoxMaker(200, 5, 700, -35, 0, 0, 6);
+	BoxMaker(100, 5, 655, -35, 0, 0, 6);
 
+	//Platform Jump 1
+
+	//Platform Jump 2
+	BoxMaker(45, 5, 673, 20, 0, 0, 6);
 
 	
 	{//Health bar (green)
@@ -562,7 +566,7 @@ void LevelOne::Update()
 		}
 		else
 		{
-			player.SetGravityScale(1.5);
+			player.SetGravityScale(1.8);
 		}
 	}
 
@@ -647,7 +651,7 @@ void LevelOne::KeyboardDown()
 	auto& player = ECS::GetComponent<PhysicsBody>(p_entity);
 	auto& canJump = ECS::GetComponent<CanJump>(p_entity);
 	auto& power = ECS::GetComponent<Player_Power>(p_entity);
-
+	
 	auto& vel = player.GetBody()->GetLinearVelocity();
 	auto& pos = player.GetBody()->GetPosition();
 	//auto& dash = ECS::GetComponent<CanJump>(p_entity);
@@ -670,12 +674,23 @@ void LevelOne::KeyboardDown()
 	{
 		if (MainEntities::Powerups()[1])
 		{
-			power.m_power[1] = !power.m_power[1]; //reverses choice
+			power.m_power[1] = !power.m_power[1]; 
+			power.m_power[0] = !power.m_power[0];//reverses choice
 			//manually change values
 			ECS::GetComponent<Invisibility>(invis1).is_invisible = !ECS::GetComponent<Invisibility>(invis1).is_invisible;
 			ECS::GetComponent<Invisibility>(invis2).is_invisible = !ECS::GetComponent<Invisibility>(invis2).is_invisible;
 			ECS::GetComponent<Invisibility>(invis3).is_invisible = !ECS::GetComponent<Invisibility>(invis3).is_invisible;
 			ECS::GetComponent<Invisibility>(invis4).is_invisible = !ECS::GetComponent<Invisibility>(invis4).is_invisible;
+			player.SetGravityScale(2.f);
+
+			if (power.m_power[1]) {
+				player.GetBody()->SetTransform(player.GetPosition() + b2Vec2(0, -10), Transform::ToRadians(90));
+			}
+			else
+			{
+				player.GetBody()->SetTransform(player.GetPosition() + b2Vec2(0, 10), 0);
+			}
+			jump_high = !jump_high;
 			//ECS::GetComponent<Invisibility>(invis5).is_invisible = !ECS::GetComponent<Invisibility>(invis5).is_invisible;
 			//ECS::GetComponent<Invisibility>(invis6).is_invisible = !ECS::GetComponent<Invisibility>(invis6).is_invisible;
 			//ECS::GetComponent<Invisibility>(invis7).is_invisible = !ECS::GetComponent<Invisibility>(invis7).is_invisible;
@@ -690,7 +705,7 @@ void LevelOne::KeyboardDown()
 		{
 			if (power.m_power[0]) //jump higher
 			{
-				player.SetGravityScale(1.5f);
+				player.SetGravityScale(1.7f);
 				jump_high = true;
 			}
 			else
