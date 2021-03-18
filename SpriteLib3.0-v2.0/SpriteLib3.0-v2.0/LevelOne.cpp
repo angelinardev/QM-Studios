@@ -804,7 +804,7 @@ void LevelOne::InitTexture()
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_staticBody;
-		tempDef.position.Set(float32(910.f), float32(10.f));
+		tempDef.position.Set(float32(900.f), float32(10.f));
 		tempDef.angle = Transform::ToRadians(135);
 
 
