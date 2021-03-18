@@ -368,20 +368,147 @@ void LevelOne::InitTexture()
 	BoxMaker(245, 5, 80, -60, 0, 0,6);
 
 	//Static platform after jump
-	BoxMaker(230, 5, 410, -60, 0, 0,6);
+	BoxMaker(235, 5, 410, -60, 0, 0,6);
 
 	//Upwards platform
-	BoxMaker(100, 5, 560, -50,20,0, 0.8);
+	BoxMaker(100, 5, 558, -50,20,0, 0.8);
 
 	//Static platform after upwards
-	BoxMaker(100, 5, 655, -35, 0, 0, 6);
+	BoxMaker(95, 5, 650, -35, 0, 0, 6);
 
 	//Platform Jump 1
-
+	BoxMaker(45, 2, 614, -10, 0, 0, 6);
 	//Platform Jump 2
-	BoxMaker(45, 5, 673, 20, 0, 0, 6);
+	BoxMaker(45, 5, 669, 25, 0, 0, 6);
+	//Platform Jump 3
+	BoxMaker(25, 5, 590, 45, 0, 0, 6);
+	//Wall
+	BoxMaker(105, 5, 690, 10, 90, 0);
 
+
+	//Downwards platform after Platfrom Jump 3
+	BoxMaker(75, 5, 725, 49, 160, 0);
+
+	//Downwards platform heading towards to rock
+	BoxMaker(80, 5, 788, 10, 135, 0);
+
+	//Second Rock
+	BoxMaker(28, 5, 835, -13, 0, 0);
+	BoxMaker(28, 5, 860, -22, 0, 0);
+
+	//Static platform
+	BoxMaker(235, 5, 945, -50, 0, 0, 6);
+
+	//Wall 
+	BoxMaker(100, 5, 1060, -10, 90, 0, 6);
+
+
+	//Setup fifth invis platform
+	{
+		auto entity = ECS::CreateEntity();
+
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		std::string fileName = "boxsprite.jpg";
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 5.f));
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 5);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(970.f), float32(-5.f));
+		tempDef.angle = Transform::ToRadians(45);
+
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+		ECS::AttachComponent<Invisibility>(entity);
+		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
+		invis5 = entity;
+	}
+
+	//Setup six invis platform
+	{
+		auto entity = ECS::CreateEntity();
+
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		std::string fileName = "boxsprite.jpg";
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 5.f));
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 5);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(910.f), float32(10.f));
+		tempDef.angle = Transform::ToRadians(135);
+
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+		ECS::AttachComponent<Invisibility>(entity);
+		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
+		invis6 = entity;
+	}
+
+	//Setup seventh invis platform
+	{
+		auto entity = ECS::CreateEntity();
+
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		std::string fileName = "boxsprite.jpg";
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 5.f));
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 5);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(970.f), float32(45.f));
+		tempDef.angle = Transform::ToRadians(40);
+
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 0.8f);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+		ECS::AttachComponent<Invisibility>(entity);
+		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
+		invis7 = entity;
+	}
+
+
+	//downwards platform
+	BoxMaker(25, 5, 1055, 48, 165, 0, 0.8);
 	
+	//Final Static platform 
+	BoxMaker(200, 5, 1150, 45, 0, 0, 6);
+
+	//Invisible Wall at the end
+	BoxMaker(350, 5, 1200, 50, 90, 0, 6);
+
 	{//Health bar (green)
 
 		healthBar = Scene::createHealthBar();
@@ -436,7 +563,7 @@ void LevelOne::InitTexture()
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(-530.f), float32(0.f));
+		tempDef.position.Set(float32(840.f), float32(0.f)); //Starting position -530 x, 0 y
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
@@ -483,13 +610,13 @@ void LevelOne::Update()
 	}
 	
 	
-	//ECS::GetComponent<Invisibility>(invis1).update_invisible();
-	//ECS::GetComponent<Invisibility>(invis2).update_invisible();
-	//ECS::GetComponent<Invisibility>(invis3).update_invisible();
-	//ECS::GetComponent<Invisibility>(invis4).update_invisible();
-	//ECS::GetComponent<Invisibility>(invis5).update_invisible();
-	//ECS::GetComponent<Invisibility>(invis6).update_invisible();
-	//ECS::GetComponent<Invisibility>(invis7).update_invisible();
+	ECS::GetComponent<Invisibility>(invis1).update_invisible();
+	ECS::GetComponent<Invisibility>(invis2).update_invisible();
+	ECS::GetComponent<Invisibility>(invis3).update_invisible();
+	ECS::GetComponent<Invisibility>(invis4).update_invisible();
+	ECS::GetComponent<Invisibility>(invis5).update_invisible();
+	ECS::GetComponent<Invisibility>(invis6).update_invisible();
+	ECS::GetComponent<Invisibility>(invis7).update_invisible();
 	//ECS::GetComponent<Invisibility>(invis8).update_invisible();
 	//ECS::GetComponent<Invisibility>(invis9).update_invisible();
 
@@ -664,6 +791,9 @@ void LevelOne::KeyboardDown()
 			ECS::GetComponent<Invisibility>(invis2).is_invisible = !ECS::GetComponent<Invisibility>(invis2).is_invisible;
 			ECS::GetComponent<Invisibility>(invis3).is_invisible = !ECS::GetComponent<Invisibility>(invis3).is_invisible;
 			ECS::GetComponent<Invisibility>(invis4).is_invisible = !ECS::GetComponent<Invisibility>(invis4).is_invisible;
+			ECS::GetComponent<Invisibility>(invis5).is_invisible = !ECS::GetComponent<Invisibility>(invis5).is_invisible;
+			ECS::GetComponent<Invisibility>(invis6).is_invisible = !ECS::GetComponent<Invisibility>(invis6).is_invisible;
+			ECS::GetComponent<Invisibility>(invis7).is_invisible = !ECS::GetComponent<Invisibility>(invis7).is_invisible;
 			player.SetGravityScale(2.f);
 
 			if (power.m_power[1]) {
@@ -674,9 +804,7 @@ void LevelOne::KeyboardDown()
 				player.GetBody()->SetTransform(player.GetPosition() + b2Vec2(0, 10), 0);
 			}
 			jump_high = !jump_high;
-			//ECS::GetComponent<Invisibility>(invis5).is_invisible = !ECS::GetComponent<Invisibility>(invis5).is_invisible;
-			//ECS::GetComponent<Invisibility>(invis6).is_invisible = !ECS::GetComponent<Invisibility>(invis6).is_invisible;
-			//ECS::GetComponent<Invisibility>(invis7).is_invisible = !ECS::GetComponent<Invisibility>(invis7).is_invisible;
+			
 			//ECS::GetComponent<Invisibility>(invis8).is_invisible = !ECS::GetComponent<Invisibility>(invis8).is_invisible;
 			//ECS::GetComponent<Invisibility>(invis9).is_invisible = !ECS::GetComponent<Invisibility>(invis9).is_invisible;
 		}
