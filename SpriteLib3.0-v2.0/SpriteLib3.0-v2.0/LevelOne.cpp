@@ -116,6 +116,37 @@ void LevelOne::InitTexture()
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(317.f, -5.f, 1.f));
 	}
 
+	{
+	//Creates entity
+	auto entity = ECS::CreateEntity();
+	tut1 = entity;
+	//Add components
+	ECS::AttachComponent<Sprite>(entity);
+	ECS::AttachComponent<Transform>(entity);
+
+	//Set up the components
+	std::string fileName = "Attack.png";
+	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 50, 10);
+	ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+	ECS::GetComponent<Transform>(entity).SetPosition(vec3(-520.f, -20.f, 3.f));
+}
+
+{
+
+	//Creates entity
+	auto entity = ECS::CreateEntity();
+	tut2 = entity;
+	//Add components
+	ECS::AttachComponent<Sprite>(entity);
+	ECS::AttachComponent<Transform>(entity);
+
+	//Set up the components
+	std::string fileName = "Change to Wolf.png";
+	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 50, 10);
+	ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+	ECS::GetComponent<Transform>(entity).SetPosition(vec3(-350.f, 10.f, 5.f));
+}
+
 	//Setup new Entity
 	{
 		/*Scene::CreateSprite(m_sceneReg, "HelloWorld.png", 100, 60, 0.5f, vec3(0.f, 0.f, 0.f));*/
@@ -533,7 +564,7 @@ void LevelOne::InitTexture()
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
 	}
 
-	//Static platform after jump
+	//Static platform after jump // This is where they should die 
 	BoxMaker(235, 5, 410, -60, 0, 0,6);
 	//4th enemy
 	{
