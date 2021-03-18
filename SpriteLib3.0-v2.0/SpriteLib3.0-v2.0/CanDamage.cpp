@@ -98,5 +98,5 @@ void CanDamage::Attack()
 void CanDamage::Jump()
 {
 	//move upwards
-	body.GetBody()->SetLinearVelocity(b2Vec2(body.GetBody()->GetLinearVelocity().x, 1600000000));
+	body.GetBody()->SetLinearVelocity(b2Vec2(body.GetBody()->GetLinearVelocity().x, 160000000000));
 }

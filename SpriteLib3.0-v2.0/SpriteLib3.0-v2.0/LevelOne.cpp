@@ -229,6 +229,9 @@ void LevelOne::InitTexture()
 		nlohmann::json animations2 = File::LoadJSON(animations);
 		animController.AddAnimation(animations2["WALKLEFT"].get<Animation>());
 		animController.AddAnimation(animations2["WALKRIGHT"].get<Animation>());
+		animController.AddAnimation(animations2["IDLELEFT"].get<Animation>());
+		animController.AddAnimation(animations2["IDLERIGHT"].get<Animation>());
+		
 		
 		animController.SetActiveAnim(0);
 
@@ -526,10 +529,13 @@ void LevelOne::InitTexture()
 		std::string fileName = "spritesheets/scarecrow.png";
 		std::string animations = "Scarecrow.json";
 
+
 		animController.InitUVs(fileName);
 		nlohmann::json animations2 = File::LoadJSON(animations);
 		animController.AddAnimation(animations2["WALKLEFT"].get<Animation>());
 		animController.AddAnimation(animations2["WALKRIGHT"].get<Animation>());
+		animController.AddAnimation(animations2["IDLELEFT"].get<Animation>());
+		animController.AddAnimation(animations2["IDLERIGHT"].get<Animation>());
 
 		animController.SetActiveAnim(0);
 
@@ -627,6 +633,8 @@ void LevelOne::InitTexture()
 		nlohmann::json animations2 = File::LoadJSON(animations);
 		animController.AddAnimation(animations2["WALKLEFT"].get<Animation>());
 		animController.AddAnimation(animations2["WALKRIGHT"].get<Animation>());
+		animController.AddAnimation(animations2["IDLELEFT"].get<Animation>());
+		animController.AddAnimation(animations2["IDLERIGHT"].get<Animation>());
 
 		animController.SetActiveAnim(0);
 
@@ -709,6 +717,8 @@ void LevelOne::InitTexture()
 		nlohmann::json animations2 = File::LoadJSON(animations);
 		animController.AddAnimation(animations2["WALKLEFT"].get<Animation>());
 		animController.AddAnimation(animations2["WALKRIGHT"].get<Animation>());
+		animController.AddAnimation(animations2["IDLELEFT"].get<Animation>());
+		animController.AddAnimation(animations2["IDLERIGHT"].get<Animation>());
 
 		animController.SetActiveAnim(0);
 
@@ -958,7 +968,7 @@ void LevelOne::Update()
 				}
 				else
 				{
-					//idle
+					ECS::GetComponent<AnimationController>(enemies[i]).SetActiveAnim(0+2);
 				}
 			}
 			else //right
@@ -969,7 +979,7 @@ void LevelOne::Update()
 				}
 				else
 				{
-					//idle
+					ECS::GetComponent<AnimationController>(enemies[i]).SetActiveAnim(1+2);
 				}
 			}
 
