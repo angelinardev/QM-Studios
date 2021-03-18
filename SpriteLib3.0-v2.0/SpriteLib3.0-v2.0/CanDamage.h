@@ -10,11 +10,14 @@ public:
 	int hp = 100;
 	bool m_canbestun = false;
 	bool is_boo = false;
-
+	
+	void set_player(int p);
 	void Walk();
 	void Attack();
+	void Jump();
 private:
 	PhysicsBody body;
 	AnimationController anims;
+	int player;
 };
 

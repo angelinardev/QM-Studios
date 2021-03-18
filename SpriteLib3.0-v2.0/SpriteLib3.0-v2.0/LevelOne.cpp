@@ -71,7 +71,13 @@ void LevelOne::InitScene(float windowWidth, float windowHeight)
 	inputS.close();
 
 
-	alive.push_back(true);
+	//setup enemies
+	for (int i = 0; i < enemies.size(); i++)
+	{
+		ECS::GetComponent<CanDamage>(enemies[i]).set_player(p_entity);
+		alive.push_back(true);
+	}
+	ECS::GetComponent<AnimationController>(p_entity).SetActiveAnim(1); //face right
 
 	//ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetBody()->SetAwake(true);
 	//ECS::GetComponent<PhysicsBody>(enemy).GetBody()->SetAwake(true);
@@ -171,7 +177,7 @@ void LevelOne::InitTexture()
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(-400.f), float32(20.f));
+		tempDef.position.Set(float32(-370.f), float32(20.f));
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
@@ -256,6 +262,68 @@ void LevelOne::InitTexture()
 		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
 		invis2 = entity;
 	}
+	////2nd enemy
+	//{
+
+	//	auto entity = ECS::CreateEntity();
+	//	//Add components  
+
+	//	ECS::AttachComponent<Sprite>(entity);
+	//	ECS::AttachComponent<Transform>(entity);
+	//	ECS::AttachComponent<PhysicsBody>(entity);
+	//	ECS::AttachComponent<AnimationController>(entity);
+	//	ECS::AttachComponent<CanDamage>(entity);
+
+	//	ECS::GetComponent<CanDamage>(entity).m_candamage = true;
+
+	//	//Sets up the components  
+
+	//	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+	//	auto& animController = ECS::GetComponent<AnimationController>(entity);
+	//	ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+	//	ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 4.f));
+	//	//Sets up the components  
+	//	std::string fileName = "spritesheets/neville.png";
+	//	std::string animations = "Boss1.json";
+
+	//	animController.InitUVs(fileName);
+	//	nlohmann::json animations2 = File::LoadJSON(animations);
+	//	animController.AddAnimation(animations2["Boss1Idle"].get<Animation>());
+	//	animController.AddAnimation(animations2["Boss1Fingermove"].get<Animation>());
+	//	animController.AddAnimation(animations2["Boss1Yawn"].get<Animation>());
+	//	animController.AddAnimation(animations2["Boss1Suck"].get<Animation>());
+	//	animController.AddAnimation(animations2["Boss1Suck2"].get<Animation>());//face right?
+	//	animController.SetActiveAnim(0);
+
+	//	//ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30);
+	//	//ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+	//	//ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 3.f));
+
+	//	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30, true, &animController);
+	//	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+	//	float shrinkX = 0.f;
+	//	float shrinkY = 0.f;
+
+	//	b2Body* tempBody;
+	//	b2BodyDef tempDef;
+	//	tempDef.type = b2_dynamicBody;
+	//	tempDef.position.Set(float32(-250.f), float32(45.f));
+
+	//	tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+	//	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, ENEMY, OBJECTS | ENVIRONMENT | PLAYER | GROUND, 0.5f, 3.f);
+
+
+	//	tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
+	//	tempPhsBody.SetGravityScale(2.5f);
+	//	tempPhsBody.SetFixedRotation(true);
+	//	ECS::GetComponent<CanDamage>(entity).InitBody(tempPhsBody, animController);
+	//	//tempSpr.SetTransparency(0);
+	//	//add enemy to enemy array
+	//	enemies.push_back(entity);
+
+	//}
 
 	//Setup third invis
 	{
@@ -366,9 +434,133 @@ void LevelOne::InitTexture()
 
 	//Static platform after rock
 	BoxMaker(245, 5, 80, -60, 0, 0,6);
+	//3rd enemy
+	{
+
+		auto entity = ECS::CreateEntity();
+		//Add components  
+
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		ECS::AttachComponent<AnimationController>(entity);
+		ECS::AttachComponent<CanDamage>(entity);
+
+		ECS::GetComponent<CanDamage>(entity).m_candamage = true;
+
+		//Sets up the components  
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& animController = ECS::GetComponent<AnimationController>(entity);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 4.f));
+		//Sets up the components  
+		std::string fileName = "spritesheets/neville.png";
+		std::string animations = "Boss1.json";
+
+		animController.InitUVs(fileName);
+		nlohmann::json animations2 = File::LoadJSON(animations);
+		animController.AddAnimation(animations2["Boss1Idle"].get<Animation>());
+		animController.AddAnimation(animations2["Boss1Fingermove"].get<Animation>());
+		animController.AddAnimation(animations2["Boss1Yawn"].get<Animation>());
+		animController.AddAnimation(animations2["Boss1Suck"].get<Animation>());
+		animController.AddAnimation(animations2["Boss1Suck2"].get<Animation>());//face right?
+		animController.SetActiveAnim(0);
+
+		//ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30);
+		//ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+		//ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 3.f));
+
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30, true, &animController);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_dynamicBody;
+		tempDef.position.Set(float32(80.f), float32(-40.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, ENEMY, OBJECTS | ENVIRONMENT | PLAYER | GROUND, 0.5f, 3.f);
+
+
+		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
+		tempPhsBody.SetGravityScale(2.5f);
+		tempPhsBody.SetFixedRotation(true);
+		ECS::GetComponent<CanDamage>(entity).InitBody(tempPhsBody, animController);
+		//tempSpr.SetTransparency(0);
+		//add enemy to enemy array
+		enemies.push_back(entity);
+
+	}
 
 	//Static platform after jump
 	BoxMaker(235, 5, 410, -60, 0, 0,6);
+	//4th enemy
+	{
+
+		auto entity = ECS::CreateEntity();
+		//Add components  
+
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		ECS::AttachComponent<AnimationController>(entity);
+		ECS::AttachComponent<CanDamage>(entity);
+
+		ECS::GetComponent<CanDamage>(entity).m_candamage = true;
+
+		//Sets up the components  
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& animController = ECS::GetComponent<AnimationController>(entity);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 4.f));
+		//Sets up the components  
+		std::string fileName = "spritesheets/neville.png";
+		std::string animations = "Boss1.json";
+
+		animController.InitUVs(fileName);
+		nlohmann::json animations2 = File::LoadJSON(animations);
+		animController.AddAnimation(animations2["Boss1Idle"].get<Animation>());
+		animController.AddAnimation(animations2["Boss1Fingermove"].get<Animation>());
+		animController.AddAnimation(animations2["Boss1Yawn"].get<Animation>());
+		animController.AddAnimation(animations2["Boss1Suck"].get<Animation>());
+		animController.AddAnimation(animations2["Boss1Suck2"].get<Animation>());//face right?
+		animController.SetActiveAnim(0);
+
+		//ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30);
+		//ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+		//ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 3.f));
+
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30, true, &animController);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_dynamicBody;
+		tempDef.position.Set(float32(410.f), float32(-40.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, ENEMY, OBJECTS | ENVIRONMENT | PLAYER | GROUND, 0.5f, 3.f);
+
+
+		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
+		tempPhsBody.SetGravityScale(2.5f);
+		tempPhsBody.SetFixedRotation(true);
+		ECS::GetComponent<CanDamage>(entity).InitBody(tempPhsBody, animController);
+		//tempSpr.SetTransparency(0);
+		//add enemy to enemy array
+		enemies.push_back(entity);
+
+	}
 
 	//Upwards platform
 	BoxMaker(100, 5, 558, -50,20,0, 0.8);
@@ -391,6 +583,68 @@ void LevelOne::InitTexture()
 
 	//Downwards platform heading towards to rock
 	BoxMaker(80, 5, 788, 10, 135, 0);
+	//5th enemy
+	{
+
+		auto entity = ECS::CreateEntity();
+		//Add components  
+
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		ECS::AttachComponent<AnimationController>(entity);
+		ECS::AttachComponent<CanDamage>(entity);
+
+		ECS::GetComponent<CanDamage>(entity).m_candamage = true;
+
+		//Sets up the components  
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& animController = ECS::GetComponent<AnimationController>(entity);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 4.f));
+		//Sets up the components  
+		std::string fileName = "spritesheets/neville.png";
+		std::string animations = "Boss1.json";
+
+		animController.InitUVs(fileName);
+		nlohmann::json animations2 = File::LoadJSON(animations);
+		animController.AddAnimation(animations2["Boss1Idle"].get<Animation>());
+		animController.AddAnimation(animations2["Boss1Fingermove"].get<Animation>());
+		animController.AddAnimation(animations2["Boss1Yawn"].get<Animation>());
+		animController.AddAnimation(animations2["Boss1Suck"].get<Animation>());
+		animController.AddAnimation(animations2["Boss1Suck2"].get<Animation>());//face right?
+		animController.SetActiveAnim(0);
+
+		//ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30);
+		//ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+		//ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 3.f));
+
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30, true, &animController);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_dynamicBody;
+		tempDef.position.Set(float32(788.f), float32(10.f));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, ENEMY, OBJECTS | ENVIRONMENT | PLAYER | GROUND, 0.5f, 3.f);
+
+
+		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
+		tempPhsBody.SetGravityScale(2.5f);
+		tempPhsBody.SetFixedRotation(true);
+		ECS::GetComponent<CanDamage>(entity).InitBody(tempPhsBody, animController);
+		//tempSpr.SetTransparency(0);
+		//add enemy to enemy array
+		enemies.push_back(entity);
+
+	}
 
 	//Second Rock
 	BoxMaker(28, 5, 835, -13, 0, 0);
@@ -428,7 +682,7 @@ void LevelOne::InitTexture()
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
-			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON);
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 0.5);
 		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 		ECS::AttachComponent<Invisibility>(entity);
 		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
@@ -460,7 +714,7 @@ void LevelOne::InitTexture()
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
-			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON);
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 0.5);
 		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 		ECS::AttachComponent<Invisibility>(entity);
 		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
@@ -563,7 +817,7 @@ void LevelOne::InitTexture()
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(840.f), float32(0.f)); //Starting position -530 x, 0 y
+		tempDef.position.Set(float32(-530.f), float32(0.f)); //Starting position -530 x, 0 y
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
@@ -594,18 +848,25 @@ void LevelOne::Update()
 	player2.Update();
 	auto& animations = ECS::GetComponent<AnimationController>(p_entity);
 	
-
-	if (alive[0])
+	for (int i = 0; i < enemies.size(); i++)
 	{
-		auto& enemy_c = ECS::GetComponent<CanDamage>(enemies[0]);
-		enemy_c.Walk();
-		//check if enemy is dead
-		if (enemy_c.hp <= 0)
+		if (alive[i])
 		{
-			
-			PhysicsBody::m_bodiesToDelete.push_back(enemies[0]);
-			alive[0] = false;
-			
+			auto& enemy_c = ECS::GetComponent<CanDamage>(enemies[i]);
+			enemy_c.Walk();
+			//if (ECS::GetComponent<PhysicsBody>(enemies[i]).GetPosition().y <= 0)
+			{
+				//enemy_c.hp = 0;
+			}
+			//check if enemy is dead
+			if (enemy_c.hp <= 0)
+			{
+				PhysicsBody::m_bodiesToDelete.push_back(enemies[i]);
+				alive[i] = false;
+				player2.ReassignComponents(&ECS::GetComponent<AnimationController>(p_entity), &ECS::GetComponent<Sprite>(p_entity));
+				player2.Update();
+
+			}
 		}
 	}
 	
@@ -625,6 +886,12 @@ void LevelOne::Update()
 
 	if (dash.hp <= 0) //dying
 	{
+		inputS.open("Progress.txt");
+		if (inputS.is_open())
+		{
+			inputS << 2 << "\n";
+		}
+		inputS.close();
 		selection = 2; //end screen? for now
 
 	}
@@ -673,6 +940,26 @@ void LevelOne::Update()
 
 	hb.UpdateHealthBar(healthBar);
 	hb.UpdatePowers(pcount);
+
+	//end check
+	if (player.GetPosition().x >= 1150 && player.GetPosition().y >= 50)
+	{
+		selection = 7; //next scene
+		Sound.Mute();
+		is_done = true;
+		inputS.open("HP.txt");
+		if (inputS.is_open())
+		{
+			inputS << dash.hp << "\n";
+		}
+		inputS.close();
+		inputS.open("Progress.txt");
+		if (inputS.is_open())
+		{
+			inputS << 3 << "\n";
+		}
+		inputS.close();
+	}
 
 	
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(p_entity));

@@ -102,7 +102,7 @@ void Player::MovementUpdate()
 		//m_dash = true;
 		//m_locked = true;
 	}
-	if (Input::GetKeyDown(Key::X))
+	if (Input::GetKey(Key::X))
 	{
 		m_attack = true;
 		m_locked = true;

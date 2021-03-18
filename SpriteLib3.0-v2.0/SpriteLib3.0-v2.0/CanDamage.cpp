@@ -5,17 +5,23 @@ void CanDamage::InitBody(PhysicsBody& b, AnimationController& a)
 {
 	body = b;
 	anims = a;
+	
+}
+
+void CanDamage::set_player(int p)
+{
+	player = p;
 }
 
 void CanDamage::Walk()
 {
-	auto& playerX = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetBody()->GetPosition().x;
+	auto& playerX = ECS::GetComponent<PhysicsBody>(player).GetBody()->GetPosition().x;
 	auto& selfX = body.GetBody()->GetPosition().x;
 	b2Vec2 vel = b2Vec2(body.GetBody()->GetLinearVelocity());
 	float desireVel = vel.x;
 
 	//enemy is within 100 of player
-	if (selfX > playerX - 150 && selfX < playerX + 150)
+	if (selfX > playerX - 120 && selfX < playerX + 120)
 	{
 		if (playerX > selfX) //move right
 		{
@@ -45,10 +51,10 @@ void CanDamage::Attack()
 	//if timer allows:
 	//remove health
 	//MainEntities::Health(MainEntities::Health() - 25);
-	ECS::GetComponent<CanJump>(MainEntities::MainPlayer()).hp -= 25;
-	auto& player = ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer());
+	ECS::GetComponent<CanJump>(player).hp -= 25;
+	auto& player_b = ECS::GetComponent<PhysicsBody>(player);
 	auto& selfX = body.GetBody()->GetPosition().x;
-	if (player.GetBody()->GetPosition().x > selfX) //move right
+	if (player_b.GetBody()->GetPosition().x > selfX) //move right
 	{
 		//anims.SetActiveAnim(0); //attack animation for enemy
 		//player hurt animation
@@ -57,7 +63,7 @@ void CanDamage::Attack()
 		//ECS::GetComponent<Player>(MainEntities::MainPlayer()).m_locked = true;
 		//ECS::GetComponent<Player>(MainEntities::MainPlayer()).m_moving = false;
 		//knock back
-		player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(10000000, 0), true);
+		player_b.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(10000000, 0), true);
 	}
 	else
 	{
@@ -68,8 +74,14 @@ void CanDamage::Attack()
 		//ECS::GetComponent<Player>(MainEntities::MainPlayer()).m_locked = true;
 		//ECS::GetComponent<Player>(MainEntities::MainPlayer()).m_moving = false;
 		//knock back
-		player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-10000000, 0), true);
+		player_b.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-10000000, 0), true);
 	}
 	
 
+}
+
+void CanDamage::Jump()
+{
+	//move upwards
+	body.GetBody()->SetLinearVelocity(b2Vec2(body.GetBody()->GetLinearVelocity().x, 1600000000));
 }
