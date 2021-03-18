@@ -212,22 +212,25 @@ void Scene::EnviroMaker(int spriteSizeX, int spriteSizeY, float positionX, float
 
 void Scene::Attack(int player, int enemy)
 {
-	ECS::GetComponent<PhysicsBody>(player).GetBody()->SetLinearVelocity(b2Vec2(0, 0));
+	//ECS::GetComponent<PhysicsBody>(player).GetBody()->SetLinearVelocity(b2Vec2(0, 0));
 	auto playerx = ECS::GetComponent<PhysicsBody>(player).GetBody()->GetWorldCenter().x;
 	//auto playery = player.GetBody()->GetWorldCenter().y;
 
 	auto& enemy_b = ECS::GetComponent<PhysicsBody>(enemy);
 	auto enemyx = enemy_b.GetBody()->GetWorldCenter().x;
 	//auto enemyy = enemy_b.GetBody()->GetWorldCenter().y;
+	if (ECS::GetComponent<CanJump>(player).m_canJump)
 
-	if (enemyx >= playerx - 45 && enemyx <= playerx + 45)
 	{
-		ECS::GetComponent<CanDamage>(enemy).hp -= 50;
-		std::cout << "Succes\n";
-	}
-	else
-	{
-		std::cout << "\nFail";
+		if (enemyx >= playerx - 45 && enemyx <= playerx + 45)
+		{
+			ECS::GetComponent<CanDamage>(enemy).hp -= 100;
+			std::cout << "Succes\n";
+		}
+		else
+		{
+			std::cout << "\nFail";
+		}
 	}
 }
 	

@@ -153,33 +153,32 @@ void Player::AnimationUpdate()
 	}
 	else if (m_attack) //attacked animation?
 	{
-		//std::cout << m_animController->GetAnimations().size() << std::endl;
-		activeAnimation = ATTACK;
-		//make player not move
-		//ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetBody()->SetLinearVelocity(b2Vec2(0, 0));
-		//scale physics body
-		//ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).ScaleBody(1.2,0);
-		if (m_facing == RIGHT)
+		if (ECS::GetComponent<CanJump>(MainEntities::MainPlayer()).m_canJump)
 		{
-			ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).SetCenterOffset(vec2(20, -4.f));
-		}
-		else
-		{
-			ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).SetCenterOffset(vec2(-20, -4.f));
-		}
-		//Check if the attack animation is done
-		if (m_animController->GetAnimation(m_animController->GetActiveAnim()).GetAnimationDone())
-		{
-			//Will auto set to idle
-			m_locked = false;
-			m_attack = false;
-			//Resets the attack animation
-			m_animController->GetAnimation(m_animController->GetActiveAnim()).Reset();
+			activeAnimation = ATTACK;
 
-			activeAnimation = IDLE;
-			//ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).ScaleBody(1/2, 0);
-			ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).SetCenterOffset(vec2(0.f, -4.f));
-			
+			if (m_facing == RIGHT)
+			{
+				ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).SetCenterOffset(vec2(20, -4.f));
+			}
+			else
+			{
+				ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).SetCenterOffset(vec2(-20, -4.f));
+			}
+			//Check if the attack animation is done
+			if (m_animController->GetAnimation(m_animController->GetActiveAnim()).GetAnimationDone())
+			{
+				//Will auto set to idle
+				m_locked = false;
+				m_attack = false;
+				//Resets the attack animation
+				m_animController->GetAnimation(m_animController->GetActiveAnim()).Reset();
+
+				activeAnimation = IDLE;
+				//ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).ScaleBody(1/2, 0);
+				ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).SetCenterOffset(vec2(0.f, -4.f));
+
+			}
 		}
 
 	}
