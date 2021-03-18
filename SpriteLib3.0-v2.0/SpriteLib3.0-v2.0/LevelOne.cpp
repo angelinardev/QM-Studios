@@ -496,6 +496,40 @@ void LevelOne::InitTexture()
 		enemies.push_back(entity);
 
 	}
+	//spawn heart
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		ECS::AttachComponent<Trigger*>(entity);
+
+		//Sets up components
+		std::string fileName = "Wolf_Heart_Full.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 20);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, -20.f, 80.f));
+		ECS::GetComponent<Trigger*>(entity) = new HealthTrigger();
+		ECS::GetComponent<Trigger*>(entity)->SetTriggerEntity(entity);
+
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(130), float32(-50));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, PTRIGGER, PLAYER);
+		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
+	}
 
 	//Static platform after jump
 	BoxMaker(235, 5, 410, -60, 0, 0,6);
@@ -566,14 +600,14 @@ void LevelOne::InitTexture()
 	BoxMaker(100, 5, 558, -50,20,0, 0.8);
 
 	//Static platform after upwards
-	BoxMaker(95, 5, 650, -35, 0, 0, 6);
+	BoxMaker(95, 5, 650, -35, 0, 0, 2);
 
 	//Platform Jump 1
-	BoxMaker(45, 2, 614, -10, 0, 0, 6);
+	BoxMaker(45, 2, 614, -10, 0, 0, 2);
 	//Platform Jump 2
-	BoxMaker(45, 5, 669, 25, 0, 0, 6);
+	BoxMaker(45, 5, 669, 25, 0, 0, 2);
 	//Platform Jump 3
-	BoxMaker(25, 5, 590, 45, 0, 0, 6);
+	BoxMaker(25, 5, 590, 45, 0, 0, 2);
 	//Wall
 	BoxMaker(105, 5, 690, 10, 90, 0);
 
@@ -863,8 +897,8 @@ void LevelOne::Update()
 			{
 				PhysicsBody::m_bodiesToDelete.push_back(enemies[i]);
 				alive[i] = false;
-				player2.ReassignComponents(&ECS::GetComponent<AnimationController>(p_entity), &ECS::GetComponent<Sprite>(p_entity));
-				player2.Update();
+				//player2.ReassignComponents(&ECS::GetComponent<AnimationController>(p_entity), &ECS::GetComponent<Sprite>(p_entity));
+				//player2.Update();
 
 			}
 		}
@@ -1043,7 +1077,8 @@ void LevelOne::KeyboardDown()
 
 	if (Input::GetKeyDown(Key::X))
 	{
-		//manual box collision calculation
+		if (!power.m_power[1])
+		{//manual box collision calculation
 
 			for (int i = 0; i < enemies.size(); i++)
 			{
@@ -1053,6 +1088,7 @@ void LevelOne::KeyboardDown()
 
 				}
 			}
+		}
 	}
 
 	if (Input::GetKeyDown(Key::T))
@@ -1069,7 +1105,7 @@ void LevelOne::KeyboardDown()
 
 	if (Input::GetKeyDown(Key::Two)) //vision
 	{
-		if (MainEntities::Powerups()[1])
+		if (!MainEntities::Powerups()[1])
 		{
 			power.m_power[1] = !power.m_power[1]; 
 			power.m_power[0] = !power.m_power[0];//reverses choice
@@ -1124,77 +1160,81 @@ void LevelOne::KeyboardDown()
 	//dash
 	if (Input::GetKeyDown(Key::Shift))
 	{
-		if (canJump.m_canJump && canJump.can_dash) //ground dash
+		if (power.m_power[1])
 		{
-			player.GetBody()->SetLinearVelocity(b2Vec2(0, vel.y));
-			if (facing == 0) //left
+			if (canJump.m_canJump && canJump.can_dash) //ground dash
 			{
-				//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-400000.f * 1000, 0.f), true);
-				//player.GetBody()->SetTransform(b2Vec2(pos.x - 30, pos.y), 0);
-				player.GetBody()->SetLinearVelocity(b2Vec2(-1000000, vel.y));
-				canJump.can_dash = false;
-			}
-			else if (facing == 1)
-			{
-				//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(400000.f * 1000, 0.f), true);
-				//player.GetBody()->SetTransform(b2Vec2(pos.x + 30, pos.y), 0);
-				player.GetBody()->SetLinearVelocity(b2Vec2(1000000, vel.y));
-				canJump.can_dash = false;
-			}
-			ECS::GetComponent<Player>(p_entity).m_dash = true;
-			ECS::GetComponent<Player>(p_entity).m_locked = true;
-			ECS::GetComponent<Player>(p_entity).m_moving = false;
+				player.GetBody()->SetLinearVelocity(b2Vec2(0, vel.y));
+				if (facing == 0) //left
+				{
+					//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-400000.f * 1000, 0.f), true);
+					//player.GetBody()->SetTransform(b2Vec2(pos.x - 30, pos.y), 0);
+					player.GetBody()->SetLinearVelocity(b2Vec2(-1000000, vel.y));
+					canJump.can_dash = false;
+				}
+				else if (facing == 1)
+				{
+					//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(400000.f * 1000, 0.f), true);
+					//player.GetBody()->SetTransform(b2Vec2(pos.x + 30, pos.y), 0);
+					player.GetBody()->SetLinearVelocity(b2Vec2(1000000, vel.y));
+					canJump.can_dash = false;
+				}
+				ECS::GetComponent<Player>(p_entity).m_dash = true;
+				ECS::GetComponent<Player>(p_entity).m_locked = true;
+				ECS::GetComponent<Player>(p_entity).m_moving = false;
 
+			}
+			else if (dash_timer >= 2.5) //player can dash once in the air
+			{
+				player.GetBody()->SetLinearVelocity(b2Vec2(0, vel.y));
+				if (facing == 0) //left
+				{
+					//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-400000.f * 1000, 0.f), true);
+					player.GetBody()->SetTransform(b2Vec2(pos.x - 30, pos.y), 0);
+
+				}
+				else if (facing == 1)
+				{
+					//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(400000.f * 1000, 0.f), true);
+					player.GetBody()->SetTransform(b2Vec2(pos.x + 30, pos.y), 0);
+
+				}
+				ECS::GetComponent<Player>(p_entity).m_dash = true;
+				ECS::GetComponent<Player>(p_entity).m_locked = true;
+				ECS::GetComponent<Player>(p_entity).m_moving = false;
+
+				dash_timer = 0;
+			}
+
+			else if (!canJump.m_canJump && canJump.can_dash) //player can dash once in the air
+			{
+				player.GetBody()->SetLinearVelocity(b2Vec2(0, vel.y));
+				if (facing == 0) //left
+				{
+					//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-400000.f * 1000, 0.f), true);
+					player.GetBody()->SetTransform(b2Vec2(pos.x - 30, pos.y), 0);
+					//player.GetBody()->SetLinearVelocity(b2Vec2(-1000000, vel.y));
+					canJump.can_dash = false;
+				}
+				else if (facing == 1)
+				{
+					//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(400000.f * 1000, 0.f), true);
+					player.GetBody()->SetTransform(b2Vec2(pos.x + 30, pos.y), 0);
+					//player.GetBody()->SetLinearVelocity(b2Vec2(1000000, vel.y));
+					canJump.can_dash = false;
+				}
+				ECS::GetComponent<Player>(p_entity).m_dash = true;
+				ECS::GetComponent<Player>(p_entity).m_locked = true;
+				ECS::GetComponent<Player>(p_entity).m_moving = false;
+			}
+
+			//dash cooldown
+			if (!canJump.can_dash && dashcooldown)
+			{
+				dashtime = clock();
+				dashcooldown = false;
+			}
 		}
-		else if (dash_timer >= 2.5) //player can dash once in the air
-		{
-			player.GetBody()->SetLinearVelocity(b2Vec2(0, vel.y));
-			if (facing == 0) //left
-			{
-				//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-400000.f * 1000, 0.f), true);
-				player.GetBody()->SetTransform(b2Vec2(pos.x - 30, pos.y), 0);
-
-			}
-			else if (facing == 1)
-			{
-				//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(400000.f * 1000, 0.f), true);
-				player.GetBody()->SetTransform(b2Vec2(pos.x + 30, pos.y), 0);
-
-			}
-			ECS::GetComponent<Player>(p_entity).m_dash = true;
-			ECS::GetComponent<Player>(p_entity).m_locked = true;
-			ECS::GetComponent<Player>(p_entity).m_moving = false;
-
-			dash_timer = 0;
-		}
-
-		else if (!canJump.m_canJump && canJump.can_dash) //player can dash once in the air
-		{
-			player.GetBody()->SetLinearVelocity(b2Vec2(0, vel.y));
-			if (facing == 0) //left
-			{
-				//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-400000.f * 1000, 0.f), true);
-				player.GetBody()->SetTransform(b2Vec2(pos.x - 30, pos.y), 0);
-				//player.GetBody()->SetLinearVelocity(b2Vec2(-1000000, vel.y));
-				canJump.can_dash = false;
-			}
-			else if (facing == 1)
-			{
-				//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(400000.f * 1000, 0.f), true);
-				player.GetBody()->SetTransform(b2Vec2(pos.x + 30, pos.y), 0);
-				//player.GetBody()->SetLinearVelocity(b2Vec2(1000000, vel.y));
-				canJump.can_dash = false;
-			}
-			ECS::GetComponent<Player>(p_entity).m_dash = true;
-			ECS::GetComponent<Player>(p_entity).m_locked = true;
-			ECS::GetComponent<Player>(p_entity).m_moving = false;
-		}
-	}
-	//dash cooldown
-	if (!canJump.can_dash && dashcooldown)
-	{
-		dashtime = clock();
-		dashcooldown = false;
 	}
 
 }

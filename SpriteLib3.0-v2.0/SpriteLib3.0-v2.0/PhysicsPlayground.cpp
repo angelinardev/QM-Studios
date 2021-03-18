@@ -435,7 +435,7 @@ void PhysicsPlayground::InitTexture()
 	BoxMaker(30, 3, 668.f, -20.f, 45, 0, 0.8);
 
 	//Setup Platform after wood twist
-	BoxMaker(23, 3, 690.f, -10.f, 0, 0, 6);
+	BoxMaker(23, 3, 690.f, -10.f, 0, 0, 2);
 
 	//Setup Down to last platfrom
 	BoxMaker(75, 4, 720.f, -40.f, 125, 0);

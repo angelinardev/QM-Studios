@@ -21,6 +21,7 @@
 #include "TutorialTrig.h"
 #include "EnemyTrigger.h"
 #include "CanDamage.h"
+#include "HealthTrigger.h"
 
 
 class ECS abstract
