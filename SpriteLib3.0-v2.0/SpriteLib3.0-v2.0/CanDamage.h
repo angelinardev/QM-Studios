@@ -3,7 +3,7 @@
 class CanDamage
 {
 public:
-	void InitBody(PhysicsBody& b, AnimationController& a);
+	void InitBody(PhysicsBody b, AnimationController* a);
 	bool m_candamage = true;
 	bool m_stun = false;
 	bool m_suck = false;
@@ -15,10 +15,12 @@ public:
 	void Walk();
 	void Attack();
 	void Jump();
+	int facing = 0;
+	bool moving = false;
 private:
 	PhysicsBody body;
-	AnimationController anims;
+	AnimationController* anims;
 	int player;
-	int facing = 0;
+	
 };
 

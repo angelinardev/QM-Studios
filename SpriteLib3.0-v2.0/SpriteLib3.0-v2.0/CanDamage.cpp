@@ -1,7 +1,7 @@
 #include "CanDamage.h"
 #include "Player.h"
 
-void CanDamage::InitBody(PhysicsBody& b, AnimationController& a)
+void CanDamage::InitBody(PhysicsBody b, AnimationController* a)
 {
 	body = b;
 	anims = a;
@@ -27,18 +27,22 @@ void CanDamage::Walk()
 		{
 			desireVel = b2Max(vel.x + 2.5f, 25.f);
 			//animation here
-			anims.SetActiveAnim(1);
+			//anims->SetActiveAnim(1);
 			facing = 1;
+			
 		}
 		else
 		{
 			desireVel = b2Min(vel.x - 2.f, -25.f);
-			anims.SetActiveAnim(0);
+			//anims->SetActiveAnim(0);
 			facing = 0;
+
 		}
+		moving = true;
 	}
 	else //walk cycle/idle
 	{
+		moving = false;
 		if (facing == 0)
 		{
 			//anims.SetActiveAnim(3);

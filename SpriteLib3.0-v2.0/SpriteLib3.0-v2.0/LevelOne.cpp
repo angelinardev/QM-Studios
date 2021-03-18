@@ -99,22 +99,22 @@ void LevelOne::InitTexture()
 
 	//Attach the register
 	ECS::AttachRegister(m_sceneReg);
-	{
-		/*Scene::CreateSprite(m_sceneReg, "HelloWorld.png", 100, 60, 0.5f, vec3(0.f, 0.f, 0.f));*/
+	//{
+	//	/*Scene::CreateSprite(m_sceneReg, "HelloWorld.png", 100, 60, 0.5f, vec3(0.f, 0.f, 0.f));*/
 
-		//Creates entity
-		auto entity = ECS::CreateEntity();
+	//	//Creates entity
+	//	auto entity = ECS::CreateEntity();
 
-		//Add components
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
+	//	//Add components
+	//	ECS::AttachComponent<Sprite>(entity);
+	//	ECS::AttachComponent<Transform>(entity);
 
-		//Set up the components
-		std::string fileName = "back_tutdeath.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 1790, 340);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(317.f, -5.f, 1.f));
-	}
+	//	//Set up the components
+	//	std::string fileName = "back_tutdeath.png";
+	//	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 1790, 340);
+	//	ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+	//	ECS::GetComponent<Transform>(entity).SetPosition(vec3(317.f, -5.f, 1.f));
+	//}
 
 	{
 	//Creates entity
@@ -129,8 +129,9 @@ void LevelOne::InitTexture()
 	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 50, 10);
 	ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 	ECS::GetComponent<Transform>(entity).SetPosition(vec3(-520.f, -20.f, 3.f));
-}
 
+}
+	
 {
 
 	//Creates entity
@@ -143,8 +144,42 @@ void LevelOne::InitTexture()
 	//Set up the components
 	std::string fileName = "Change to Wolf.png";
 	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 50, 10);
-	ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+	ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
 	ECS::GetComponent<Transform>(entity).SetPosition(vec3(-350.f, 10.f, 5.f));
+}
+//tut sensor2
+{
+	//Creates entity
+	auto entity = ECS::CreateEntity();
+	//Add components
+	ECS::AttachComponent<Sprite>(entity);
+	ECS::AttachComponent<Transform>(entity);
+	ECS::AttachComponent<PhysicsBody>(entity);
+	ECS::AttachComponent<Trigger*>(entity);
+
+	//Sets up components
+	std::string fileName = "page.png";
+	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 15, 20);
+	ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+	ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, -20.f, 80.f));
+	ECS::GetComponent<Trigger*>(entity) = new TutorialTrig(tut2); //first tutorial
+	ECS::GetComponent<Trigger*>(entity)->SetTriggerEntity(entity);
+
+
+	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+	float shrinkX = 0.f;
+	float shrinkY = 0.f;
+	b2Body* tempBody;
+	b2BodyDef tempDef;
+	tempDef.type = b2_staticBody;
+	tempDef.position.Set(float32(-380), float32(-15));
+
+	tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, PTRIGGER, PLAYER);
+	tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
 }
 
 	//Setup new Entity
@@ -220,7 +255,7 @@ void LevelOne::InitTexture()
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
 		tempPhsBody.SetGravityScale(2.5f);
 		tempPhsBody.SetFixedRotation(true);
-		ECS::GetComponent<CanDamage>(entity).InitBody(tempPhsBody, animController);
+		ECS::GetComponent<CanDamage>(entity).InitBody(tempPhsBody, &animController);
 		//tempSpr.SetTransparency(0);
 		//add enemy to enemy array
 		enemies.push_back(entity);
@@ -488,26 +523,24 @@ void LevelOne::InitTexture()
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 4.f));
 		//Sets up the components  
-		std::string fileName = "spritesheets/neville.png";
-		std::string animations = "Boss1.json";
+		std::string fileName = "spritesheets/scarecrow.png";
+		std::string animations = "Scarecrow.json";
 
 		animController.InitUVs(fileName);
 		nlohmann::json animations2 = File::LoadJSON(animations);
-		animController.AddAnimation(animations2["Boss1Idle"].get<Animation>());
-		animController.AddAnimation(animations2["Boss1Fingermove"].get<Animation>());
-		animController.AddAnimation(animations2["Boss1Yawn"].get<Animation>());
-		animController.AddAnimation(animations2["Boss1Suck"].get<Animation>());
-		animController.AddAnimation(animations2["Boss1Suck2"].get<Animation>());//face right?
+		animController.AddAnimation(animations2["WALKLEFT"].get<Animation>());
+		animController.AddAnimation(animations2["WALKRIGHT"].get<Animation>());
+
 		animController.SetActiveAnim(0);
 
 		//ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30);
 		//ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
 		//ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 3.f));
 
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30, true, &animController);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 50, 40, true, &animController);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 
-		float shrinkX = 0.f;
+		float shrinkX = 38.f;
 		float shrinkY = 0.f;
 
 		b2Body* tempBody;
@@ -523,7 +556,7 @@ void LevelOne::InitTexture()
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
 		tempPhsBody.SetGravityScale(2.5f);
 		tempPhsBody.SetFixedRotation(true);
-		ECS::GetComponent<CanDamage>(entity).InitBody(tempPhsBody, animController);
+		ECS::GetComponent<CanDamage>(entity).InitBody(tempPhsBody, &animController);
 		//tempSpr.SetTransparency(0);
 		//add enemy to enemy array
 		enemies.push_back(entity);
@@ -587,26 +620,24 @@ void LevelOne::InitTexture()
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 4.f));
 		//Sets up the components  
-		std::string fileName = "spritesheets/neville.png";
-		std::string animations = "Boss1.json";
+		std::string fileName = "spritesheets/scarecrow.png";
+		std::string animations = "Scarecrow.json";
 
 		animController.InitUVs(fileName);
 		nlohmann::json animations2 = File::LoadJSON(animations);
-		animController.AddAnimation(animations2["Boss1Idle"].get<Animation>());
-		animController.AddAnimation(animations2["Boss1Fingermove"].get<Animation>());
-		animController.AddAnimation(animations2["Boss1Yawn"].get<Animation>());
-		animController.AddAnimation(animations2["Boss1Suck"].get<Animation>());
-		animController.AddAnimation(animations2["Boss1Suck2"].get<Animation>());//face right?
+		animController.AddAnimation(animations2["WALKLEFT"].get<Animation>());
+		animController.AddAnimation(animations2["WALKRIGHT"].get<Animation>());
+
 		animController.SetActiveAnim(0);
 
 		//ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30);
 		//ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
 		//ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 3.f));
 
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30, true, &animController);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 50, 40, true, &animController);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 
-		float shrinkX = 0.f;
+		float shrinkX = 38.f;
 		float shrinkY = 0.f;
 
 		b2Body* tempBody;
@@ -622,7 +653,7 @@ void LevelOne::InitTexture()
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
 		tempPhsBody.SetGravityScale(2.5f);
 		tempPhsBody.SetFixedRotation(true);
-		ECS::GetComponent<CanDamage>(entity).InitBody(tempPhsBody, animController);
+		ECS::GetComponent<CanDamage>(entity).InitBody(tempPhsBody, &animController);
 		//tempSpr.SetTransparency(0);
 		//add enemy to enemy array
 		enemies.push_back(entity);
@@ -671,26 +702,24 @@ void LevelOne::InitTexture()
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 4.f));
 		//Sets up the components  
-		std::string fileName = "spritesheets/neville.png";
-		std::string animations = "Boss1.json";
+		std::string fileName = "spritesheets/scarecrow.png";
+		std::string animations = "Scarecrow.json";
 
 		animController.InitUVs(fileName);
 		nlohmann::json animations2 = File::LoadJSON(animations);
-		animController.AddAnimation(animations2["Boss1Idle"].get<Animation>());
-		animController.AddAnimation(animations2["Boss1Fingermove"].get<Animation>());
-		animController.AddAnimation(animations2["Boss1Yawn"].get<Animation>());
-		animController.AddAnimation(animations2["Boss1Suck"].get<Animation>());
-		animController.AddAnimation(animations2["Boss1Suck2"].get<Animation>());//face right?
+		animController.AddAnimation(animations2["WALKLEFT"].get<Animation>());
+		animController.AddAnimation(animations2["WALKRIGHT"].get<Animation>());
+
 		animController.SetActiveAnim(0);
 
 		//ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30);
 		//ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
 		//ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 3.f));
 
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30, true, &animController);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 50, 40, true, &animController);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 
-		float shrinkX = 0.f;
+		float shrinkX = 38.f;
 		float shrinkY = 0.f;
 
 		b2Body* tempBody;
@@ -706,7 +735,7 @@ void LevelOne::InitTexture()
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
 		tempPhsBody.SetGravityScale(2.5f);
 		tempPhsBody.SetFixedRotation(true);
-		ECS::GetComponent<CanDamage>(entity).InitBody(tempPhsBody, animController);
+		ECS::GetComponent<CanDamage>(entity).InitBody(tempPhsBody, &animController);
 		//tempSpr.SetTransparency(0);
 		//add enemy to enemy array
 		enemies.push_back(entity);
@@ -921,6 +950,29 @@ void LevelOne::Update()
 		{
 			auto& enemy_c = ECS::GetComponent<CanDamage>(enemies[i]);
 			enemy_c.Walk();
+			if (enemy_c.facing == 0) //left
+			{
+				if (enemy_c.moving)
+				{
+					ECS::GetComponent<AnimationController>(enemies[i]).SetActiveAnim(0);
+				}
+				else
+				{
+					//idle
+				}
+			}
+			else //right
+			{
+				if (enemy_c.moving)
+				{
+					ECS::GetComponent<AnimationController>(enemies[i]).SetActiveAnim(1);
+				}
+				else
+				{
+					//idle
+				}
+			}
+
 			//if (ECS::GetComponent<PhysicsBody>(enemies[i]).GetPosition().y <= 0)
 			{
 				//enemy_c.hp = 0;
@@ -990,7 +1042,7 @@ void LevelOne::Update()
 
 	}
 	//first pit check
-	if (player.GetPosition().y <= -30 && player.GetPosition().x <=-100)
+	if (player.GetPosition().y <= -50 && player.GetPosition().x <=-100)
 	{
 		//bring player back to position before jump
 		player.GetBody()->SetTransform(b2Vec2(-400, 10), 0);

@@ -18,6 +18,7 @@ void PickupTrigger::OnEnter()
 {
 	Trigger::OnEnter();
 	powers[type - 1] = true;
+	
 	//switch (type)
 	//{
 	//	case 1: //jump higher
