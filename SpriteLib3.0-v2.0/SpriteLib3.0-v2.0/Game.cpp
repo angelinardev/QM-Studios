@@ -50,16 +50,16 @@ void Game::InitGame()
 	m_scenes.push_back(new Controls("Controls"));
 	
 	//preloads all scenes
-	m_scenes[0]->InitTexture();
-	m_scenes[1]->InitTexture();
-	m_scenes[2]->InitTexture();
-	m_scenes[3]->InitTexture();
+	//m_scenes[0]->InitTexture();
+	//m_scenes[1]->InitTexture();
+	//m_scenes[2]->InitTexture();
+	//m_scenes[3]->InitTexture();
 	m_scenes[4]->InitTexture();
-	m_scenes[5]->InitTexture();
-	m_scenes[6]->InitTexture();
+	//m_scenes[5]->InitTexture();
+	//m_scenes[6]->InitTexture();
 	
 	//Sets active scene reference to our scene
-	m_activeScene = m_scenes[0];
+	m_activeScene = m_scenes[4];
 
 	m_activeScene->InitScene(float(BackEnd::GetWindowWidth()), float(BackEnd::GetWindowHeight()));
 
@@ -121,6 +121,7 @@ void Game::Update()
 	unsigned int index = m_activeScene->ChangeScene();
 	if (index != -1) {
 		m_activeScene->Unload();
+		PhysicsBody::m_bodiesToDelete.clear();
 		//PhysicsSystem::CleanupBodies();
 		m_activeScene = m_scenes[index];
 		//reload the scene if we need to enter it again
@@ -130,7 +131,7 @@ void Game::Update()
 		}
 		else
 		{
-			PhysicsSystem::CleanupBodies();
+			//PhysicsSystem::CleanupBodies();
 		}
 		m_activeScene->InitScene(BackEnd::GetWindowWidth(), BackEnd::GetWindowHeight());
 		m_register = m_activeScene->GetScene();

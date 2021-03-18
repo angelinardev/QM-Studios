@@ -25,17 +25,28 @@ void CanDamage::Walk()
 	{
 		if (playerX > selfX) //move right
 		{
-			desireVel = b2Max(vel.x + 2.5f, 20.f);
+			desireVel = b2Max(vel.x + 2.5f, 25.f);
 			//animation here
+			anims.SetActiveAnim(1);
+			facing = 1;
 		}
 		else
 		{
-			desireVel = b2Min(vel.x - 2.f, -20.f);
+			desireVel = b2Min(vel.x - 2.f, -25.f);
+			anims.SetActiveAnim(0);
+			facing = 0;
 		}
 	}
-	else //walk cycle?
+	else //walk cycle/idle
 	{
-
+		if (facing == 0)
+		{
+			//anims.SetActiveAnim(3);
+		}
+		else
+		{
+			//anims.SetActiveAnim(4);
+		}
 	}
 	//doesnt mean when not close
 	float velC = desireVel - vel.x;

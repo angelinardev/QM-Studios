@@ -19,5 +19,6 @@ private:
 	PhysicsBody body;
 	AnimationController anims;
 	int player;
+	int facing = 0;
 };
 

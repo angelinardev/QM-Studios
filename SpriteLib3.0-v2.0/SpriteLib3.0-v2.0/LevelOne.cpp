@@ -21,7 +21,10 @@ LevelOne::LevelOne(std::string name)
 }
 void LevelOne::InitScene(float windowWidth, float windowHeight)
 {
-	
+	//clear vector
+	//enemies.clear();
+	//alive.clear();
+
 	selection = -1;
 	//Attach the register
 	ECS::AttachRegister(m_sceneReg);
@@ -81,10 +84,11 @@ void LevelOne::InitScene(float windowWidth, float windowHeight)
 
 	//ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).GetBody()->SetAwake(true);
 	//ECS::GetComponent<PhysicsBody>(enemy).GetBody()->SetAwake(true);
+	
 }
 void LevelOne::InitTexture()
 {
-
+	is_done = true;
 	//Dynamically allocates the register
 	m_sceneReg = new entt::registry;
 
@@ -152,26 +156,24 @@ void LevelOne::InitTexture()
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 4.f));
 		//Sets up the components  
-		std::string fileName = "spritesheets/neville.png";
-		std::string animations = "Boss1.json";
+		std::string fileName = "spritesheets/scarecrow.png";
+		std::string animations = "Scarecrow.json";
 
 		animController.InitUVs(fileName);
 		nlohmann::json animations2 = File::LoadJSON(animations);
-		animController.AddAnimation(animations2["Boss1Idle"].get<Animation>());
-		animController.AddAnimation(animations2["Boss1Fingermove"].get<Animation>());
-		animController.AddAnimation(animations2["Boss1Yawn"].get<Animation>());
-		animController.AddAnimation(animations2["Boss1Suck"].get<Animation>());
-		animController.AddAnimation(animations2["Boss1Suck2"].get<Animation>());//face right?
+		animController.AddAnimation(animations2["WALKLEFT"].get<Animation>());
+		animController.AddAnimation(animations2["WALKRIGHT"].get<Animation>());
+		
 		animController.SetActiveAnim(0);
 
 		//ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30);
 		//ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
 		//ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 3.f));
 	
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30, true, &animController);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 50, 40, true, &animController);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 
-		float shrinkX = 0.f;
+		float shrinkX = 38.f;
 		float shrinkY = 0.f;
 
 		b2Body* tempBody;
@@ -895,7 +897,10 @@ void LevelOne::Update()
 			//check if enemy is dead
 			if (enemy_c.hp <= 0)
 			{
-				PhysicsBody::m_bodiesToDelete.push_back(enemies[i]);
+				ECS::GetComponent<PhysicsBody>(enemies[i]).DeleteBody();
+				ECS::DestroyEntity(enemies[i]);
+				//PhysicsBody::m_bodiesToDelete.push_back(enemies[i]);
+				
 				alive[i] = false;
 				//player2.ReassignComponents(&ECS::GetComponent<AnimationController>(p_entity), &ECS::GetComponent<Sprite>(p_entity));
 				//player2.Update();
@@ -920,6 +925,7 @@ void LevelOne::Update()
 
 	if (dash.hp <= 0) //dying
 	{
+		is_done = false;
 		inputS.open("Progress.txt");
 		if (inputS.is_open())
 		{
@@ -929,6 +935,8 @@ void LevelOne::Update()
 		selection = 2; //end screen? for now
 
 	}
+
+
 	if (!dashcooldown) {
 		dash_timer = (clock() - dashtime) / CLOCKS_PER_SEC;
 		if (dash_timer >= cooldown) {
@@ -938,6 +946,27 @@ void LevelOne::Update()
 	}
 	auto& player = ECS::GetComponent<PhysicsBody>(p_entity);
 	auto& canJump = ECS::GetComponent<CanJump>(p_entity);
+
+	//jump pit check
+	//410, -60
+	if (player.GetPosition().y <= -80 && player.GetPosition().x <= 410 && player.GetPosition().x >= 100)
+	{
+		//bring player back to position before jump
+		player.GetBody()->SetTransform(b2Vec2(170, -40), 0);
+
+		dash.hp -= 25; //remove 25 health
+
+
+	}
+	//first pit check
+	if (player.GetPosition().y <= -30 && player.GetPosition().x <=-100)
+	{
+		//bring player back to position before jump
+		player.GetBody()->SetTransform(b2Vec2(-400, 10), 0);
+
+		dash.hp -= 25; //remove 25 health
+
+	}
 
 
 	if (player.GetBody()->GetLinearVelocity().y < 0 && !canJump.m_canJump)//peak of jump, position needs to be relative to the ground
@@ -1070,16 +1099,20 @@ void LevelOne::KeyboardDown()
 	
 	auto& canJump = ECS::GetComponent<CanJump>(p_entity);
 	auto& power = ECS::GetComponent<Player_Power>(p_entity);
+
+	auto& anims = ECS::GetComponent<Player>(p_entity);
 	
 	auto& vel = player.GetBody()->GetLinearVelocity();
 	auto& pos = player.GetBody()->GetPosition();
 	//auto& dash = ECS::GetComponent<CanJump>(p_entity);
 
-	if (Input::GetKeyDown(Key::X))
+	if (Input::GetKey(Key::X))
 	{
-		if (!power.m_power[1])
+		if (!power.m_power[1] && !power.m_power[0])
 		{//manual box collision calculation
-
+			anims.m_attack = true;
+			anims.m_locked = true;
+			anims.m_moving = false;
 			for (int i = 0; i < enemies.size(); i++)
 			{
 				if (alive[i])
@@ -1105,7 +1138,7 @@ void LevelOne::KeyboardDown()
 
 	if (Input::GetKeyDown(Key::Two)) //vision
 	{
-		if (!MainEntities::Powerups()[1])
+		if (MainEntities::Powerups()[1])
 		{
 			power.m_power[1] = !power.m_power[1]; 
 			power.m_power[0] = !power.m_power[0];//reverses choice
@@ -1160,7 +1193,7 @@ void LevelOne::KeyboardDown()
 	//dash
 	if (Input::GetKeyDown(Key::Shift))
 	{
-		if (power.m_power[1])
+		if (!power.m_power[1] && !power.m_power[0])
 		{
 			if (canJump.m_canJump && canJump.can_dash) //ground dash
 			{
@@ -1179,9 +1212,9 @@ void LevelOne::KeyboardDown()
 					player.GetBody()->SetLinearVelocity(b2Vec2(1000000, vel.y));
 					canJump.can_dash = false;
 				}
-				ECS::GetComponent<Player>(p_entity).m_dash = true;
-				ECS::GetComponent<Player>(p_entity).m_locked = true;
-				ECS::GetComponent<Player>(p_entity).m_moving = false;
+				anims.m_dash = true;
+				anims.m_locked = true;
+				anims.m_moving = false;
 
 			}
 			else if (dash_timer >= 2.5) //player can dash once in the air

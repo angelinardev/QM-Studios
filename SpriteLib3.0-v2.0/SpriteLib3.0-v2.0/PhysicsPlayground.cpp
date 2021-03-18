@@ -119,14 +119,15 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 	Sound.Play();
 	ECS::GetComponent<CanJump>(MainEntities::MainPlayer()).hp = 100;
-
+	
 }
 void PhysicsPlayground::InitTexture()
 {
 	//initialize the health
 	//MainEntities::Health(100);
 
-	
+	is_done = true;
+
 
 	//Dynamically allocates the register
 	m_sceneReg = new entt::registry;
@@ -527,6 +528,7 @@ void PhysicsPlayground::Update()
 
 	if (dash.hp <= 0) //dying
 	{
+		is_done = false;
 		selection = 2; //end screen? for now
 		Sound.Mute();
 			

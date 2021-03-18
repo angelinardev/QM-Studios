@@ -104,9 +104,9 @@ void Player::MovementUpdate()
 	}
 	if (Input::GetKey(Key::X))
 	{
-		m_attack = true;
+		/*m_attack = true;
 		m_locked = true;
-		m_moving = false;
+		m_moving = false;*/
 	}
 }
 
