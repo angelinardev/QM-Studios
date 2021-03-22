@@ -22,7 +22,8 @@ enum AnimTypes
 	IDLE = 0,
 	WALK = 2,
 	DASH = 4,
-	ATTACK = 6
+	ATTACK = 6,
+	WOLF = 8
 
 };
 

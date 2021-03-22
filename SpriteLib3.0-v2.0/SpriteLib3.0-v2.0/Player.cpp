@@ -49,6 +49,13 @@ void Player::InitPlayer(std::string& fileName, std::string& animationJSON, int w
 	//attack
 	m_animController->AddAnimation(animations["ATKLEFT"].get<Animation>()); //6
 	m_animController->AddAnimation(animations["ATKRIGHT"].get<Animation>()); //7
+	//wolf (reversed)
+	m_animController->AddAnimation(animations["WLFIDLERIGHT"].get<Animation>()); //9
+	m_animController->AddAnimation(animations["WLFIDLELEFT"].get<Animation>()); //8
+	m_animController->AddAnimation(animations["WLFWALKRIGHT"].get<Animation>()); //11
+
+	m_animController->AddAnimation(animations["WLFWALKLEFT"].get<Animation>()); //10
+	
 	//Set Default Animation
 	m_animController->SetActiveAnim(1);
 
@@ -187,8 +194,17 @@ void Player::AnimationUpdate()
 		activeAnimation = IDLE;
 		
 	}
+	auto& power = ECS::GetComponent<Player_Power>(MainEntities::MainPlayer());
+	if (power.m_power[1] && power.m_power[0]) //using powers
+	{
+		SetActiveAnimation(activeAnimation + (int)m_facing+ WOLF);
+	}
+	else
+	{
+		SetActiveAnimation(activeAnimation + (int)m_facing);
+	}
 
-	SetActiveAnimation(activeAnimation + (int)m_facing);
+	
 }
 
 void Player::SetActiveAnimation(int anim)
