@@ -1247,13 +1247,40 @@ void LevelOne::KeyboardDown()
 
 			if (power.m_power[1]) {
 				player.SetCenterOffset(vec2(0, 0));
-				player.GetBody()->SetTransform(player.GetPosition() + b2Vec2(0, 0), Transform::ToRadians(90));
 				
+				
+				b2Body* playerBody = m_sceneReg->get<PhysicsBody>(p_entity).GetBody();
+				b2PolygonShape tempBox;
+				tempBox.SetAsBox(player.GetWidth() * 1.6/2, player.GetHeight()/2);
+
+				b2FixtureDef wolfBox;
+				wolfBox.shape = &tempBox;
+				wolfBox.density = 0.4f;
+				wolfBox.friction = 3.0f;
+				wolfBox.filter.categoryBits = playerBody->GetFixtureList()->GetFilterData().categoryBits;
+				wolfBox.filter.maskBits = playerBody->GetFixtureList()->GetFilterData().maskBits;
+
+				playerBody->DestroyFixture(playerBody->GetFixtureList());
+				playerBody->CreateFixture(&wolfBox);
+				player.GetBody()->SetTransform(player.GetPosition() + b2Vec2(0, 0), Transform::ToRadians(90));
 				
 			}
 			else
 			{
-				player.GetBody()->SetTransform(player.GetPosition() + b2Vec2(0, 10), 0);
+				player.GetBody()->SetTransform(player.GetPosition() + b2Vec2(0,10), 0);
+				b2Body* playerBody = m_sceneReg->get<PhysicsBody>(p_entity).GetBody();
+				b2PolygonShape tempBox;
+				tempBox.SetAsBox(player.GetWidth() / 2, player.GetHeight() / 2, b2Vec2(0,-4),0);
+
+				b2FixtureDef normalBox;
+				normalBox.shape = &tempBox;
+				normalBox.density = 0.4f;
+				normalBox.friction = 3.0f;
+				normalBox.filter.categoryBits = playerBody->GetFixtureList()->GetFilterData().categoryBits;
+				normalBox.filter.maskBits = playerBody->GetFixtureList()->GetFilterData().maskBits;
+
+				playerBody->DestroyFixture(playerBody->GetFixtureList());
+				playerBody->CreateFixture(&normalBox);
 				player.SetCenterOffset(vec2(0.f, -4.f));
 			}
 			jump_high = !jump_high;
