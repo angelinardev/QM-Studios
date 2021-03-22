@@ -279,7 +279,7 @@ void LevelOne::InitTexture()
 		ECS::AttachComponent<Sprite>(entity);
 		ECS::AttachComponent<Transform>(entity);
 		ECS::AttachComponent<PhysicsBody>(entity);
-		std::string fileName = "boxsprite.jpg";
+		std::string fileName = "iSprite.png";
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 5.f));
@@ -310,7 +310,7 @@ void LevelOne::InitTexture()
 		ECS::AttachComponent<Sprite>(entity);
 		ECS::AttachComponent<Transform>(entity);
 		ECS::AttachComponent<PhysicsBody>(entity);
-		std::string fileName = "boxsprite.jpg";
+		std::string fileName = "iSprite.png";
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 5.f));
@@ -403,7 +403,7 @@ void LevelOne::InitTexture()
 		ECS::AttachComponent<Sprite>(entity);
 		ECS::AttachComponent<Transform>(entity);
 		ECS::AttachComponent<PhysicsBody>(entity);
-		std::string fileName = "boxsprite.jpg";
+		std::string fileName = "iSprite.png";
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 5.f));
@@ -434,7 +434,7 @@ void LevelOne::InitTexture()
 		ECS::AttachComponent<Sprite>(entity);
 		ECS::AttachComponent<Transform>(entity);
 		ECS::AttachComponent<PhysicsBody>(entity);
-		std::string fileName = "boxsprite.jpg";
+		std::string fileName = "iSprite.png";
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 5.f));
@@ -770,7 +770,7 @@ void LevelOne::InitTexture()
 		ECS::AttachComponent<Sprite>(entity);
 		ECS::AttachComponent<Transform>(entity);
 		ECS::AttachComponent<PhysicsBody>(entity);
-		std::string fileName = "boxsprite.jpg";
+		std::string fileName = "iSprite.png";
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 5.f));
@@ -802,7 +802,7 @@ void LevelOne::InitTexture()
 		ECS::AttachComponent<Sprite>(entity);
 		ECS::AttachComponent<Transform>(entity);
 		ECS::AttachComponent<PhysicsBody>(entity);
-		std::string fileName = "boxsprite.jpg";
+		std::string fileName = "iSprite.png";
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 5.f));
@@ -834,7 +834,7 @@ void LevelOne::InitTexture()
 		ECS::AttachComponent<Sprite>(entity);
 		ECS::AttachComponent<Transform>(entity);
 		ECS::AttachComponent<PhysicsBody>(entity);
-		std::string fileName = "boxsprite.jpg";
+		std::string fileName = "iSprite.png";
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 5.f));
