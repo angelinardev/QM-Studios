@@ -1246,14 +1246,15 @@ void LevelOne::KeyboardDown()
 			player.SetGravityScale(2.f);
 
 			if (power.m_power[1]) {
-				//player.SetCenterOffset(vec2(0, -10));
-				player.GetBody()->SetTransform(player.GetPosition() + b2Vec2(0, -10), Transform::ToRadians(90));
+				player.SetCenterOffset(vec2(0, 0));
+				player.GetBody()->SetTransform(player.GetPosition() + b2Vec2(0, 0), Transform::ToRadians(90));
+				
 				
 			}
 			else
 			{
 				player.GetBody()->SetTransform(player.GetPosition() + b2Vec2(0, 10), 0);
-				//player.SetCenterOffset(vec2(0.f, -4.f));
+				player.SetCenterOffset(vec2(0.f, -4.f));
 			}
 			jump_high = !jump_high;
 			
