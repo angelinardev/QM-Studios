@@ -1251,12 +1251,12 @@ void LevelOne::KeyboardDown()
 				
 				b2Body* playerBody = m_sceneReg->get<PhysicsBody>(p_entity).GetBody();
 				b2PolygonShape tempBox;
-				tempBox.SetAsBox(player.GetWidth() * 1.6/2, player.GetHeight()/2);
+				tempBox.SetAsBox(player.GetWidth() * 1.5/2, player.GetHeight()/2/1.2);
 
 				b2FixtureDef wolfBox;
 				wolfBox.shape = &tempBox;
 				wolfBox.density = 0.4f;
-				wolfBox.friction = 3.0f;
+				wolfBox.friction = 1.0f;
 				wolfBox.filter.categoryBits = playerBody->GetFixtureList()->GetFilterData().categoryBits;
 				wolfBox.filter.maskBits = playerBody->GetFixtureList()->GetFilterData().maskBits;
 
