@@ -1247,9 +1247,7 @@ void LevelOne::KeyboardDown()
 
 			if (power.m_power[1]) {
 				player.SetCenterOffset(vec2(0, 0));
-				
-				
-				b2Body* playerBody = m_sceneReg->get<PhysicsBody>(p_entity).GetBody();
+				/*b2Body* playerBody = m_sceneReg->get<PhysicsBody>(p_entity).GetBody();
 				b2PolygonShape tempBox;
 				tempBox.SetAsBox(player.GetWidth() * 1.5/2, player.GetHeight()/2/1.2);
 
@@ -1262,13 +1260,15 @@ void LevelOne::KeyboardDown()
 
 				playerBody->DestroyFixture(playerBody->GetFixtureList());
 				playerBody->CreateFixture(&wolfBox);
+				playerBody->SetGravityScale(2.5f);*/
 				player.GetBody()->SetTransform(player.GetPosition() + b2Vec2(0, 0), Transform::ToRadians(90));
+				//player.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
 				
 			}
 			else
 			{
 				player.GetBody()->SetTransform(player.GetPosition() + b2Vec2(0,10), 0);
-				b2Body* playerBody = m_sceneReg->get<PhysicsBody>(p_entity).GetBody();
+				/*b2Body* playerBody = m_sceneReg->get<PhysicsBody>(p_entity).GetBody();
 				b2PolygonShape tempBox;
 				tempBox.SetAsBox(player.GetWidth() / 2, player.GetHeight() / 2, b2Vec2(0,-4),0);
 
@@ -1280,8 +1280,10 @@ void LevelOne::KeyboardDown()
 				normalBox.filter.maskBits = playerBody->GetFixtureList()->GetFilterData().maskBits;
 
 				playerBody->DestroyFixture(playerBody->GetFixtureList());
-				playerBody->CreateFixture(&normalBox);
+				playerBody->SetGravityScale(2.5f);
+				playerBody->CreateFixture(&normalBox);*/
 				player.SetCenterOffset(vec2(0.f, -4.f));
+				//player.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
 			}
 			jump_high = !jump_high;
 			
