@@ -1256,7 +1256,7 @@ void LevelOne::KeyboardDown()
 				b2FixtureDef wolfBox;
 				wolfBox.shape = &tempBox;
 				wolfBox.density = 0.4f;
-				wolfBox.friction = 1.0f;
+				wolfBox.friction = 2.0f;
 				wolfBox.filter.categoryBits = playerBody->GetFixtureList()->GetFilterData().categoryBits;
 				wolfBox.filter.maskBits = playerBody->GetFixtureList()->GetFilterData().maskBits;
 
@@ -1275,7 +1275,7 @@ void LevelOne::KeyboardDown()
 				b2FixtureDef normalBox;
 				normalBox.shape = &tempBox;
 				normalBox.density = 0.4f;
-				normalBox.friction = 3.0f;
+				normalBox.friction = 2.0f;
 				normalBox.filter.categoryBits = playerBody->GetFixtureList()->GetFilterData().categoryBits;
 				normalBox.filter.maskBits = playerBody->GetFixtureList()->GetFilterData().maskBits;
 
