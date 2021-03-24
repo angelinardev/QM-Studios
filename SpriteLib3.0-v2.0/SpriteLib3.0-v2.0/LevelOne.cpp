@@ -995,8 +995,8 @@ void LevelOne::Update()
 				//PhysicsBody::m_bodiesToDelete.push_back(enemies[i]);
 				
 				alive[i] = false;
-				//player2.ReassignComponents(&ECS::GetComponent<AnimationController>(p_entity), &ECS::GetComponent<Sprite>(p_entity));
-				//player2.Update();
+				player2.ReassignComponents(&ECS::GetComponent<AnimationController>(p_entity), &ECS::GetComponent<Sprite>(p_entity));
+				player2.Update();
 
 			}
 		}
@@ -1205,6 +1205,7 @@ void LevelOne::KeyboardHold()
 void LevelOne::KeyboardDown()
 {
 	auto& player = ECS::GetComponent<PhysicsBody>(p_entity);
+	auto& sprite = ECS::GetComponent<Sprite>(p_entity);
 	
 	auto& canJump = ECS::GetComponent<CanJump>(p_entity);
 	auto& power = ECS::GetComponent<Player_Power>(p_entity);
@@ -1214,6 +1215,9 @@ void LevelOne::KeyboardDown()
 	auto& vel = player.GetBody()->GetLinearVelocity();
 	auto& pos = player.GetBody()->GetPosition();
 	//auto& dash = ECS::GetComponent<CanJump>(p_entity);
+
+	int spriteHeight;
+	int spriteWidth;
 
 	if (Input::GetKey(Key::X))
 	{
@@ -1259,8 +1263,6 @@ void LevelOne::KeyboardDown()
 			ECS::GetComponent<Invisibility>(invis5).is_invisible = !ECS::GetComponent<Invisibility>(invis5).is_invisible;
 			ECS::GetComponent<Invisibility>(invis6).is_invisible = !ECS::GetComponent<Invisibility>(invis6).is_invisible;
 			ECS::GetComponent<Invisibility>(invis7).is_invisible = !ECS::GetComponent<Invisibility>(invis7).is_invisible;
-			player.SetGravityScale(2.f);
-
 			if (power.m_power[1]) {
 				player.SetCenterOffset(vec2(0, 0));
 				b2Body* playerBody = m_sceneReg->get<PhysicsBody>(p_entity).GetBody();
@@ -1269,19 +1271,16 @@ void LevelOne::KeyboardDown()
 
 				b2FixtureDef wolfBox;
 				wolfBox.shape = &tempBox;
-				wolfBox.density = 0.4f;
-				wolfBox.friction = 2.0f;
-				wolfBox.isSensor = false;
-				//wolfBox.filter.categoryBits = playerBody->GetFixtureList()->GetFilterData().categoryBits;
-				wolfBox.filter.categoryBits = PLAYER;
+				wolfBox.density = 2.5f;
+				wolfBox.friction = 0.8f;
+				wolfBox.filter.categoryBits = playerBody->GetFixtureList()->GetFilterData().categoryBits;
 				wolfBox.filter.maskBits = playerBody->GetFixtureList()->GetFilterData().maskBits;
 				
 
 				playerBody->DestroyFixture(playerBody->GetFixtureList());
 				playerBody->CreateFixture(&wolfBox);
-				playerBody->SetUserData((void*)p_entity);
-				playerBody->SetGravityScale(2.5f);
-				player.GetBody()->SetTransform(player.GetPosition() + b2Vec2(0, -10), Transform::ToRadians(90));
+				playerBody->SetGravityScale(5.0f);
+				player.GetBody()->SetTransform(player.GetPosition() + b2Vec2(0, 0), Transform::ToRadians(90));
 				//player.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
 				
 			}
@@ -1294,16 +1293,15 @@ void LevelOne::KeyboardDown()
 
 				b2FixtureDef normalBox;
 				normalBox.shape = &tempBox;
-				normalBox.density = 0.4f;
+				normalBox.density = 2.0f;
 				normalBox.friction = 2.0f;
 				//normalBox.filter.categoryBits = playerBody->GetFixtureList()->GetFilterData().categoryBits;
 				normalBox.filter.categoryBits = PLAYER;
 				normalBox.filter.maskBits = playerBody->GetFixtureList()->GetFilterData().maskBits;
 
 				playerBody->DestroyFixture(playerBody->GetFixtureList());
-				playerBody->SetGravityScale(2.5f);
+				playerBody->SetGravityScale(5.0f);
 				playerBody->CreateFixture(&normalBox);
-				playerBody->SetUserData((void*)p_entity);
 				player.SetCenterOffset(vec2(0.f, -4.f));
 				//player.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
 			}
