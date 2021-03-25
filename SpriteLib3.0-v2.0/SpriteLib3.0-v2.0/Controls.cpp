@@ -77,7 +77,7 @@ void Controls::Update()
 
 	ECS::GetComponent<Transform>(selector).SetPositionX(0);
 	ECS::GetComponent<Transform>(selector).SetPositionY(-19);
-	ECS::GetComponent<Sprite>(selector).SetWidth(75);
+	ECS::GetComponent<Sprite>(selector).SetWidth(72);
 	ECS::GetComponent<Sprite>(selector).SetHeight(25);
 }
 

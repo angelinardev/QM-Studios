@@ -599,7 +599,7 @@ void PhysicsPlayground::KeyboardHold()
 
 	b2Vec2 pvel = player.GetBody()->GetLinearVelocity();
 
-	if (Input::GetKey(Key::A)) //left
+	if (Input::GetKey(Key::A) || Input::GetKey(Key::LeftArrow)) //left
 	{
 		facing = 0;
 		speed += 0.5; //first slope
@@ -619,7 +619,7 @@ void PhysicsPlayground::KeyboardHold()
 
 
 	}
-	else if (Input::GetKey(Key::D)) //right
+	else if (Input::GetKey(Key::D) || Input::GetKey(Key::RightArrow)) //right
 	{
 		facing = 1;
 

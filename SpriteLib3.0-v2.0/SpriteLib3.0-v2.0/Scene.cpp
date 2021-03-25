@@ -220,7 +220,7 @@ void Scene::Attack(int player, int enemy)
 	auto enemyx = enemy_b.GetBody()->GetWorldCenter().x;
 	//auto enemyy = enemy_b.GetBody()->GetWorldCenter().y;
 	//if (ECS::GetComponent<CanJump>(player).m_canJump)
-
+	if (ECS::GetComponent<Player>(player).m_facing != ECS::GetComponent<CanDamage>(enemy).facing)
 	{
 		if (enemyx >= playerx - 45 && enemyx <= playerx + 45)
 		{
