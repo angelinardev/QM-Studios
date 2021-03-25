@@ -995,8 +995,8 @@ void LevelOne::Update()
 				//PhysicsBody::m_bodiesToDelete.push_back(enemies[i]);
 				
 				alive[i] = false;
-				player2.ReassignComponents(&ECS::GetComponent<AnimationController>(p_entity), &ECS::GetComponent<Sprite>(p_entity));
-				player2.Update();
+				//player2.ReassignComponents(&ECS::GetComponent<AnimationController>(p_entity), &ECS::GetComponent<Sprite>(p_entity));
+				//player2.Update();
 
 			}
 		}
@@ -1149,7 +1149,7 @@ void LevelOne::KeyboardHold()
 
 	b2Vec2 pvel = player.GetBody()->GetLinearVelocity();
 
-	if (Input::GetKey(Key::A)) //left
+	if (Input::GetKey(Key::A)|| Input::GetKey(Key::LeftArrow)) //left
 	{
 		facing = 0;
 		speed += 0.5; //first slope
@@ -1169,7 +1169,7 @@ void LevelOne::KeyboardHold()
 
 
 	}
-	else if (Input::GetKey(Key::D)) //right
+	else if (Input::GetKey(Key::D)||Input::GetKey(Key::RightArrow)) //right
 	{
 		facing = 1;
 
@@ -1241,74 +1241,77 @@ void LevelOne::KeyboardDown()
 	{
 		PhysicsBody::SetDraw(!PhysicsBody::GetDraw());
 	}
-	if (Input::GetKeyDown(Key::One)) //jump higher ability
-	{
-		if (MainEntities::Powerups()[0])
-		{
-			power.m_power[0] = !power.m_power[0]; //reverses choice
-		}
-	}
+	//if (Input::GetKeyDown(Key::One)) //jump higher ability
+	//{
+	//	if (MainEntities::Powerups()[0])
+	//	{
+	//		power.m_power[0] = !power.m_power[0]; //reverses choice
+	//	}
+	//}
 
 	if (Input::GetKeyDown(Key::Two)) //vision
 	{
-		if (MainEntities::Powerups()[1])
+		if (!anims.m_attack)
 		{
-			power.m_power[1] = !power.m_power[1]; 
-			power.m_power[0] = !power.m_power[0];//reverses choice
-			//manually change values
-			ECS::GetComponent<Invisibility>(invis1).is_invisible = !ECS::GetComponent<Invisibility>(invis1).is_invisible;
-			ECS::GetComponent<Invisibility>(invis2).is_invisible = !ECS::GetComponent<Invisibility>(invis2).is_invisible;
-			ECS::GetComponent<Invisibility>(invis3).is_invisible = !ECS::GetComponent<Invisibility>(invis3).is_invisible;
-			ECS::GetComponent<Invisibility>(invis4).is_invisible = !ECS::GetComponent<Invisibility>(invis4).is_invisible;
-			ECS::GetComponent<Invisibility>(invis5).is_invisible = !ECS::GetComponent<Invisibility>(invis5).is_invisible;
-			ECS::GetComponent<Invisibility>(invis6).is_invisible = !ECS::GetComponent<Invisibility>(invis6).is_invisible;
-			ECS::GetComponent<Invisibility>(invis7).is_invisible = !ECS::GetComponent<Invisibility>(invis7).is_invisible;
-			if (power.m_power[1]) {
-				player.SetCenterOffset(vec2(0, 0));
-				b2Body* playerBody = m_sceneReg->get<PhysicsBody>(p_entity).GetBody();
-				b2PolygonShape tempBox;
-				tempBox.SetAsBox(player.GetWidth() * 1.5/2, player.GetHeight()/2/1.2);
-
-				b2FixtureDef wolfBox;
-				wolfBox.shape = &tempBox;
-				wolfBox.density = 2.5f;
-				wolfBox.friction = 0.8f;
-				wolfBox.filter.categoryBits = playerBody->GetFixtureList()->GetFilterData().categoryBits;
-				wolfBox.filter.maskBits = playerBody->GetFixtureList()->GetFilterData().maskBits;
-				
-
-				playerBody->DestroyFixture(playerBody->GetFixtureList());
-				playerBody->CreateFixture(&wolfBox);
-				playerBody->SetGravityScale(5.0f);
-				player.GetBody()->SetTransform(player.GetPosition() + b2Vec2(0, 0), Transform::ToRadians(90));
-				//player.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
-				
-			}
-			else
+			if (MainEntities::Powerups()[1])
 			{
-				player.GetBody()->SetTransform(player.GetPosition() + b2Vec2(0,10), 0);
-				b2Body* playerBody = m_sceneReg->get<PhysicsBody>(p_entity).GetBody();
-				b2PolygonShape tempBox;
-				tempBox.SetAsBox(player.GetWidth() / 2, player.GetHeight() / 2, b2Vec2(0,-4),0);
+				power.m_power[1] = !power.m_power[1];
+				power.m_power[0] = !power.m_power[0];//reverses choice
+				//manually change values
+				ECS::GetComponent<Invisibility>(invis1).is_invisible = !ECS::GetComponent<Invisibility>(invis1).is_invisible;
+				ECS::GetComponent<Invisibility>(invis2).is_invisible = !ECS::GetComponent<Invisibility>(invis2).is_invisible;
+				ECS::GetComponent<Invisibility>(invis3).is_invisible = !ECS::GetComponent<Invisibility>(invis3).is_invisible;
+				ECS::GetComponent<Invisibility>(invis4).is_invisible = !ECS::GetComponent<Invisibility>(invis4).is_invisible;
+				ECS::GetComponent<Invisibility>(invis5).is_invisible = !ECS::GetComponent<Invisibility>(invis5).is_invisible;
+				ECS::GetComponent<Invisibility>(invis6).is_invisible = !ECS::GetComponent<Invisibility>(invis6).is_invisible;
+				ECS::GetComponent<Invisibility>(invis7).is_invisible = !ECS::GetComponent<Invisibility>(invis7).is_invisible;
+				if (power.m_power[1]) {
+					player.SetCenterOffset(vec2(0, 0));
+					b2Body* playerBody = m_sceneReg->get<PhysicsBody>(p_entity).GetBody();
+					b2PolygonShape tempBox;
+					tempBox.SetAsBox(player.GetWidth() * 1.5 / 2, player.GetHeight() / 2 / 1.2);
 
-				b2FixtureDef normalBox;
-				normalBox.shape = &tempBox;
-				normalBox.density = 2.0f;
-				normalBox.friction = 2.0f;
-				//normalBox.filter.categoryBits = playerBody->GetFixtureList()->GetFilterData().categoryBits;
-				normalBox.filter.categoryBits = PLAYER;
-				normalBox.filter.maskBits = playerBody->GetFixtureList()->GetFilterData().maskBits;
+					b2FixtureDef wolfBox;
+					wolfBox.shape = &tempBox;
+					wolfBox.density = 2.5f;
+					wolfBox.friction = 0.8f;
+					wolfBox.filter.categoryBits = playerBody->GetFixtureList()->GetFilterData().categoryBits;
+					wolfBox.filter.maskBits = playerBody->GetFixtureList()->GetFilterData().maskBits;
 
-				playerBody->DestroyFixture(playerBody->GetFixtureList());
-				playerBody->SetGravityScale(5.0f);
-				playerBody->CreateFixture(&normalBox);
-				player.SetCenterOffset(vec2(0.f, -4.f));
-				//player.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
+
+					playerBody->DestroyFixture(playerBody->GetFixtureList());
+					playerBody->CreateFixture(&wolfBox);
+					playerBody->SetGravityScale(5.0f);
+					player.GetBody()->SetTransform(player.GetPosition() + b2Vec2(0, 0), Transform::ToRadians(90));
+					//player.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
+
+				}
+				else
+				{
+					player.GetBody()->SetTransform(player.GetPosition() + b2Vec2(0, 10), 0);
+					b2Body* playerBody = m_sceneReg->get<PhysicsBody>(p_entity).GetBody();
+					b2PolygonShape tempBox;
+					tempBox.SetAsBox(player.GetWidth() / 2, player.GetHeight() / 2, b2Vec2(0, -4), 0);
+
+					b2FixtureDef normalBox;
+					normalBox.shape = &tempBox;
+					normalBox.density = 2.0f;
+					normalBox.friction = 2.0f;
+					//normalBox.filter.categoryBits = playerBody->GetFixtureList()->GetFilterData().categoryBits;
+					normalBox.filter.categoryBits = PLAYER;
+					normalBox.filter.maskBits = playerBody->GetFixtureList()->GetFilterData().maskBits;
+
+					playerBody->DestroyFixture(playerBody->GetFixtureList());
+					playerBody->SetGravityScale(5.0f);
+					playerBody->CreateFixture(&normalBox);
+					player.SetCenterOffset(vec2(0.f, -4.f));
+					//player.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
+				}
+				jump_high = !jump_high;
+
+				//ECS::GetComponent<Invisibility>(invis8).is_invisible = !ECS::GetComponent<Invisibility>(invis8).is_invisible;
+				//ECS::GetComponent<Invisibility>(invis9).is_invisible = !ECS::GetComponent<Invisibility>(invis9).is_invisible;
 			}
-			jump_high = !jump_high;
-			
-			//ECS::GetComponent<Invisibility>(invis8).is_invisible = !ECS::GetComponent<Invisibility>(invis8).is_invisible;
-			//ECS::GetComponent<Invisibility>(invis9).is_invisible = !ECS::GetComponent<Invisibility>(invis9).is_invisible;
 		}
 	}
 

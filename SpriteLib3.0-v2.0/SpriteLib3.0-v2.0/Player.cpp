@@ -83,13 +83,13 @@ void Player::MovementUpdate()
 	m_moving = false;
 
 	
-		if (Input::GetKey(Key::A))
+		if (Input::GetKey(Key::A) || Input::GetKey(Key::LeftArrow))
 		{
 			
 			m_facing = LEFT;
 			m_moving = true;
 		}
-		if (Input::GetKey(Key::D))
+		if (Input::GetKey(Key::D) || Input::GetKey(Key::RightArrow))
 		{
 			
 			m_facing = RIGHT;
