@@ -1019,6 +1019,8 @@ void LevelOne::Update()
 	if (dash.hp <= 0) //dying
 	{
 		is_done = false;
+		alive.clear();
+		enemies.clear();
 		inputS.open("Progress.txt");
 		if (inputS.is_open())
 		{
