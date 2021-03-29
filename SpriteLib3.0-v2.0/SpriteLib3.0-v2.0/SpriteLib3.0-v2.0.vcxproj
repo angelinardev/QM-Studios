@@ -173,6 +173,7 @@
     <ClInclude Include="Invisibility.h" />
     <ClInclude Include="JSON.h" />
     <ClInclude Include="LevelOne.h" />
+    <ClInclude Include="LevelTwo.h" />
     <ClInclude Include="MainEntities.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="PhysicsBody.h" />
@@ -244,6 +245,7 @@
     <ClCompile Include="Invisibility.cpp" />
     <ClCompile Include="JSON.cpp" />
     <ClCompile Include="LevelOne.cpp" />
+    <ClCompile Include="LevelTwo.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainEntities.cpp" />
     <ClCompile Include="Matrix.cpp" />

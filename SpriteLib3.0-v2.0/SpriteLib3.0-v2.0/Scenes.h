@@ -11,5 +11,6 @@
 #include "LevelOne.h"
 #include "CreditScene.h"
 #include "Controls.h"
+#include "LevelTwo.h"
 
 #endif // !__SCENES_H__
