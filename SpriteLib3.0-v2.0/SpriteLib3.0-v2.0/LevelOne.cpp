@@ -788,7 +788,7 @@ void LevelOne::InitTexture()
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
-			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 1.2f);
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 0.4f);
 		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 		ECS::AttachComponent<Invisibility>(entity);
 		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
@@ -820,7 +820,7 @@ void LevelOne::InitTexture()
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
-			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 1.2f);
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 0.4f);
 		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 		ECS::AttachComponent<Invisibility>(entity);
 		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
@@ -852,7 +852,7 @@ void LevelOne::InitTexture()
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
-			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 1.2f);
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 0.4f);
 		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 		ECS::AttachComponent<Invisibility>(entity);
 		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
@@ -1275,8 +1275,8 @@ void LevelOne::KeyboardDown()
 
 					b2FixtureDef wolfBox;
 					wolfBox.shape = &tempBox;
-					wolfBox.density = 2.5f;
-					wolfBox.friction = 1.2f;
+					wolfBox.density = 3.5f;
+					wolfBox.friction = 2.f;
 					wolfBox.filter.categoryBits = playerBody->GetFixtureList()->GetFilterData().categoryBits;
 					wolfBox.filter.maskBits = playerBody->GetFixtureList()->GetFilterData().maskBits;
 
@@ -1297,8 +1297,8 @@ void LevelOne::KeyboardDown()
 
 					b2FixtureDef normalBox;
 					normalBox.shape = &tempBox;
-					normalBox.density = 2.0f;
-					normalBox.friction = 2.0f;
+					normalBox.density = 3.5f;
+					normalBox.friction = 3.f;
 					//normalBox.filter.categoryBits = playerBody->GetFixtureList()->GetFilterData().categoryBits;
 					normalBox.filter.categoryBits = PLAYER;
 					normalBox.filter.maskBits = playerBody->GetFixtureList()->GetFilterData().maskBits;
