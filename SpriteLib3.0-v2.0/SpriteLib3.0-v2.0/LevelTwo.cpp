@@ -194,8 +194,8 @@ void LevelTwo::InitTexture()
 		ECS::AttachComponent<Transform>(entity);
 
 		//Set up the components
-		std::string fileName = "lvl1back.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 1900, 300);
+		std::string fileName = "outlook.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 300, 1500);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(315.f, 0.f, 2.f));
 	}
@@ -266,11 +266,23 @@ void LevelTwo::InitTexture()
 	}
 
 
-	//SetUp Invisible Wall at the beginning
-	BoxMaker(1000, 20, -550.f, 0.f, 90, 0);
+	//SetUp Invisible Wall at the left
+	EnviroMaker(4500, 10, 200.f, -717.f, 90, 0);
 
-	//Setup spawning static Platform
-	BoxMaker(210, 5, -440.f, -15.f, 0, 0, 6);
+	//SetUp Invisible Wall at the right
+	EnviroMaker(4500, 10, 430.f, -717.f, 90, 0);
+	
+	//First platform
+	BoxMaker(500, 5, 450, -717, 0, 0, 7);
+
+	//First Jump platform
+	BoxMaker(40, 5, 405, -687, 0,0, 7);
+
+	//Angle Platform after jump
+	BoxMaker(55, 3, 320, -657, 140, 0, 0.8);
+
+	//First floor platform
+	BoxMaker(75, 5, 235, -615, 0, 0, 7);
 
 	//Setup first invis platform
 	{
@@ -283,7 +295,7 @@ void LevelTwo::InitTexture()
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 5.f));
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 60, 5);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 3);
 
 		float shrinkX = 0.f;
 		float shrinkY = 0.f;
@@ -291,7 +303,7 @@ void LevelTwo::InitTexture()
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_staticBody;
-		tempDef.position.Set(float32(-300.f), float32(10.f));
+		tempDef.position.Set(float32(215.f), float32(-576.f));
 
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
@@ -302,7 +314,17 @@ void LevelTwo::InitTexture()
 		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
 		invis1 = entity;
 	}
+	//Jump platform after invisible platform
+	BoxMaker(30, 4, 260, -542, 0, 0, 7);
 
+	//Angled platform
+	BoxMaker(45, 4, 305, -512, 45, 0, 0.8);
+
+	//Next Angled platform
+	BoxMaker(45, 4, 263, -472, 145, 0, 0.8);
+
+	//Second Floor platform
+	BoxMaker(150, 8, 380, -446, 0, 0, 7);
 	////Setup second invis
 	//{
 	//	auto entity = ECS::CreateEntity();
@@ -480,8 +502,7 @@ void LevelTwo::InitTexture()
 		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, PTRIGGER, PLAYER);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
 	}
-	//Static platform after rock
-	BoxMaker(245, 5, 80, -60, 0, 0, 6);
+	
 	//3rd enemy
 	{
 
@@ -863,7 +884,7 @@ void LevelTwo::InitTexture()
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(-530.f), float32(0.f)); //Starting position -530 x, 0 y
+		tempDef.position.Set(float32(250.f), float32(-710.f)); //Starting position -530 x, 0 y
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
@@ -944,7 +965,7 @@ void LevelTwo::Update()
 
 
 	ECS::GetComponent<Invisibility>(invis1).update_invisible();
-	ECS::GetComponent<Invisibility>(invis2).update_invisible();
+	//ECS::GetComponent<Invisibility>(invis2).update_invisible();
 	ECS::GetComponent<Invisibility>(invis3).update_invisible();
 	ECS::GetComponent<Invisibility>(invis4).update_invisible();
 	ECS::GetComponent<Invisibility>(invis5).update_invisible();
@@ -982,42 +1003,6 @@ void LevelTwo::Update()
 	auto& player = ECS::GetComponent<PhysicsBody>(p_entity);
 	auto& canJump = ECS::GetComponent<CanJump>(p_entity);
 
-	//jump pit check
-	//410, -60
-	if (player.GetPosition().y <= -80 && player.GetPosition().x <= 410 && player.GetPosition().x >= 100)
-	{
-		auto& power = ECS::GetComponent<Player_Power>(p_entity);
-		if (!power.m_power[1] && !power.m_power[0])
-			//bring player back to position before jump
-		{
-			player.GetBody()->SetTransform(b2Vec2(170, -40), 0);
-		}
-		else
-		{
-			player.GetBody()->SetTransform(b2Vec2(170, -40), Transform::ToRadians(90));
-		}
-
-		dash.hp -= 25; //remove 25 health
-
-
-	}
-	//first pit check
-	if (player.GetPosition().y <= -50 && player.GetPosition().x <= -100)
-	{
-		auto& power = ECS::GetComponent<Player_Power>(p_entity);
-		if (!power.m_power[1] && !power.m_power[0])
-			//bring player back to position before jump
-		{
-			player.GetBody()->SetTransform(b2Vec2(-400, 10), 0);
-		}
-		else
-		{
-			player.GetBody()->SetTransform(b2Vec2(-400, 10), Transform::ToRadians(90));
-		}
-
-		dash.hp -= 25; //remove 25 health
-
-	}
 
 
 	if (player.GetBody()->GetLinearVelocity().y < 0 && !canJump.m_canJump)//peak of jump, position needs to be relative to the ground
@@ -1028,7 +1013,7 @@ void LevelTwo::Update()
 		}
 		else
 		{
-			player.SetGravityScale(3);
+			player.SetGravityScale(2.3);
 		}
 		jspeed += 0.8;
 		if (jspeed > 6)
@@ -1043,11 +1028,11 @@ void LevelTwo::Update()
 		jspeed = 0;
 		if (!jump_high)
 		{
-			player.SetGravityScale(2.2);
+			player.SetGravityScale(2.1);
 		}
 		else
 		{
-			player.SetGravityScale(1.8);
+			player.SetGravityScale(1.5);
 		}
 	}
 

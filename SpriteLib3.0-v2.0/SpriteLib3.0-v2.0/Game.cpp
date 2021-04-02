@@ -48,20 +48,20 @@ void Game::InitGame()
 	m_scenes.push_back(new LevelOne("First level"));
 	m_scenes.push_back(new CreditScene("Credits"));
 	m_scenes.push_back(new Controls("Controls"));
-	//m_scenes.push_back(new LevelTwo("Second level"));
+	m_scenes.push_back(new LevelTwo("Second Level"));
 	
 	//preloads all scenes
     //m_scenes[0]->InitTexture();
-    m_scenes[1]->InitTexture();
+    //m_scenes[1]->InitTexture();
 	//m_scenes[2]->InitTexture();
 	//m_scenes[3]->InitTexture();
 	//m_scenes[4]->InitTexture();
 	//m_scenes[5]->InitTexture();
 	//m_scenes[6]->InitTexture();
-	//m_scenes[7]->InitTexture();
+	m_scenes[7]->InitTexture();
 	
 	//Sets active scene reference to our scene
-	m_activeScene = m_scenes[1];
+	m_activeScene = m_scenes[7];
 
 	m_activeScene->InitScene(float(BackEnd::GetWindowWidth()), float(BackEnd::GetWindowHeight()));
 
