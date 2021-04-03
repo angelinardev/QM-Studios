@@ -21,9 +21,11 @@ enum AnimTypes
 {
 	IDLE = 0,
 	WALK = 2,
-	DASH = 4,
-	ATTACK = 6,
-	WOLF = 8
+	JUMP = 4,
+	DASH = 6,
+	ATTACK = 8,
+	FALL = 10,
+	WOLF = 12
 
 };
 
@@ -56,13 +58,16 @@ public:
 	bool m_locked = false;
 	bool m_attack = false;
 
+	bool m_jump = false;
+	bool m_fall = false;
+
 private:
 	void SetActiveAnimation(int anim);
 
 	//Basically, any animation OTHER than moving will not have a cancel, and we'll be checking whether or not that animation is done
 	
 	//Are you currently jumping
-	bool m_jump = false;
+	//bool m_jump = false;
 	//Have we locked the player from moving during this animation?
 	
 

@@ -160,6 +160,10 @@ void EndScreen::KeyboardDown()
 			{
 				selection = 4;
 			}
+			if (var == 3)
+			{
+				selection = 7;
+			}
 		}
 	}
 }

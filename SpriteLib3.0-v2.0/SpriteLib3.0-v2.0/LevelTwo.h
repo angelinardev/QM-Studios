@@ -81,5 +81,8 @@ protected:
 	std::vector<bool>alive;
 
 	int rope1;
+	bool attached = false;
+	b2DistanceJoint* m_joint;
+	std::vector<int>swings;
 };
 

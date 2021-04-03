@@ -1062,7 +1062,7 @@ void LevelOne::Update()
 
 	}
 	//first pit check
-	if (player.GetPosition().y <= -50 && player.GetPosition().x <=-100)
+	if (player.GetPosition().y <= -60 && player.GetPosition().x <=-100)
 	{
 		auto& power = ECS::GetComponent<Player_Power>(p_entity);
 		if (!power.m_power[1] && !power.m_power[0])
@@ -1208,12 +1208,12 @@ void LevelOne::KeyboardDown()
 {
 	auto& player = ECS::GetComponent<PhysicsBody>(p_entity);
 	auto& sprite = ECS::GetComponent<Sprite>(p_entity);
-	
+
 	auto& canJump = ECS::GetComponent<CanJump>(p_entity);
 	auto& power = ECS::GetComponent<Player_Power>(p_entity);
 
 	auto& anims = ECS::GetComponent<Player>(p_entity);
-	
+
 	auto& vel = player.GetBody()->GetLinearVelocity();
 	auto& pos = player.GetBody()->GetPosition();
 	//auto& dash = ECS::GetComponent<CanJump>(p_entity);
@@ -1223,17 +1223,20 @@ void LevelOne::KeyboardDown()
 
 	if (Input::GetKey(Key::K))
 	{
-		if (!power.m_power[1] && !power.m_power[0])
-		{//manual box collision calculation
-			anims.m_attack = true;
-			anims.m_locked = true;
-			anims.m_moving = false;
-			for (int i = 0; i < enemies.size(); i++)
-			{
-				if (alive[i])
+		if (canJump.m_canJump)
+		{
+			if (!power.m_power[1] && !power.m_power[0])
+			{//manual box collision calculation
+				anims.m_attack = true;
+				anims.m_locked = true;
+				anims.m_moving = false;
+				for (int i = 0; i < enemies.size(); i++)
 				{
-					Scene::Attack(p_entity, enemies[i]);
+					if (alive[i])
+					{
+						Scene::Attack(p_entity, enemies[i]);
 
+					}
 				}
 			}
 		}
@@ -1253,7 +1256,7 @@ void LevelOne::KeyboardDown()
 
 	if (Input::GetKeyDown(Key::Two)) //vision
 	{
-		if (!anims.m_attack)
+		if (!anims.m_attack && canJump.m_canJump)
 		{
 			if (MainEntities::Powerups()[1])
 			{
@@ -1275,8 +1278,8 @@ void LevelOne::KeyboardDown()
 
 					b2FixtureDef wolfBox;
 					wolfBox.shape = &tempBox;
-					wolfBox.density = 3.5f;
-					wolfBox.friction = 2.f;
+					wolfBox.density = 2.5f;
+					wolfBox.friction = 1.2f;
 					wolfBox.filter.categoryBits = playerBody->GetFixtureList()->GetFilterData().categoryBits;
 					wolfBox.filter.maskBits = playerBody->GetFixtureList()->GetFilterData().maskBits;
 
@@ -1297,8 +1300,8 @@ void LevelOne::KeyboardDown()
 
 					b2FixtureDef normalBox;
 					normalBox.shape = &tempBox;
-					normalBox.density = 3.5f;
-					normalBox.friction = 3.f;
+					normalBox.density = 2.0f;
+					normalBox.friction = 2.0f;
 					//normalBox.filter.categoryBits = playerBody->GetFixtureList()->GetFilterData().categoryBits;
 					normalBox.filter.categoryBits = PLAYER;
 					normalBox.filter.maskBits = playerBody->GetFixtureList()->GetFilterData().maskBits;
@@ -1339,13 +1342,16 @@ void LevelOne::KeyboardDown()
 		}
 		dash_timer = 0;
 	}
-	
+
 
 	//dash
 	if (Input::GetKeyDown(Key::Shift))
 	{
 		if (!power.m_power[1] && !power.m_power[0])
 		{
+			auto& a = ECS::GetComponent<AnimationController>(p_entity);
+			//reset to allow dash animation
+			a.GetAnimation(a.GetActiveAnim()).Reset();
 			if (canJump.m_canJump && canJump.can_dash) //ground dash
 			{
 				player.GetBody()->SetLinearVelocity(b2Vec2(0, vel.y));

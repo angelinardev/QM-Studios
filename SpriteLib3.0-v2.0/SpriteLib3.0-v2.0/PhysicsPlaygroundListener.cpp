@@ -1,6 +1,7 @@
 #include "PhysicsPlaygroundListener.h"
-
+#include "Scene.h"
 #include "ECS.h"
+#include "BackEnd.h"
 
 PhysicsPlaygroundListener::PhysicsPlaygroundListener()
 	: b2ContactListener()
@@ -43,10 +44,23 @@ void PhysicsPlaygroundListener::BeginContact(b2Contact* contact)
 			ECS::GetComponent<CanJump>((int)fixtureB->GetBody()->GetUserData()).m_canJump = true;
 		}
 	}
-	else
+	//rope collisions
+	if ((filterA.categoryBits == PLAYER && filterB.categoryBits == HEXAGON) || (filterB.categoryBits == PLAYER && filterA.categoryBits == HEXAGON))
 	{
-
+		if (filterA.categoryBits == PLAYER)
+		{
+			ECS::GetComponent<CanJump>((int)fixtureA->GetBody()->GetUserData()).can_swing = true;
+			ECS::GetComponent<Swing>((int)fixtureB->GetBody()->GetUserData()).m_swing = true;
+		}
+		else if (filterB.categoryBits == PLAYER)
+		{
+			ECS::GetComponent<CanJump>((int)fixtureB->GetBody()->GetUserData()).can_swing = true;
+			ECS::GetComponent<Swing>((int)fixtureA->GetBody()->GetUserData()).m_swing = true;
+		}
+		
 	}
+
+
 	//enemy collisions
 	if ((filterA.categoryBits == PLAYER && filterB.categoryBits == ENEMY) || (filterB.categoryBits == PLAYER && filterA.categoryBits == ENEMY))
 	{
@@ -95,6 +109,19 @@ void PhysicsPlaygroundListener::EndContact(b2Contact* contact)
 		{
 			ECS::GetComponent<CanJump>((int)fixtureB->GetBody()->GetUserData()).m_canJump = false;
 		}
+	}
+	//rope collisions
+	if ((filterA.categoryBits == PLAYER && filterB.categoryBits == HEXAGON) || (filterB.categoryBits == PLAYER && filterA.categoryBits == HEXAGON))
+	{
+		if (filterA.categoryBits == PLAYER)
+		{
+			ECS::GetComponent<CanJump>((int)fixtureA->GetBody()->GetUserData()).can_swing = false;
+		}
+		else if (filterB.categoryBits == PLAYER)
+		{
+			ECS::GetComponent<CanJump>((int)fixtureB->GetBody()->GetUserData()).can_swing = false;
+		}
+
 	}
 
 	//if neither or both are sensors, will be false

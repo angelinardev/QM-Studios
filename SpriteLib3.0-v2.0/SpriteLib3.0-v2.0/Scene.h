@@ -103,6 +103,7 @@ protected:
 	std::string m_name = "Default Name";
 
 	std::fstream inputS;
+	b2RevoluteJointDef jointDef;
 private:
 	//Hello world entity number
 	int m_helloWorldSign = 0;

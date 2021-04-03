@@ -43,19 +43,31 @@ void Player::InitPlayer(std::string& fileName, std::string& animationJSON, int w
 	//walk
 	m_animController->AddAnimation(animations["WALKLEFT"].get<Animation>()); //2
 	m_animController->AddAnimation(animations["WALKRIGHT"].get<Animation>()); //3
+
+	//jump
+	m_animController->AddAnimation(animations["JUMPLEFT"].get<Animation>());
+	m_animController->AddAnimation(animations["JUMPRIGHT"].get<Animation>());
 	//dashing
 	m_animController->AddAnimation(animations["DASHLEFT"].get<Animation>()); //4
 	m_animController->AddAnimation(animations["DASHRIGHT"].get<Animation>()); //5
 	//attack
 	m_animController->AddAnimation(animations["ATKLEFT"].get<Animation>()); //6
 	m_animController->AddAnimation(animations["ATKRIGHT"].get<Animation>()); //7
+	
+	//fall
+	m_animController->AddAnimation(animations["FALLLEFT"].get<Animation>());
+	m_animController->AddAnimation(animations["FALLRIGHT"].get<Animation>());
 	//wolf (reversed)
 	m_animController->AddAnimation(animations["WLFIDLERIGHT"].get<Animation>()); //9
 	m_animController->AddAnimation(animations["WLFIDLELEFT"].get<Animation>()); //8
 	m_animController->AddAnimation(animations["WLFWALKRIGHT"].get<Animation>()); //11
 
 	m_animController->AddAnimation(animations["WLFWALKLEFT"].get<Animation>()); //10
+
+	//wolf (jump)
 	
+	m_animController->AddAnimation(animations["WLFJUMPRIGHT"].get<Animation>());
+	m_animController->AddAnimation(animations["WLFJUMPLEFT"].get<Animation>());
 	//Set Default Animation
 	m_animController->SetActiveAnim(1);
 
@@ -81,7 +93,8 @@ void Player::Update()
 void Player::MovementUpdate()
 {
 	m_moving = false;
-
+	m_jump = false;
+	m_fall = false;
 	
 		if (Input::GetKey(Key::A) || Input::GetKey(Key::LeftArrow))
 		{
@@ -95,7 +108,24 @@ void Player::MovementUpdate()
 			m_facing = RIGHT;
 			m_moving = true;
 		}
-
+		if (Input::GetKey(Key::Space))
+		{
+			//auto& power = ECS::GetComponent<Player_Power>(MainEntities::MainPlayer());
+			if (ECS::GetComponent<CanJump>(MainEntities::MainPlayer()).m_canJump) //NOT using powers
+			{
+				m_jump = true;
+				m_locked = true;
+			}
+		}
+		if (!ECS::GetComponent<CanJump>(MainEntities::MainPlayer()).m_canJump) //can't jump, ie falling
+		{
+			auto& power = ECS::GetComponent<Player_Power>(MainEntities::MainPlayer());
+			if (!power.m_power[1] && !power.m_power[0])
+			{
+				m_fall = true;
+				m_locked = true;
+			}
+		}
 	/*if (Input::GetKeyDown(Key::Space))
 	{
 		m_moving = false;
@@ -121,7 +151,7 @@ void Player::AnimationUpdate()
 {
 	int activeAnimation = 0;
 
-	if (m_moving)
+	if (m_moving && !m_jump && !m_fall)
 	{
 		//Puts it into the WALK category
 		activeAnimation = WALK;
@@ -186,6 +216,32 @@ void Player::AnimationUpdate()
 				ECS::GetComponent<PhysicsBody>(MainEntities::MainPlayer()).SetCenterOffset(vec2(0.f, -4.f));
 
 			}
+		}
+
+	}
+	else if (m_jump)
+	{
+		activeAnimation = JUMP;
+
+		//Check if the attack animation is done
+		if (m_animController->GetAnimation(m_animController->GetActiveAnim()).GetAnimationDone())
+		{
+			//Will auto set to idle
+			m_locked = false;
+			m_jump = false;
+			//Resets the attack animation
+			m_animController->GetAnimation(m_animController->GetActiveAnim()).Reset();
+
+			activeAnimation = IDLE;
+		}
+	}
+	else if (m_fall)
+	{
+		activeAnimation = FALL;
+		if (ECS::GetComponent<CanJump>(MainEntities::MainPlayer()).m_canJump)
+		{
+			m_locked = false;
+			m_fall = false;
 		}
 
 	}

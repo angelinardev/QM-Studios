@@ -267,7 +267,7 @@ void LevelTwo::InitTexture()
 
 
 	//SetUp Invisible Wall at the beginning
-	BoxMaker(1000, 20, -550.f, 0.f, 90, 0);
+	EnviroMaker(1000, 20, -550.f, 0.f, 90, 0);
 
 	//Setup spawning static Platform
 	BoxMaker(210, 5, -440.f, -15.f, 0, 0, 6);
@@ -291,7 +291,7 @@ void LevelTwo::InitTexture()
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_staticBody;
-		tempDef.position.Set(float32(-300.f), float32(10.f));
+		tempDef.position.Set(float32(-340.f), float32(10.f));
 
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
@@ -303,44 +303,46 @@ void LevelTwo::InitTexture()
 		invis1 = entity;
 	}
 
-	////Setup second invis
+	//Setup second invis
+	{
+		auto entity = ECS::CreateEntity();
+
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		std::string fileName = "iSprite.png";
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 5.f));
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 5);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(-250.f), float32(40.f));
+
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 1.2f);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+		ECS::AttachComponent<Invisibility>(entity);
+		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
+		invis2 = entity;
+	}
 	//{
-	//	auto entity = ECS::CreateEntity();
-
-	//	ECS::AttachComponent<Sprite>(entity);
-	//	ECS::AttachComponent<Transform>(entity);
-	//	ECS::AttachComponent<PhysicsBody>(entity);
-	//	std::string fileName = "iSprite.png";
-	//	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
-	//	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
-	//	ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 5.f));
-	//	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 5);
-
-	//	float shrinkX = 0.f;
-	//	float shrinkY = 0.f;
-
-	//	b2Body* tempBody;
-	//	b2BodyDef tempDef;
-	//	tempDef.type = b2_staticBody;
-	//	tempDef.position.Set(float32(-250.f), float32(40.f));
-
-
-	//	tempBody = m_physicsWorld->CreateBody(&tempDef);
-	//	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
-	//		float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 1.2f);
-	//	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
-	//	ECS::AttachComponent<Invisibility>(entity);
-	//	ECS::GetComponent<Invisibility>(entity).set_entity(entity);
-	//	invis2 = entity;
-	//
 	//	auto entity2 = ECS::CreateEntity();
 	//	rope1 = entity2;
+	//	swings.push_back(rope1);
 
 	//	//Add components
 	//	ECS::AttachComponent<Sprite>(entity2);
 	//	ECS::AttachComponent<Transform>(entity2);
 	//	ECS::AttachComponent<PhysicsBody>(entity2);
-	//	
+	//	ECS::AttachComponent<Swing>(entity2);
 
 	//	//Sets up the components
 	//	std::string fileName2 = "Curtains.png";
@@ -348,7 +350,7 @@ void LevelTwo::InitTexture()
 	//	ECS::GetComponent<Sprite>(entity2).LoadSprite(fileName, 5, 50);
 	//	ECS::GetComponent<Sprite>(entity2).SetTransparency(1.f);
 	//	ECS::GetComponent<Transform>(entity2).SetPosition(vec3(0.f, 30.f, 3.f));
-
+	//	
 
 	//	auto& tempSpr2 = ECS::GetComponent<Sprite>(entity2);
 	//	auto& tempPhsBody2 = ECS::GetComponent<PhysicsBody>(entity2);
@@ -360,17 +362,17 @@ void LevelTwo::InitTexture()
 
 	//	tempBody2 = m_physicsWorld->CreateBody(&tempDef2);
 
-	//	tempPhsBody2 = PhysicsBody(entity2, tempBody2, float(tempSpr2.GetWidth() - shrinkX), float(tempSpr2.GetHeight() - shrinkY), vec2(0.f, 0.f), false, PICKUP, PLAYER | PTRIGGER, 0.5f, 3.f);
+	//	tempPhsBody2 = PhysicsBody(entity2, tempBody2, float(tempSpr2.GetWidth() - shrinkX), float(tempSpr2.GetHeight() - shrinkY), vec2(0.f, 0.f), false, HEXAGON, PLAYER | GROUND, 0.5f, 3.f);
 	//	//tempPhsBody = PhysicsBody(entity, tempBody, float((tempSpr.GetHeight() - shrinkY)/2.f), vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
 
 	//	tempPhsBody2.SetRotationAngleDeg(0.f);
 	//	tempPhsBody2.SetFixedRotation(false);
 	//	tempPhsBody2.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
-	//	tempPhsBody2.SetGravityScale(0.f);
+	//	tempPhsBody2.SetGravityScale(1.f);
 
 	//	b2RevoluteJointDef jointDef;
-	//	jointDef.bodyA = tempPhsBody.GetBody();
-	//	jointDef.bodyB = tempPhsBody2.GetBody();
+	//	jointDef.bodyA = tempBody;
+	//	jointDef.bodyB = tempBody2;
 	//	jointDef.collideConnected = true;
 
 	//	jointDef.localAnchorA.Set(0, 0);
@@ -960,11 +962,12 @@ void LevelTwo::Update()
 	{
 		is_done = false;
 		alive.clear();
+		swings.clear();
 		enemies.clear();
 		inputS.open("Progress.txt");
 		if (inputS.is_open())
 		{
-			inputS << 2 << "\n";
+			inputS << 3 << "\n";
 		}
 		inputS.close();
 		selection = 2; //end screen? for now
@@ -1070,11 +1073,36 @@ void LevelTwo::Update()
 		inputS.open("Progress.txt");
 		if (inputS.is_open())
 		{
-			inputS << 3 << "\n";
+			inputS << 4 << "\n";
 		}
 		inputS.close();
 	}
+	if (attached)
+	{
+		//ECS::GetComponent<PhysicsBody>(rope1).SetVelocity(player.GetVelocity());
+		for (int i = 0; i < swings.size(); i++)
+		{
+			if (ECS::GetComponent<Swing>(swings[i]).m_swing)
+			{
+				float angle = 45;
+				auto& sb = ECS::GetComponent<PhysicsBody>(swings[i]);
+				if (player.GetPosition().x > sb.GetPosition().x + 20 || player.GetPosition().x < sb.GetPosition().x - 20)
+				{
+					angle = 60;
+				}
+				if (player.GetPosition().x < sb.GetPosition().x)
+				{
+					angle *= -1;
+				}
+				if (player.GetPosition().x <= sb.GetPosition().x + 15 && player.GetPosition().x >= sb.GetPosition().x - 15)
+				{
+					angle = 0;
+				}
 
+				sb.SetRotationAngleDeg(angle);
+			}
+		}
+	}
 
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(p_entity));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(p_entity));
@@ -1108,6 +1136,17 @@ void LevelTwo::KeyboardHold()
 		{
 			player.GetBody()->ApplyForceToCenter(b2Vec2(-400000.f * speed, 0.f), true);
 		}
+		if (attached)
+		{
+			//player.GetBody()->SetLinearVelocity(b2Vec2(-4000.f * speed, 400.f));
+			////dot product
+			//float angle = m_joint->GetAnchorA().x * m_joint->GetAnchorB().x + m_joint->GetAnchorA().y * m_joint->GetAnchorB().y;
+			//player.GetPosition().Normalize();
+			//auto mult =player.GetMass() * -9.8 * cos(angle) + player.GetMass() * player.GetBody()->GetLinearVelocity().LengthSquared() / m_joint->GetMaxLength();
+			//player.GetBody()->ApplyForceToCenter(b2Vec2(player.GetPosition().x*mult*100, player.GetPosition().y*mult*100), true);
+
+			//player.GetBody()->ApplyForceToCenter(b2Vec2(-400000.f * speed, 400000.f), true);
+		}
 
 
 	}
@@ -1128,6 +1167,11 @@ void LevelTwo::KeyboardHold()
 		else
 		{
 			player.GetBody()->ApplyForceToCenter(b2Vec2(400000.f * speed, 0.f), true);
+		}
+		if (attached)
+		{
+			//player.GetBody()->SetLinearVelocity(b2Vec2(4000.f * speed, 400.f));
+			//player.GetBody()->ApplyForceToCenter(b2Vec2(400000.f * speed, 400000.f), true);
 		}
 
 	}
@@ -1161,19 +1205,65 @@ void LevelTwo::KeyboardDown()
 	int spriteHeight;
 	int spriteWidth;
 
+	
+
+	if (Input::GetKey(Key::R))
+	{
+		if (attached)
+		{
+			m_physicsWorld->DestroyJoint(m_joint);
+			attached = false;
+			canJump.can_swing = false;
+			for (int i = 0; i < swings.size(); i++)
+			{
+				ECS::GetComponent<Swing>(swings[i]).m_swing = false;
+			}
+		}
+		if (canJump.can_swing)
+		{
+			for (int i = 0; i < swings.size(); i++)
+			{
+				if (ECS::GetComponent<Swing>(swings[i]).m_swing)
+				{
+					b2DistanceJointDef jointDef;
+					jointDef.bodyB = player.GetBody();
+					jointDef.bodyA = ECS::GetComponent<PhysicsBody>(swings[i]).GetBody();
+					//jointDef.collideConnected = true;
+
+					jointDef.localAnchorB.Set(0, player.GetHeight() / 2);
+					jointDef.localAnchorA.Set(0, ECS::GetComponent<Sprite>(swings[i]).GetHeight() / 2);
+					//jointDef.maxLength = ECS::GetComponent<Sprite>(rope1).GetHeight();
+					jointDef.length = ECS::GetComponent<Sprite>(swings[i]).GetHeight();
+					//jointDef.maxLength = 1;
+
+					//m_physicsWorld->CreateJoint(&jointDef);
+
+
+					m_joint = (b2DistanceJoint*)m_physicsWorld->CreateJoint(&jointDef);
+
+					attached = true;
+				}
+			}
+		}
+		
+	}
+
 	if (Input::GetKey(Key::K))
 	{
-		if (!power.m_power[1] && !power.m_power[0])
-		{//manual box collision calculation
-			anims.m_attack = true;
-			anims.m_locked = true;
-			anims.m_moving = false;
-			for (int i = 0; i < enemies.size(); i++)
-			{
-				if (alive[i])
+		if (canJump.m_canJump)
+		{
+			if (!power.m_power[1] && !power.m_power[0])
+			{//manual box collision calculation
+				anims.m_attack = true;
+				anims.m_locked = true;
+				anims.m_moving = false;
+				for (int i = 0; i < enemies.size(); i++)
 				{
-					Scene::Attack(p_entity, enemies[i]);
+					if (alive[i])
+					{
+						Scene::Attack(p_entity, enemies[i]);
 
+					}
 				}
 			}
 		}
@@ -1193,7 +1283,7 @@ void LevelTwo::KeyboardDown()
 
 	if (Input::GetKeyDown(Key::Two)) //vision
 	{
-		if (!anims.m_attack)
+		if (!anims.m_attack &&canJump.m_canJump)
 		{
 			if (MainEntities::Powerups()[1])
 			{
@@ -1286,6 +1376,9 @@ void LevelTwo::KeyboardDown()
 	{
 		if (!power.m_power[1] && !power.m_power[0])
 		{
+			auto& a = ECS::GetComponent<AnimationController>(p_entity);
+			//reset to allow dash animation
+			a.GetAnimation(a.GetActiveAnim()).Reset();
 			if (canJump.m_canJump && canJump.can_dash) //ground dash
 			{
 				player.GetBody()->SetLinearVelocity(b2Vec2(0, vel.y));

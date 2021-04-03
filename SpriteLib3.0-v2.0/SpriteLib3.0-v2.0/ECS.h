@@ -22,6 +22,7 @@
 #include "EnemyTrigger.h"
 #include "CanDamage.h"
 #include "HealthTrigger.h"
+#include "Swing.h"
 
 
 class ECS abstract
