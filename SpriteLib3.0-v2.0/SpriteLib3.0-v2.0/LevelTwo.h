@@ -58,6 +58,9 @@ protected:
 	int invis8 = 7;
 	int invis9 = 8;
 	int invis10 = 9;
+	int invis11 = 10;
+	int invis12 = 11;
+	int invis13 = 12;
 
 	int selection = -1;
 	//tutorial controls
