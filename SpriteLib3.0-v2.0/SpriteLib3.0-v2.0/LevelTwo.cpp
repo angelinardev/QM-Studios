@@ -266,17 +266,17 @@ void LevelTwo::InitTexture()
 	}
 
 
-	//SetUp Invisible Wall at the beginning
-	EnviroMaker(1000, 20, -550.f, 0.f, 90, 0);
+	//SetUp Invisible Wall at the left
+	EnviroMaker(4500, 10, 200.f, -717.f, 90, 0);
 
 	//SetUp Invisible Wall at the right
 	EnviroMaker(4500, 10, 430.f, -717.f, 90, 0);
-	
+
 	//First platform
 	BoxMaker(500, 5, 450, -717, 0, 0, 7);
 
 	//First Jump platform
-	BoxMaker(40, 5, 405, -687, 0,0, 7);
+	BoxMaker(40, 5, 405, -687, 0, 0, 7);
 
 	//Angle Platform after jump
 	BoxMaker(55, 3, 320, -657, 140, 0, 0.8);
@@ -303,7 +303,7 @@ void LevelTwo::InitTexture()
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_staticBody;
-		tempDef.position.Set(float32(-340.f), float32(10.f));
+		tempDef.position.Set(float32(215.f), float32(-576.f));
 
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
@@ -315,7 +315,19 @@ void LevelTwo::InitTexture()
 		invis1 = entity;
 	}
 
-	//Setup second invis
+	//Jump platform after invisible platform
+	BoxMaker(30, 4, 260, -542, 0, 0, 7);
+
+	//Angled platform
+	BoxMaker(45, 4, 305, -512, 45, 0, 0.8);
+
+	//Next Angled platform
+	BoxMaker(45, 4, 263, -472, 145, 0, 0.8);
+
+	//Second Floor platform
+	BoxMaker(150, 8, 380, -446, 0, 0, 7);
+
+	//Setup second invis 
 	{
 		auto entity = ECS::CreateEntity();
 
@@ -326,7 +338,7 @@ void LevelTwo::InitTexture()
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 5.f));
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 5);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 3);
 
 		float shrinkX = 0.f;
 		float shrinkY = 0.f;
@@ -334,7 +346,7 @@ void LevelTwo::InitTexture()
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_staticBody;
-		tempDef.position.Set(float32(-250.f), float32(40.f));
+		tempDef.position.Set(float32(330.f), float32(-406.f));
 
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
@@ -345,16 +357,206 @@ void LevelTwo::InitTexture()
 		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
 		invis2 = entity;
 	}
+
+	//Setup third invis 
+	{
+		auto entity = ECS::CreateEntity();
+
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		std::string fileName = "iSprite.png";
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 5.f));
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 3);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(405.f), float32(-381.f));
+
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 1.2f);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+		ECS::AttachComponent<Invisibility>(entity);
+		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
+		invis3 = entity;
+	}
+
+	//Setup fourth invis 
+	{
+		auto entity = ECS::CreateEntity();
+
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		std::string fileName = "iSprite.png";
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 5.f));
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 3);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(320.f), float32(-351.f));
+
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 1.2f);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+		ECS::AttachComponent<Invisibility>(entity);
+		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
+		invis4 = entity;
+	}
+
+	//Setup fifth invis 
+	{
+		auto entity = ECS::CreateEntity();
+
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		std::string fileName = "iSprite.png";
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 5.f));
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 3);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(395.f), float32(-316.f));
+
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 1.2f);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+		ECS::AttachComponent<Invisibility>(entity);
+		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
+		invis5 = entity;
+	}
+
+	//Setup sixth invis 
+	{
+		auto entity = ECS::CreateEntity();
+
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		std::string fileName = "iSprite.png";
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 5.f));
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 3);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(355.f), float32(-276.f));
+
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 1.2f);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+		ECS::AttachComponent<Invisibility>(entity);
+		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
+		invis6 = entity;
+	}
+
+	//Platform after invis platforms to reach floor 3
+	BoxMaker(45, 9, 295, -246, 0, 0, 7);
+
+	//Setup seventh invis to reach floor 3
+	{
+		auto entity = ECS::CreateEntity();
+
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		std::string fileName = "iSprite.png";
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 5.f));
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 3);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(355.f), float32(-208.f));
+
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 1.2f);
+		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+		ECS::AttachComponent<Invisibility>(entity);
+		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
+		invis7 = entity;
+	}
+
+	//Floor 3
+	BoxMaker(70, 9, 240, -200, 0, 0, 7);
+
+	////Setup second invis
 	//{
+	//	auto entity = ECS::CreateEntity();
+
+	//	ECS::AttachComponent<Sprite>(entity);
+	//	ECS::AttachComponent<Transform>(entity);
+	//	ECS::AttachComponent<PhysicsBody>(entity);
+	//	std::string fileName = "iSprite.png";
+	//	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+	//	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+	//	ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 5.f));
+	//	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 5);
+
+	//	float shrinkX = 0.f;
+	//	float shrinkY = 0.f;
+
+	//	b2Body* tempBody;
+	//	b2BodyDef tempDef;
+	//	tempDef.type = b2_staticBody;
+	//	tempDef.position.Set(float32(-250.f), float32(40.f));
+
+
+	//	tempBody = m_physicsWorld->CreateBody(&tempDef);
+	//	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+	//		float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 1.2f);
+	//	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+	//	ECS::AttachComponent<Invisibility>(entity);
+	//	ECS::GetComponent<Invisibility>(entity).set_entity(entity);
+	//	invis2 = entity;
+	//
 	//	auto entity2 = ECS::CreateEntity();
 	//	rope1 = entity2;
-	//	swings.push_back(rope1);
 
 	//	//Add components
 	//	ECS::AttachComponent<Sprite>(entity2);
 	//	ECS::AttachComponent<Transform>(entity2);
 	//	ECS::AttachComponent<PhysicsBody>(entity2);
-	//	ECS::AttachComponent<Swing>(entity2);
+	//	
 
 	//	//Sets up the components
 	//	std::string fileName2 = "Curtains.png";
@@ -362,7 +564,7 @@ void LevelTwo::InitTexture()
 	//	ECS::GetComponent<Sprite>(entity2).LoadSprite(fileName, 5, 50);
 	//	ECS::GetComponent<Sprite>(entity2).SetTransparency(1.f);
 	//	ECS::GetComponent<Transform>(entity2).SetPosition(vec3(0.f, 30.f, 3.f));
-	//	
+
 
 	//	auto& tempSpr2 = ECS::GetComponent<Sprite>(entity2);
 	//	auto& tempPhsBody2 = ECS::GetComponent<PhysicsBody>(entity2);
@@ -374,17 +576,17 @@ void LevelTwo::InitTexture()
 
 	//	tempBody2 = m_physicsWorld->CreateBody(&tempDef2);
 
-	//	tempPhsBody2 = PhysicsBody(entity2, tempBody2, float(tempSpr2.GetWidth() - shrinkX), float(tempSpr2.GetHeight() - shrinkY), vec2(0.f, 0.f), false, HEXAGON, PLAYER | GROUND, 0.5f, 3.f);
+	//	tempPhsBody2 = PhysicsBody(entity2, tempBody2, float(tempSpr2.GetWidth() - shrinkX), float(tempSpr2.GetHeight() - shrinkY), vec2(0.f, 0.f), false, PICKUP, PLAYER | PTRIGGER, 0.5f, 3.f);
 	//	//tempPhsBody = PhysicsBody(entity, tempBody, float((tempSpr.GetHeight() - shrinkY)/2.f), vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
 
 	//	tempPhsBody2.SetRotationAngleDeg(0.f);
 	//	tempPhsBody2.SetFixedRotation(false);
 	//	tempPhsBody2.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
-	//	tempPhsBody2.SetGravityScale(1.f);
+	//	tempPhsBody2.SetGravityScale(0.f);
 
 	//	b2RevoluteJointDef jointDef;
-	//	jointDef.bodyA = tempBody;
-	//	jointDef.bodyB = tempBody2;
+	//	jointDef.bodyA = tempPhsBody.GetBody();
+	//	jointDef.bodyB = tempPhsBody2.GetBody();
 	//	jointDef.collideConnected = true;
 
 	//	jointDef.localAnchorA.Set(0, 0);
@@ -435,7 +637,7 @@ void LevelTwo::InitTexture()
 		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, PTRIGGER, PLAYER);
 		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
 	}
-	
+
 	//3rd enemy
 	{
 
@@ -834,7 +1036,63 @@ void LevelTwo::InitTexture()
 		ECS::GetComponent<AnimationController>(entity).SetActiveAnim(1); //right
 		tempPhsBody.SetGravityScale(2.5f);
 	}
+	//{
+	//	auto entity2 = ECS::CreateEntity();
+	//	rope1 = entity2;
+	//	swings.push_back(rope1);
 
+	//	//Add components
+	//	ECS::AttachComponent<Sprite>(entity2);
+	//	ECS::AttachComponent<Transform>(entity2);
+	//	ECS::AttachComponent<PhysicsBody>(entity2);
+	//	ECS::AttachComponent<Swing>(entity2);
+
+	//	//Sets up the components
+	//	std::string fileName2 = "Curtains.png";
+
+	//	ECS::GetComponent<Sprite>(entity2).LoadSprite(fileName, 5, 50);
+	//	ECS::GetComponent<Sprite>(entity2).SetTransparency(1.f);
+	//	ECS::GetComponent<Transform>(entity2).SetPosition(vec3(0.f, 30.f, 3.f));
+	//	
+
+	//	auto& tempSpr2 = ECS::GetComponent<Sprite>(entity2);
+	//	auto& tempPhsBody2 = ECS::GetComponent<PhysicsBody>(entity2);
+
+	//	b2Body* tempBody2;
+	//	b2BodyDef tempDef2;
+	//	tempDef2.type = b2_dynamicBody;
+	//	tempDef2.position.Set(float32(-250.f), float32(40.f));
+
+	//	tempBody2 = m_physicsWorld->CreateBody(&tempDef2);
+
+	//	tempPhsBody2 = PhysicsBody(entity2, tempBody2, float(tempSpr2.GetWidth() - shrinkX), float(tempSpr2.GetHeight() - shrinkY), vec2(0.f, 0.f), false, HEXAGON, PLAYER | GROUND, 0.5f, 3.f);
+	//	//tempPhsBody = PhysicsBody(entity, tempBody, float((tempSpr.GetHeight() - shrinkY)/2.f), vec2(0.f, 0.f), false, PLAYER, ENEMY | OBJECTS | PICKUP | TRIGGER, 0.5f, 3.f);
+
+	//	tempPhsBody2.SetRotationAngleDeg(0.f);
+	//	tempPhsBody2.SetFixedRotation(false);
+	//	tempPhsBody2.SetColor(vec4(1.f, 0.f, 1.f, 0.3f));
+	//	tempPhsBody2.SetGravityScale(1.f);
+
+	//	b2RevoluteJointDef jointDef;
+	//	jointDef.bodyA = tempBody;
+	//	jointDef.bodyB = tempBody2;
+	//	jointDef.collideConnected = true;
+
+	//	jointDef.localAnchorA.Set(0, 0);
+	//	jointDef.localAnchorB.Set(0, tempSpr2.GetHeight()/2);
+	//	jointDef.enableLimit = true;
+	//	jointDef.lowerAngle = Transform::ToRadians(-45);
+	//	jointDef.upperAngle = Transform::ToRadians(45);
+
+	//	//m_physicsWorld->CreateJoint(&jointDef);
+	//	b2RevoluteJoint* m_joint;
+
+	//	m_joint = (b2RevoluteJoint*)m_physicsWorld->CreateJoint(&jointDef);
+
+	//}
+
+	ECS::GetComponent<Player_Power>(p_entity).m_power[1] = true;
+	MainEntities::Powerups(std::vector<bool> {false, true});
 }
 
 void LevelTwo::Update()
@@ -1123,7 +1381,7 @@ void LevelTwo::KeyboardDown()
 
 	
 
-	if (Input::GetKey(Key::R))
+	if (Input::GetKey(Key::E))
 	{
 		if (attached)
 		{
