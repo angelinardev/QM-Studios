@@ -47,6 +47,9 @@ void Player::InitPlayer(std::string& fileName, std::string& animationJSON, int w
 	//jump
 	m_animController->AddAnimation(animations["JUMPLEFT"].get<Animation>());
 	m_animController->AddAnimation(animations["JUMPRIGHT"].get<Animation>());
+	//fall
+	m_animController->AddAnimation(animations["FALLLEFT"].get<Animation>());
+	m_animController->AddAnimation(animations["FALLRIGHT"].get<Animation>());
 	//dashing
 	m_animController->AddAnimation(animations["DASHLEFT"].get<Animation>()); //4
 	m_animController->AddAnimation(animations["DASHRIGHT"].get<Animation>()); //5
@@ -54,9 +57,7 @@ void Player::InitPlayer(std::string& fileName, std::string& animationJSON, int w
 	m_animController->AddAnimation(animations["ATKLEFT"].get<Animation>()); //6
 	m_animController->AddAnimation(animations["ATKRIGHT"].get<Animation>()); //7
 	
-	//fall
-	m_animController->AddAnimation(animations["FALLLEFT"].get<Animation>());
-	m_animController->AddAnimation(animations["FALLRIGHT"].get<Animation>());
+	
 	//wolf (reversed)
 	m_animController->AddAnimation(animations["WLFIDLERIGHT"].get<Animation>()); //9
 	m_animController->AddAnimation(animations["WLFIDLELEFT"].get<Animation>()); //8
@@ -65,9 +66,11 @@ void Player::InitPlayer(std::string& fileName, std::string& animationJSON, int w
 	m_animController->AddAnimation(animations["WLFWALKLEFT"].get<Animation>()); //10
 
 	//wolf (jump)
-	
 	m_animController->AddAnimation(animations["WLFJUMPRIGHT"].get<Animation>());
 	m_animController->AddAnimation(animations["WLFJUMPLEFT"].get<Animation>());
+	//wolf fall
+	m_animController->AddAnimation(animations["WLFFALLRIGHT"].get<Animation>());
+	m_animController->AddAnimation(animations["WLFFALLLEFT"].get<Animation>());
 	//Set Default Animation
 	m_animController->SetActiveAnim(1);
 
@@ -119,12 +122,8 @@ void Player::MovementUpdate()
 		}
 		if (!ECS::GetComponent<CanJump>(MainEntities::MainPlayer()).m_canJump) //can't jump, ie falling
 		{
-			auto& power = ECS::GetComponent<Player_Power>(MainEntities::MainPlayer());
-			if (!power.m_power[1] && !power.m_power[0])
-			{
-				m_fall = true;
-				m_locked = true;
-			}
+			m_fall = true;
+			m_locked = true;
 		}
 	/*if (Input::GetKeyDown(Key::Space))
 	{
@@ -133,18 +132,7 @@ void Player::MovementUpdate()
 		m_jump = true;
 		m_locked = true;
 	}*/
-	if (Input::GetKeyDown(Key::Shift))
-	{
-		//m_moving = false;
-		//m_dash = true;
-		//m_locked = true;
-	}
-	if (Input::GetKey(Key::X))
-	{
-		/*m_attack = true;
-		m_locked = true;
-		m_moving = false;*/
-	}
+	
 }
 
 void Player::AnimationUpdate()

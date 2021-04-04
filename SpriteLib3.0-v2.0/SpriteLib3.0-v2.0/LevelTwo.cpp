@@ -1346,7 +1346,7 @@ BoxMaker(83, 9, 230, 623, 0, 0, 7);
 
 	}
 	*/
-	ECS::GetComponent<Player_Power>(p_entity).m_power[1] = true;
+	//ECS::GetComponent<Player_Power>(p_entity).m_power[1] = true;
 	MainEntities::Powerups(std::vector<bool> {false, true});
 }
 
@@ -1716,7 +1716,7 @@ void LevelTwo::KeyboardDown()
 
 	if (Input::GetKeyDown(Key::Two)) //vision
 	{
-		if (!anims.m_attack &&canJump.m_canJump)
+		if (!anims.m_attack)
 		{
 			if (MainEntities::Powerups()[1])
 			{
