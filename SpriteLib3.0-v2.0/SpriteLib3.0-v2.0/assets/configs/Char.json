@@ -191,7 +191,7 @@
     "Frame2": [ 96000.0, 0.0, 97000.0, 1000.0 ],
     "Frame3": [ 97000.0, 0.0, 98000.0, 1000.0 ],
     "NumFrames": 4,
-    "Repeating": true,
+    "Repeating": false,
     "SecsPerFrame": 0.10000001192092896
   },
   "WLFFALLRIGHT": {
@@ -200,7 +200,7 @@
     "Frame2": [ 100000.0, 0.0, 101000.0, 1000.0 ],
     "Frame3": [ 101000.0, 0.0, 102000.0, 1000.0 ],
     "NumFrames": 4,
-    "Repeating": true,
+    "Repeating": false,
     "SecsPerFrame": 0.10000001192092896
   }
 }
