@@ -303,7 +303,7 @@ void LevelTwo::InitTexture()
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_staticBody;
-		tempDef.position.Set(float32(215.f), float32(-576.f));
+		tempDef.position.Set(float32(218.f), float32(-576.f));
 
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
@@ -768,8 +768,38 @@ void LevelTwo::InitTexture()
 	
 	
 //Floor 4
-BoxMaker(70, 9, 410, -110, 0, 0, 7);
+BoxMaker(70, 9, 410, -123, 0, 0, 7);
 
+//Setup first invis platform
+{
+	auto entity = ECS::CreateEntity();
+
+	ECS::AttachComponent<Sprite>(entity);
+	ECS::AttachComponent<Transform>(entity);
+	ECS::AttachComponent<PhysicsBody>(entity);
+	std::string fileName = "iSprite.png";
+	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+	ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 5.f));
+	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 3);
+
+	float shrinkX = 0.f;
+	float shrinkY = 0.f;
+
+	b2Body* tempBody;
+	b2BodyDef tempDef;
+	tempDef.type = b2_staticBody;
+	tempDef.position.Set(float32(413.f), float32(-75.f));
+
+
+	tempBody = m_physicsWorld->CreateBody(&tempDef);
+	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
+		float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 1.2f);
+	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
+	ECS::AttachComponent<Invisibility>(entity);
+	ECS::GetComponent<Invisibility>(entity).set_entity(entity);
+	invis13 = entity;
+}
 //Platform 1 to Floor 5
 BoxMaker(40, 9, 335, -75, 0, 0, 7);
 
@@ -1205,7 +1235,7 @@ void LevelTwo::Update()
 	ECS::GetComponent<Invisibility>(invis10).update_invisible();
 	ECS::GetComponent<Invisibility>(invis11).update_invisible();
 	ECS::GetComponent<Invisibility>(invis12).update_invisible();
-	//ECS::GetComponent<Invisibility>(invis13).update_invisible();
+	ECS::GetComponent<Invisibility>(invis13).update_invisible();
 
 	auto& dash = ECS::GetComponent<CanJump>(p_entity);
 
@@ -1524,7 +1554,7 @@ void LevelTwo::KeyboardDown()
 				ECS::GetComponent<Invisibility>(invis10).is_invisible = !ECS::GetComponent<Invisibility>(invis10).is_invisible;
 				ECS::GetComponent<Invisibility>(invis11).is_invisible = !ECS::GetComponent<Invisibility>(invis11).is_invisible;
 				ECS::GetComponent<Invisibility>(invis12).is_invisible = !ECS::GetComponent<Invisibility>(invis12).is_invisible;
-				//ECS::GetComponent<Invisibility>(invis13).is_invisible = !ECS::GetComponent<Invisibility>(invis13).is_invisible;
+				ECS::GetComponent<Invisibility>(invis13).is_invisible = !ECS::GetComponent<Invisibility>(invis13).is_invisible;
 				if (power.m_power[1]) {
 					player.SetCenterOffset(vec2(0, 0));
 					b2Body* playerBody = m_sceneReg->get<PhysicsBody>(p_entity).GetBody();
