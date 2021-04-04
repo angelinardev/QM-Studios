@@ -1256,7 +1256,7 @@ void LevelOne::KeyboardDown()
 
 	if (Input::GetKeyDown(Key::Two)) //vision
 	{
-		if (!anims.m_attack && canJump.m_canJump)
+		if (!anims.m_attack)
 		{
 			if (MainEntities::Powerups()[1])
 			{
