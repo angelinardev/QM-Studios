@@ -267,7 +267,7 @@ void LevelOne::InitTexture()
 	
 
 	//SetUp Invisible Wall at the beginning
-	BoxMaker(1000, 20, -550.f, 0.f, 90, 0);
+	EnviroMaker(1000, 20, -550.f, 0.f, 90, 0);
 
 	//Setup spawning static Platform
 	BoxMaker(210, 5, -440.f, -15.f, 0, 0, 6);
@@ -468,10 +468,20 @@ void LevelOne::InitTexture()
 		ECS::AttachComponent<Transform>(entity);
 		ECS::AttachComponent<PhysicsBody>(entity);
 		ECS::AttachComponent<Trigger*>(entity);
+		ECS::AttachComponent<AnimationController>(entity);
 
-		//Sets up components
-		std::string fileName = "page.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 15, 20);
+		///Sets up the components  
+		std::string fileName = "spritesheets/paper.png";
+		std::string animations = "Paper.json";
+		auto& animController = ECS::GetComponent<AnimationController>(entity);
+
+		animController.InitUVs(fileName);
+		nlohmann::json animations2 = File::LoadJSON(animations);
+		animController.AddAnimation(animations2["Paper"].get<Animation>());
+		animController.SetActiveAnim(0);
+
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 15, 20, true, &animController);
+		//ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 15, 20);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, -20.f, 80.f));
 		ECS::GetComponent<Trigger*>(entity) = new PickupTrigger(2); //first powerup
@@ -577,11 +587,18 @@ void LevelOne::InitTexture()
 		ECS::AttachComponent<Transform>(entity);
 		ECS::AttachComponent<PhysicsBody>(entity);
 		ECS::AttachComponent<Trigger*>(entity);
+		ECS::AttachComponent<AnimationController>(entity);
+		//Sets up the components  
+		std::string fileName = "spritesheets/health.png";
+		std::string animations = "Health.json";
+		auto& animController = ECS::GetComponent<AnimationController>(entity);
 
-		//Sets up components
-		std::string fileName = "Wolf_Heart_Full.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 20);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		animController.InitUVs(fileName);
+		nlohmann::json animations2 = File::LoadJSON(animations);
+		animController.AddAnimation(animations2["Health"].get<Animation>());
+		animController.SetActiveAnim(0);
+
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 20, true, &animController);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, -20.f, 80.f));
 		ECS::GetComponent<Trigger*>(entity) = new HealthTrigger();
 		ECS::GetComponent<Trigger*>(entity)->SetTriggerEntity(entity);

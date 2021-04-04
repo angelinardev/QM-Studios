@@ -123,7 +123,7 @@ void Player::MovementUpdate()
 		if (!ECS::GetComponent<CanJump>(MainEntities::MainPlayer()).m_canJump) //can't jump, ie falling
 		{
 			m_fall = true;
-			m_locked = true;
+			//m_locked = true;
 		}
 	/*if (Input::GetKeyDown(Key::Space))
 	{

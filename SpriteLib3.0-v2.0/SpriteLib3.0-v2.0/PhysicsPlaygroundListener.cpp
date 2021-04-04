@@ -116,10 +116,12 @@ void PhysicsPlaygroundListener::EndContact(b2Contact* contact)
 		if (filterA.categoryBits == PLAYER)
 		{
 			ECS::GetComponent<CanJump>((int)fixtureA->GetBody()->GetUserData()).can_swing = false;
+			ECS::GetComponent<Swing>((int)fixtureB->GetBody()->GetUserData()).m_swing = false;
 		}
 		else if (filterB.categoryBits == PLAYER)
 		{
 			ECS::GetComponent<CanJump>((int)fixtureB->GetBody()->GetUserData()).can_swing = false;
+			ECS::GetComponent<Swing>((int)fixtureA->GetBody()->GetUserData()).m_swing = false;
 		}
 
 	}
