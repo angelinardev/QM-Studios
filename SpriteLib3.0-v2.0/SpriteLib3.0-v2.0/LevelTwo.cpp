@@ -62,7 +62,7 @@ void LevelTwo::InitScene(float windowWidth, float windowHeight)
 	ECS::SetIsMainPlayer(p_entity, true);
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(p_entity));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(p_entity));
-	//Sound.Play();
+	Sound.Play();
 
 	inputS.open("HP.txt");
 	int var;

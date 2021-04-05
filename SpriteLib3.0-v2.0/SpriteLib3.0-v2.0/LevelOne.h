@@ -66,7 +66,7 @@ protected:
 	int tut2;
 	int tut3;
 	ToneFire::FMODCore Fmod{};
-	ToneFire::CoreSound Sound{ "tutorial slow.mp3" };
+	ToneFire::CoreSound Sound{ "forest.mp3" };
 	 int healthBar;
 	 int healthBarBack;
 	 int ghostBar;
