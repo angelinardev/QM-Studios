@@ -1434,6 +1434,7 @@ void LevelTwo::KeyboardDown()
 			for (int i = 0; i < swings.size(); i++)
 			{
 				ECS::GetComponent<Swing>(swings[i]).is_swing = false;
+				ECS::GetComponent<PhysicsBody>(swings[i]).SetRotationAngleDeg(0);
 			}
 		}
 	}
