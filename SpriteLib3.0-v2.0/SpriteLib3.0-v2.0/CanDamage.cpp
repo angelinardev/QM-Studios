@@ -69,6 +69,7 @@ void CanDamage::Attack()
 	ECS::GetComponent<CanJump>(player).hp -= 25;
 	auto& player_b = ECS::GetComponent<PhysicsBody>(player);
 	auto& selfX = body.GetBody()->GetPosition().x;
+	attack = true;
 	if (player_b.GetBody()->GetPosition().x > selfX) //move right
 	{
 		//anims.SetActiveAnim(0); //attack animation for enemy

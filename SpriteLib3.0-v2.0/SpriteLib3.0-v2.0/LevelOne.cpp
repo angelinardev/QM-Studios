@@ -977,29 +977,19 @@ void LevelOne::Update()
 		{
 			auto& enemy_c = ECS::GetComponent<CanDamage>(enemies[i]);
 			enemy_c.Walk();
-			if (enemy_c.facing == 0) //left
-			{
-				if (enemy_c.moving)
-				{
-					ECS::GetComponent<AnimationController>(enemies[i]).SetActiveAnim(0);
-				}
-				else
-				{
-					ECS::GetComponent<AnimationController>(enemies[i]).SetActiveAnim(0+2);
-				}
-			}
-			else //right
-			{
-				if (enemy_c.moving)
-				{
-					ECS::GetComponent<AnimationController>(enemies[i]).SetActiveAnim(1);
-				}
-				else
-				{
-					ECS::GetComponent<AnimationController>(enemies[i]).SetActiveAnim(1+2);
-				}
-			}
 
+			if (enemy_c.moving)
+			{
+				ECS::GetComponent<AnimationController>(enemies[i]).SetActiveAnim(0 + enemy_c.facing);
+			}
+			else //idle
+			{
+				ECS::GetComponent<AnimationController>(enemies[i]).SetActiveAnim(0 + 2 + enemy_c.facing);
+			}
+			if (enemy_c.attack)
+			{
+
+			}
 			//if (ECS::GetComponent<PhysicsBody>(enemies[i]).GetPosition().y <= 0)
 			{
 				//enemy_c.hp = 0;
@@ -1007,6 +997,7 @@ void LevelOne::Update()
 			//check if enemy is dead
 			if (enemy_c.hp <= 0)
 			{
+				enemy_c.m_candamage = false;
 				ECS::GetComponent<PhysicsBody>(enemies[i]).DeleteBody();
 				ECS::DestroyEntity(enemies[i]);
 				//PhysicsBody::m_bodiesToDelete.push_back(enemies[i]);
@@ -1035,6 +1026,7 @@ void LevelOne::Update()
 
 	if (dash.hp <= 0) //dying
 	{
+		//play death animation
 		is_done = false;
 		alive.clear();
 		enemies.clear();
@@ -1058,44 +1050,6 @@ void LevelOne::Update()
 	}
 	auto& player = ECS::GetComponent<PhysicsBody>(p_entity);
 	auto& canJump = ECS::GetComponent<CanJump>(p_entity);
-
-	//jump pit check
-	//410, -60
-	if (player.GetPosition().y <= -80 && player.GetPosition().x <= 410 && player.GetPosition().x >= 100)
-	{
-		auto& power = ECS::GetComponent<Player_Power>(p_entity);
-		if (!power.m_power[1] && !power.m_power[0])
-			//bring player back to position before jump
-		{
-			player.GetBody()->SetTransform(b2Vec2(170, -40), 0);
-		}
-		else
-		{
-			player.GetBody()->SetTransform(b2Vec2(170, -40),Transform::ToRadians(90));
-		}
-
-		dash.hp -= 25; //remove 25 health
-
-
-	}
-	//first pit check
-	if (player.GetPosition().y <= -60 && player.GetPosition().x <=-100)
-	{
-		auto& power = ECS::GetComponent<Player_Power>(p_entity);
-		if (!power.m_power[1] && !power.m_power[0])
-			//bring player back to position before jump
-		{
-			player.GetBody()->SetTransform(b2Vec2(-400, 10), 0);
-		}
-		else
-		{
-			player.GetBody()->SetTransform(b2Vec2(-400, 10), Transform::ToRadians(90));
-		}
-
-		dash.hp -= 25; //remove 25 health
-
-	}
-
 
 	if (player.GetBody()->GetLinearVelocity().y < 0 && !canJump.m_canJump)//peak of jump, position needs to be relative to the ground
 	{

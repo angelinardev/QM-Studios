@@ -67,11 +67,17 @@ void PhysicsPlaygroundListener::BeginContact(b2Contact* contact)
 		
 		if (filterA.categoryBits == ENEMY)
 		{
-			ECS::GetComponent<CanDamage>((int)fixtureA->GetBody()->GetUserData()).Attack();
+			if (ECS::GetComponent<CanDamage>((int)fixtureA->GetBody()->GetUserData()).m_candamage)
+			{
+				ECS::GetComponent<CanDamage>((int)fixtureA->GetBody()->GetUserData()).Attack();
+			}
 		}
 		else if (filterB.categoryBits == ENEMY)
 		{
-			ECS::GetComponent<CanDamage>((int)fixtureB->GetBody()->GetUserData()).Attack();
+			if (ECS::GetComponent<CanDamage>((int)fixtureB->GetBody()->GetUserData()).m_candamage)
+			{
+				ECS::GetComponent<CanDamage>((int)fixtureB->GetBody()->GetUserData()).Attack();
+			}
 		}
 	}
 	//enemy jump
@@ -124,6 +130,23 @@ void PhysicsPlaygroundListener::EndContact(b2Contact* contact)
 			ECS::GetComponent<Swing>((int)fixtureA->GetBody()->GetUserData()).m_swing = false;
 		}
 
+	}
+	//enemy collisions
+	if ((filterA.categoryBits == PLAYER && filterB.categoryBits == ENEMY) || (filterB.categoryBits == PLAYER && filterA.categoryBits == ENEMY))
+	{
+
+		if (filterA.categoryBits == ENEMY)
+		{
+			
+			ECS::GetComponent<CanDamage>((int)fixtureA->GetBody()->GetUserData()).attack = false;
+			
+		}
+		else if (filterB.categoryBits == ENEMY)
+		{
+			
+			ECS::GetComponent<CanDamage>((int)fixtureB->GetBody()->GetUserData()).attack = false;
+			
+		}
 	}
 
 	//if neither or both are sensors, will be false
