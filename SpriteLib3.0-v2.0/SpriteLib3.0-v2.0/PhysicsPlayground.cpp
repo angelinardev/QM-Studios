@@ -346,7 +346,7 @@ void PhysicsPlayground::InitTexture()
 
 
 	//SetUp Invisible Wall at the beginning
-	BoxMaker(1000, 20, -410.f, -70.f, 90, 0);
+	EnviroMaker(1000, 20, -410.f, -70.f, 90, 0);
 
 	//Setup spawning static Platform
 	BoxMaker(198, 5, -310.f, -80.f, 0, 0, 7);
@@ -433,7 +433,7 @@ void PhysicsPlayground::InitTexture()
 	BoxMaker(170, 4, 840.f, -75.f, 0, 0, 6);
 	
 	//Wall at the end
-	BoxMaker(170, 4, 1000.f, 0.f, 90, 0, 2);
+	EnviroMaker(170, 4, 1000.f, 0.f, 90, 0, 2);
 
 
 	//Link entity
