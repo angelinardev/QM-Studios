@@ -273,6 +273,24 @@ void PhysicsPlayground::InitTexture()
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(315.f, 0.f, 3.f));
 	}
+
+	{
+		/*Scene::CreateSprite(m_sceneReg, "HelloWorld.png", 100, 60, 0.5f, vec3(0.f, 0.f, 0.f));*/
+
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components
+		std::string fileName = "backtreetut.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 1790, 340);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(317.f, -5.f, 3.f));
+	}
+
 	//tut sensor2
 	{
 		//Creates entity

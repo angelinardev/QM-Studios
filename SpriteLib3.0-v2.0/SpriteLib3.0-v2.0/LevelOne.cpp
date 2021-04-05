@@ -200,6 +200,24 @@ void LevelOne::InitTexture()
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(315.f, 0.f, 2.f));
 	}
 
+	//Setup new Entity
+	{
+		/*Scene::CreateSprite(m_sceneReg, "HelloWorld.png", 100, 60, 0.5f, vec3(0.f, 0.f, 0.f));*/
+
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components
+		std::string fileName = "lvl1filler.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 1900, 300);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(360.f, 40.f, 1.f));
+	}
+
 	//enemy
 	
 	{
