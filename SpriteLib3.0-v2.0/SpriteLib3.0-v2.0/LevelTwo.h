@@ -68,7 +68,7 @@ protected:
 	int tut2;
 	int tut3;
 	ToneFire::FMODCore Fmod{};
-	ToneFire::CoreSound Sound{ "tower.mp3" };
+	ToneFire::CoreSound Sound{ "tower.mp3",FMOD_2D | FMOD_LOOP_NORMAL };
 	int healthBar;
 	int healthBarBack;
 	int ghostBar;
