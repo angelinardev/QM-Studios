@@ -801,10 +801,10 @@ BoxMaker(70, 9, 410, -123, 0, 0, 7);
 	invis13 = entity;
 }
 //Platform 1 to Floor 5
-BoxMaker(40, 9, 335, -75, 0, 0, 7);
+BoxMaker(43, 9, 336, -75, 0, 0, 7);
 
 //Platform 2 to Floor 5
-BoxMaker(43, 9, 285, -55, 0, 0, 7);
+BoxMaker(43, 9, 283, -55, 0, 0, 7);
 
 //Floor 5
 BoxMaker(60, 9, 215, -45, 0, 0, 7);
@@ -822,7 +822,7 @@ BoxMaker(50, 9, 310, 50, 0, 0, 7);
 BoxMaker(60, 9, 378, 67, 0, 0, 7);
 
 //Platform 5 to Floor 6
-BoxMaker(30, 9, 290, 95, 0, 0, 7);
+BoxMaker(35, 9, 295, 95, 0, 0, 7);
 
 //Setup seventh invis platform 6 to Floor 6
 {
@@ -981,7 +981,7 @@ BoxMaker(30, 9, 245, 533, 0, 0, 7);
 
 
 //Invis Platform 11, Platform 7 to last floor
-{
+/*{
 	auto entity = ECS::CreateEntity();
 
 	ECS::AttachComponent<Sprite>(entity);
@@ -1010,7 +1010,7 @@ BoxMaker(30, 9, 245, 533, 0, 0, 7);
 	ECS::AttachComponent<Invisibility>(entity);
 	ECS::GetComponent<Invisibility>(entity).set_entity(entity);
 	invis12 = entity;
-}
+}*/
 //Platform 8 to Last Floor
 BoxMaker(45, 9, 347, 559, 0, 0, 7);
 
@@ -1023,74 +1023,6 @@ BoxMaker(80, 9, 400, 623, 0, 0, 7);
 //Last Floor Part2
 BoxMaker(83, 9, 230, 623, 0, 0, 7);
 
-
-	////testing pickup
-	//{
-	//	//Creates entity
-	//	auto entity = ECS::CreateEntity();
-	//	//Add components
-	//	ECS::AttachComponent<Sprite>(entity);
-	//	ECS::AttachComponent<Transform>(entity);
-	//	ECS::AttachComponent<PhysicsBody>(entity);
-	//	ECS::AttachComponent<Trigger*>(entity);
-
-	//	//Sets up components
-	//	std::string fileName = "page.png";
-	//	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 15, 20);
-	//	ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-	//	ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, -20.f, 80.f));
-	//	ECS::GetComponent<Trigger*>(entity) = new PickupTrigger(2); //first powerup
-	//	ECS::GetComponent<Trigger*>(entity)->SetTriggerEntity(entity);
-
-	//	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
-	//	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
-
-	//	float shrinkX = 0.f;
-	//	float shrinkY = 0.f;
-	//	b2Body* tempBody;
-	//	b2BodyDef tempDef;
-	//	tempDef.type = b2_staticBody;
-	//	tempDef.position.Set(float32(-375), float32(0));
-	//	tempBody = m_physicsWorld->CreateBody(&tempDef);
-
-	//	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, PTRIGGER, PLAYER);
-	//	tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
-	//}
-
-	////spawn heart
-	//{
-	//	//Creates entity
-	//	auto entity = ECS::CreateEntity();
-	//	//Add components
-	//	ECS::AttachComponent<Sprite>(entity);
-	//	ECS::AttachComponent<Transform>(entity);
-	//	ECS::AttachComponent<PhysicsBody>(entity);
-	//	ECS::AttachComponent<Trigger*>(entity);
-
-	//	//Sets up components
-	//	std::string fileName = "Wolf_Heart_Full.png";
-	//	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 20);
-	//	ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-	//	ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, -20.f, 80.f));
-	//	ECS::GetComponent<Trigger*>(entity) = new HealthTrigger();
-	//	ECS::GetComponent<Trigger*>(entity)->SetTriggerEntity(entity);
-
-
-	//	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
-	//	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
-
-	//	float shrinkX = 0.f;
-	//	float shrinkY = 0.f;
-	//	b2Body* tempBody;
-	//	b2BodyDef tempDef;
-	//	tempDef.type = b2_staticBody;
-	//	tempDef.position.Set(float32(130), float32(-50));
-
-	//	tempBody = m_physicsWorld->CreateBody(&tempDef);
-
-	//	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, PTRIGGER, PLAYER);
-	//	tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
-	//}
 
 	{//Health bar (green)
 
@@ -1142,7 +1074,7 @@ BoxMaker(83, 9, 230, 623, 0, 0, 7);
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(410.f), float32(-100.f)); //Starting position 250 x, -710 y
+		tempDef.position.Set(float32(250.f), float32(-710.f)); //Starting position 250 x, -710 y
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
@@ -1180,29 +1112,20 @@ void LevelTwo::Update()
 		{
 			auto& enemy_c = ECS::GetComponent<CanDamage>(enemies[i]);
 			enemy_c.Walk();
-			if (enemy_c.facing == 0) //left
+			
+			if (enemy_c.moving)
 			{
-				if (enemy_c.moving)
-				{
-					ECS::GetComponent<AnimationController>(enemies[i]).SetActiveAnim(0);
-				}
-				else
-				{
-					ECS::GetComponent<AnimationController>(enemies[i]).SetActiveAnim(0 + 2);
-				}
+				ECS::GetComponent<AnimationController>(enemies[i]).SetActiveAnim(0 + enemy_c.facing);
 			}
-			else //right
+			else //idle
 			{
-				if (enemy_c.moving)
-				{
-					ECS::GetComponent<AnimationController>(enemies[i]).SetActiveAnim(1);
-				}
-				else
-				{
-					ECS::GetComponent<AnimationController>(enemies[i]).SetActiveAnim(1 + 2);
-				}
+				ECS::GetComponent<AnimationController>(enemies[i]).SetActiveAnim(0 + 2 + enemy_c.facing);
 			}
+			if (enemy_c.attack)
+			{
 
+			}
+			
 			//if (ECS::GetComponent<PhysicsBody>(enemies[i]).GetPosition().y <= 0)
 			{
 				//enemy_c.hp = 0;
@@ -1210,7 +1133,8 @@ void LevelTwo::Update()
 			//check if enemy is dead
 			if (enemy_c.hp <= 0)
 			{
-				ECS::GetComponent<PhysicsBody>(enemies[i]).DeleteBody();
+				
+				enemy_c.m_candamage = false;
 				ECS::DestroyEntity(enemies[i]);
 				//PhysicsBody::m_bodiesToDelete.push_back(enemies[i]);
 
@@ -1234,7 +1158,7 @@ void LevelTwo::Update()
 	ECS::GetComponent<Invisibility>(invis9).update_invisible();
 	ECS::GetComponent<Invisibility>(invis10).update_invisible();
 	ECS::GetComponent<Invisibility>(invis11).update_invisible();
-	ECS::GetComponent<Invisibility>(invis12).update_invisible();
+	//ECS::GetComponent<Invisibility>(invis12).update_invisible();
 	ECS::GetComponent<Invisibility>(invis13).update_invisible();
 
 	auto& dash = ECS::GetComponent<CanJump>(p_entity);
@@ -1305,9 +1229,9 @@ void LevelTwo::Update()
 	hb.UpdatePowers(pcount);
 
 	//end check
-	if (player.GetPosition().x >= 1150 && player.GetPosition().y >= 50)
+	if (player.GetPosition().x >= 410 && player.GetPosition().y >= 625)
 	{
-		selection = 7; //next scene
+		selection = 8; //next scene
 		Sound.Mute();
 		is_done = true;
 		inputS.open("HP.txt");
@@ -1450,10 +1374,7 @@ void LevelTwo::KeyboardDown()
 	auto& pos = player.GetBody()->GetPosition();
 	//auto& dash = ECS::GetComponent<CanJump>(p_entity);
 
-	int spriteHeight;
-	int spriteWidth;
-
-	if (Input::GetKey(Key::R))
+	if (Input::GetKey(Key::E))
 	{
 		if (attached)
 		{
@@ -1467,11 +1388,7 @@ void LevelTwo::KeyboardDown()
 				ECS::GetComponent<PhysicsBody>(swings[i]).SetRotationAngleDeg(0);
 			}
 		}
-	}
-
-	if (Input::GetKey(Key::E))
-	{
-		if (canJump.can_swing && !attached)
+		if (canJump.can_swing && !attached && !power.m_power[1] && !power.m_power[0])
 		{
 			for (int i = 0; i < swings.size(); i++)
 			{
@@ -1554,7 +1471,7 @@ void LevelTwo::KeyboardDown()
 				ECS::GetComponent<Invisibility>(invis9).is_invisible = !ECS::GetComponent<Invisibility>(invis9).is_invisible;
 				ECS::GetComponent<Invisibility>(invis10).is_invisible = !ECS::GetComponent<Invisibility>(invis10).is_invisible;
 				ECS::GetComponent<Invisibility>(invis11).is_invisible = !ECS::GetComponent<Invisibility>(invis11).is_invisible;
-				ECS::GetComponent<Invisibility>(invis12).is_invisible = !ECS::GetComponent<Invisibility>(invis12).is_invisible;
+				//ECS::GetComponent<Invisibility>(invis12).is_invisible = !ECS::GetComponent<Invisibility>(invis12).is_invisible;
 				ECS::GetComponent<Invisibility>(invis13).is_invisible = !ECS::GetComponent<Invisibility>(invis13).is_invisible;
 				if (power.m_power[1]) {
 					player.SetCenterOffset(vec2(0, 0));

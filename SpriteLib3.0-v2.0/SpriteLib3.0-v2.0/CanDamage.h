@@ -17,6 +17,7 @@ public:
 	void Jump();
 	int facing = 0;
 	bool moving = false;
+	bool attack = false;
 private:
 	PhysicsBody body;
 	AnimationController* anims;
