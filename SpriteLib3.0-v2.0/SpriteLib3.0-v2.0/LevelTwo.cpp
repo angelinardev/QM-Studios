@@ -274,16 +274,16 @@ void LevelTwo::InitTexture()
 	EnviroMaker(4500, 10, 430.f, -717.f, 90, 0);
 
 	//First platform
-	BoxMaker(500, 5, 450, -717, 0, 0, 7);
+	BoxMaker(500, 5, 450, -717, 0, 0, 7.5f);
 
 	//First Jump platform
-	BoxMaker(40, 5, 405, -687, 0, 0, 7);
+	BoxMaker(40, 5, 405, -687, 0, 0, 7.5f);
 
 	//Angle Platform after jump
-	BoxMaker(55, 3, 320, -657, 140, 0, 0.8);
+	BoxMaker(55, 3, 320, -657, 140, 0, 0.6f);
 
 	//First floor platform
-	BoxMaker(75, 5, 235, -615, 0, 0, 7);
+	BoxMaker(75, 5, 235, -615, 0, 0, 7.5f);
 
 	//Setup first invis platform
 	{
@@ -309,7 +309,7 @@ void LevelTwo::InitTexture()
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
-			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 1.2f);
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 7.2f);
 		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 		ECS::AttachComponent<Invisibility>(entity);
 		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
@@ -317,16 +317,16 @@ void LevelTwo::InitTexture()
 	}
 
 	//Jump platform after invisible platform
-	BoxMaker(30, 4, 260, -542, 0, 0, 7);
+	BoxMaker(30, 4, 260, -542, 0, 0, 7.5f);
 
 	//Angled platform
-	BoxMaker(45, 4, 305, -512, 45, 0, 0.8);
+	BoxMaker(45, 4, 305, -512, 45, 0, 0.5f);
 
 	//Next Angled platform
-	BoxMaker(45, 4, 263, -472, 145, 0, 0.8);
+	BoxMaker(45, 4, 263, -472, 145, 0, 0.5f);
 
 	//Second Floor platform
-	BoxMaker(150, 8, 380, -446, 0, 0, 7);
+	BoxMaker(150, 8, 380, -446, 0, 0, 7.5f);
 
 	//Setup second invis 
 	{
@@ -352,7 +352,7 @@ void LevelTwo::InitTexture()
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
-			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 1.2f);
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 7.2f);
 		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 		ECS::AttachComponent<Invisibility>(entity);
 		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
@@ -383,7 +383,7 @@ void LevelTwo::InitTexture()
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
-			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 1.2f);
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 7.2f);
 		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 		ECS::AttachComponent<Invisibility>(entity);
 		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
@@ -414,7 +414,7 @@ void LevelTwo::InitTexture()
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
-			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 1.2f);
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 7.2f);
 		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 		ECS::AttachComponent<Invisibility>(entity);
 		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
@@ -445,7 +445,7 @@ void LevelTwo::InitTexture()
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
-			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 1.2f);
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 7.2f);
 		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 		ECS::AttachComponent<Invisibility>(entity);
 		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
@@ -476,7 +476,7 @@ void LevelTwo::InitTexture()
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
-			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 1.2f);
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 7.2f);
 		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 		ECS::AttachComponent<Invisibility>(entity);
 		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
@@ -484,7 +484,7 @@ void LevelTwo::InitTexture()
 	}
 
 	//Platform after invis platforms to reach floor 3
-	BoxMaker(45, 9, 295, -246, 0, 0, 7);
+	BoxMaker(45, 9, 295, -246, 0, 0, 7.5f);
 
 	//Setup seventh invis to reach floor 3
 	{
@@ -510,7 +510,7 @@ void LevelTwo::InitTexture()
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
-			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 1.2f);
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 7.2f);
 		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 		ECS::AttachComponent<Invisibility>(entity);
 		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
@@ -518,7 +518,7 @@ void LevelTwo::InitTexture()
 	}
 
 	//Floor 3
-	BoxMaker(70, 9, 240, -200, 0, 0, 7);
+	BoxMaker(70, 9, 240, -200, 0, 0, 7.5f);
 
 	//Swing stand one
 	/*{
@@ -769,7 +769,7 @@ void LevelTwo::InitTexture()
 	
 	
 //Floor 4
-BoxMaker(70, 9, 410, -123, 0, 0, 7);
+BoxMaker(70, 9, 410, -123, 0, 0, 7.5f);
 
 //Setup first invis platform
 {
@@ -795,35 +795,35 @@ BoxMaker(70, 9, 410, -123, 0, 0, 7);
 
 	tempBody = m_physicsWorld->CreateBody(&tempDef);
 	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
-		float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 1.2f);
+		float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 7.2f);
 	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	ECS::AttachComponent<Invisibility>(entity);
 	ECS::GetComponent<Invisibility>(entity).set_entity(entity);
 	invis13 = entity;
 }
 //Platform 1 to Floor 5
-BoxMaker(43, 9, 336, -75, 0, 0, 7);
+BoxMaker(43, 9, 336, -75, 0, 0, 7.5f);
 
 //Platform 2 to Floor 5
-BoxMaker(43, 9, 283, -55, 0, 0, 7);
+BoxMaker(43, 9, 283, -55, 0, 0, 7.5f);
 
 //Floor 5
-BoxMaker(60, 9, 215, -45, 0, 0, 7);
+BoxMaker(60, 9, 215, -45, 0, 0, 7.5f);
 
 //Platform 1 to Floor 6
-BoxMaker(35, 9, 212, -13, 0, 0, 7);
+BoxMaker(35, 9, 212, -13, 0, 0, 7.5f);
 
 //Platform 2 to Floor 6
-BoxMaker(20, 9, 260, 20, 0, 0, 7);
+BoxMaker(20, 9, 260, 20, 0, 0, 7.5f);
 
 //Platform 3 to Floor 6
-BoxMaker(50, 9, 310, 50, 0, 0, 7);
+BoxMaker(50, 9, 310, 50, 0, 0, 7.5f);
 
 //Platform 4 to Floor 6
-BoxMaker(60, 9, 378, 67, 0, 0, 7);
+BoxMaker(60, 9, 378, 67, 0, 0, 7.5f);
 
 //Platform 5 to Floor 6
-BoxMaker(35, 9, 295, 95, 0, 0, 7);
+BoxMaker(35, 9, 295, 95, 0, 0, 7.5f);
 
 //Setup seventh invis platform 6 to Floor 6
 {
@@ -850,7 +850,7 @@ BoxMaker(35, 9, 295, 95, 0, 0, 7);
 
 	tempBody = m_physicsWorld->CreateBody(&tempDef);
 	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
-		float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 1.2f);
+		float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 7.2f);
 	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	ECS::AttachComponent<Invisibility>(entity);
 	ECS::GetComponent<Invisibility>(entity).set_entity(entity);
@@ -858,10 +858,10 @@ BoxMaker(35, 9, 295, 95, 0, 0, 7);
 }
 
 //Platform 7 to Floor 6
-BoxMaker(30, 9, 263, 175, 0, 0, 7);
+BoxMaker(30, 9, 263, 175, 0, 0, 7.5f);
 
 //Platform 8 to Floor 6
-BoxMaker(17, 9, 320, 195, 0, 0, 7);
+BoxMaker(17, 9, 320, 195, 0, 0, 7.5f);
 
 //Setup eighth invis platform 9 to Floor 6
 {
@@ -888,7 +888,7 @@ BoxMaker(17, 9, 320, 195, 0, 0, 7);
 
 	tempBody = m_physicsWorld->CreateBody(&tempDef);
 	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
-		float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 1.2f);
+		float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 7.2f);
 	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	ECS::AttachComponent<Invisibility>(entity);
 	ECS::GetComponent<Invisibility>(entity).set_entity(entity);
@@ -896,19 +896,19 @@ BoxMaker(17, 9, 320, 195, 0, 0, 7);
 }
 
 //Floor 6
-BoxMaker(80, 9, 233, 245, 0, 0, 7);
+BoxMaker(80, 9, 233, 245, 0, 0, 7.5f);
 
 //Angle Platform to floor 7
-BoxMaker(80, 3, 325, 305, 40, 0, 0.8);
+BoxMaker(80, 3, 325, 305, 40, 0, 0.6f);
 
 //Floor 7
-BoxMaker(60, 9, 410, 355, 0, 0,7);
+BoxMaker(60, 9, 410, 355, 0, 0,7.5f);
 
 //Platform 1 to Last Floor
-BoxMaker(37, 9, 325, 385, 0, 0, 7);
+BoxMaker(37, 9, 325, 385, 0, 0, 7.5f);
 
 //Platform 2 to Last Floor
-BoxMaker(37, 9, 255, 419, 0, 0, 7);
+BoxMaker(37, 9, 255, 419, 0, 0, 7.5f);
 
 //Setup ninth invis platform 3 to Last Floor
 {
@@ -935,7 +935,7 @@ BoxMaker(37, 9, 255, 419, 0, 0, 7);
 
 	tempBody = m_physicsWorld->CreateBody(&tempDef);
 	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
-		float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 1.2f);
+		float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 7.2f);
 	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	ECS::AttachComponent<Invisibility>(entity);
 	ECS::GetComponent<Invisibility>(entity).set_entity(entity);
@@ -943,7 +943,7 @@ BoxMaker(37, 9, 255, 419, 0, 0, 7);
 }
 
 //Platform 4 to Last Floor
-BoxMaker(37, 9, 317, 464, 0, 0, 7);
+BoxMaker(37, 9, 317, 464, 0, 0, 7.5f);
 
 //Invis Platform 10, Platform 5 to last floor
 {
@@ -970,7 +970,7 @@ BoxMaker(37, 9, 317, 464, 0, 0, 7);
 
 	tempBody = m_physicsWorld->CreateBody(&tempDef);
 	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
-		float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 1.2f);
+		float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 7.2f);
 	tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 	ECS::AttachComponent<Invisibility>(entity);
 	ECS::GetComponent<Invisibility>(entity).set_entity(entity);
@@ -978,7 +978,7 @@ BoxMaker(37, 9, 317, 464, 0, 0, 7);
 }
 
 //Platform 6 to last floor
-BoxMaker(30, 9, 245, 533, 0, 0, 7);
+BoxMaker(30, 9, 245, 533, 0, 0, 7.5f);
 
 
 //Invis Platform 11, Platform 7 to last floor
@@ -1013,16 +1013,16 @@ BoxMaker(30, 9, 245, 533, 0, 0, 7);
 	invis12 = entity;
 }*/
 //Platform 8 to Last Floor
-BoxMaker(45, 9, 347, 559, 0, 0, 7);
+BoxMaker(45, 9, 347, 559, 0, 0, 7.5f);
 
 //Platform 9 to Last Floor
-BoxMaker(27, 7, 298, 598, 0, 0, 7);
+BoxMaker(27, 7, 298, 598, 0, 0, 7.5f);
 
 //Last floor part 1
-BoxMaker(80, 9, 400, 623, 0, 0, 7);
+BoxMaker(80, 9, 400, 623, 0, 0, 7.5f);
 
 //Last Floor Part2
-BoxMaker(83, 9, 230, 623, 0, 0, 7);
+BoxMaker(83, 9, 230, 623, 0, 0, 7.5f);
 
 
 	{//Health bar (green)
@@ -1483,7 +1483,7 @@ void LevelTwo::KeyboardDown()
 					b2FixtureDef wolfBox;
 					wolfBox.shape = &tempBox;
 					wolfBox.density = 2.5f;
-					wolfBox.friction = 1.2f;
+					wolfBox.friction = 2.0f;
 					wolfBox.filter.categoryBits = playerBody->GetFixtureList()->GetFilterData().categoryBits;
 					wolfBox.filter.maskBits = playerBody->GetFixtureList()->GetFilterData().maskBits;
 
