@@ -1046,16 +1046,27 @@ void LevelOne::Update()
 	if (dash.hp <= 0) //dying
 	{
 		//play death animation
-		is_done = false;
-		alive.clear();
-		enemies.clear();
-		inputS.open("Progress.txt");
-		if (inputS.is_open())
+		player2.m_locked = true;
+		animations.SetActiveAnim(DEATH + player2.m_facing);
+		if (animations.GetAnimation(animations.GetActiveAnim()).GetAnimationDone())
 		{
-			inputS << 2 << "\n";
+			//Will auto set to idle
+			player2.m_locked = false;
+			
+			//Resets the attack animation
+			//animations.GetAnimation(animations.GetActiveAnim()).Reset();
+			is_done = false;
+			alive.clear();
+			enemies.clear();
+			inputS.open("Progress.txt");
+			if (inputS.is_open())
+			{
+				inputS << 2 << "\n";
+			}
+			inputS.close();
+			selection = 2; //end screen? for now
 		}
-		inputS.close();
-		selection = 2; //end screen? for now
+		
 
 	}
 

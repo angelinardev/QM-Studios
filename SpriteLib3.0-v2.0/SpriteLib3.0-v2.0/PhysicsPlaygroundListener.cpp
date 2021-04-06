@@ -128,6 +128,7 @@ void PhysicsPlaygroundListener::EndContact(b2Contact* contact)
 		{
 			ECS::GetComponent<CanJump>((int)fixtureB->GetBody()->GetUserData()).can_swing = false;
 			ECS::GetComponent<Swing>((int)fixtureA->GetBody()->GetUserData()).m_swing = false;
+			
 		}
 
 	}

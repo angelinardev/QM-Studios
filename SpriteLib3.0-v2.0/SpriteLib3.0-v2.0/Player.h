@@ -23,9 +23,10 @@ enum AnimTypes
 	WALK = 2,
 	JUMP = 4,
 	FALL = 6,
-	DASH = 8,
-	ATTACK = 10,
-	WOLF = 12
+	DEATH = 8,
+	DASH = 10,
+	ATTACK = 12,
+	WOLF = 14
 
 };
 
