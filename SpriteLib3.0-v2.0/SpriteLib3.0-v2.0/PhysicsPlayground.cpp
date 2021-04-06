@@ -433,7 +433,7 @@ void PhysicsPlayground::InitTexture()
 	BoxMaker(170, 4, 840.f, -75.f, 0, 0, 6);
 	
 	//Wall at the end
-	BoxMaker(170, 4, 1000.f, 0.f, 90, 0, 2);
+	EnviroMaker(170, 4, 1000.f, 0.f, 90, 0, 2);
 
 
 	//Link entity
@@ -741,6 +741,8 @@ void PhysicsPlayground::KeyboardDown()
 				//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-400000.f * 1000, 0.f), true);
 				//player.GetBody()->SetTransform(b2Vec2(pos.x - 30, pos.y), 0);
 				player.GetBody()->SetLinearVelocity(b2Vec2(-1000000, vel.y));
+				DashFX.SetVolume(0);
+				DashFX.Play();
 				canJump.can_dash = false;
 			}
 			else if (facing == 1)
@@ -748,6 +750,8 @@ void PhysicsPlayground::KeyboardDown()
 				//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(400000.f * 1000, 0.f), true);
 				//player.GetBody()->SetTransform(b2Vec2(pos.x + 30, pos.y), 0);
 				player.GetBody()->SetLinearVelocity(b2Vec2(1000000, vel.y));
+				DashFX.SetVolume(0);
+				DashFX.Play();
 				canJump.can_dash = false;
 			}
 			ECS::GetComponent<Player>(p_entity).m_dash = true;
@@ -762,12 +766,14 @@ void PhysicsPlayground::KeyboardDown()
 			{
 				//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-400000.f * 1000, 0.f), true);
 				player.GetBody()->SetTransform(b2Vec2(pos.x - 30, pos.y), 0);
+				
 			
 			}
 			else if (facing == 1)
 			{
 				//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(400000.f * 1000, 0.f), true);
 				player.GetBody()->SetTransform(b2Vec2(pos.x + 30, pos.y), 0);
+			
 			
 			}
 			ECS::GetComponent<Player>(p_entity).m_dash = true;
@@ -785,12 +791,16 @@ void PhysicsPlayground::KeyboardDown()
 				//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-400000.f * 1000, 0.f), true);
 				player.GetBody()->SetTransform(b2Vec2(pos.x - 30, pos.y), 0);
 				//player.GetBody()->SetLinearVelocity(b2Vec2(-1000000, vel.y));
+				DashFX.SetVolume(0);
+				DashFX.Play();
 				canJump.can_dash = false;
 			}
 			else if (facing == 1)
 			{
 				//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(400000.f * 1000, 0.f), true);
 				player.GetBody()->SetTransform(b2Vec2(pos.x + 30, pos.y), 0);
+				DashFX.SetVolume(0);
+				DashFX.Play();
 				//player.GetBody()->SetLinearVelocity(b2Vec2(1000000, vel.y));
 				canJump.can_dash = false;
 			}

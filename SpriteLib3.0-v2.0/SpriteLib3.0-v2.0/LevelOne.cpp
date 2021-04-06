@@ -62,7 +62,8 @@ void LevelOne::InitScene(float windowWidth, float windowHeight)
 	ECS::SetIsMainPlayer(p_entity, true);
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(p_entity));
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetFocus(&ECS::GetComponent<Transform>(p_entity));
-	//Sound.Play();
+	Sound.SetVolume(100);
+	Sound.Play();
 
 	inputS.open("HP.txt");
 	int var;
@@ -716,7 +717,7 @@ void LevelOne::InitTexture()
 	//Platform Jump 3
 	BoxMaker(25, 5, 590, 45, 0, 0, 2);
 	//Wall
-	BoxMaker(105, 5, 690, 10, 90, 0);
+	EnviroMaker(105, 5, 690, 10, 90, 0);
 
 
 	//Downwards platform after Platfrom Jump 3
@@ -795,7 +796,7 @@ void LevelOne::InitTexture()
 	BoxMaker(235, 5, 945, -50, 0, 0, 6);
 
 	//Wall 
-	BoxMaker(100, 5, 1060, -10, 90, 0, 6);
+	EnviroMaker(100, 5, 1060, -10, 90, 0, 6);
 
 
 	//Setup fifth invis platform
@@ -902,7 +903,7 @@ void LevelOne::InitTexture()
 	BoxMaker(200, 5, 1150, 45, 0, 0, 6);
 
 	//Invisible Wall at the end
-	BoxMaker(350, 5, 1200, 50, 90, 0, 6);
+	EnviroMaker(350, 5, 1200, 50, 90, 0, 6);
 
 	{//Health bar (green)
 
@@ -1359,6 +1360,8 @@ void LevelOne::KeyboardDown()
 				{
 					//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-400000.f * 1000, 0.f), true);
 					//player.GetBody()->SetTransform(b2Vec2(pos.x - 30, pos.y), 0);
+					DashFX.SetVolume(0);
+					DashFX.Play();
 					player.GetBody()->SetLinearVelocity(b2Vec2(-1000000, vel.y));
 					canJump.can_dash = false;
 				}
@@ -1366,6 +1369,8 @@ void LevelOne::KeyboardDown()
 				{
 					//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(400000.f * 1000, 0.f), true);
 					//player.GetBody()->SetTransform(b2Vec2(pos.x + 30, pos.y), 0);
+					DashFX.SetVolume(0);
+					DashFX.Play();
 					player.GetBody()->SetLinearVelocity(b2Vec2(1000000, vel.y));
 					canJump.can_dash = false;
 				}
@@ -1401,6 +1406,8 @@ void LevelOne::KeyboardDown()
 				player.GetBody()->SetLinearVelocity(b2Vec2(0, vel.y));
 				if (facing == 0) //left
 				{
+					DashFX.SetVolume(0);
+					DashFX.Play();
 					//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-400000.f * 1000, 0.f), true);
 					player.GetBody()->SetTransform(b2Vec2(pos.x - 30, pos.y), 0);
 					//player.GetBody()->SetLinearVelocity(b2Vec2(-1000000, vel.y));
@@ -1408,6 +1415,8 @@ void LevelOne::KeyboardDown()
 				}
 				else if (facing == 1)
 				{
+					DashFX.SetVolume(0);
+					DashFX.Play();
 					//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(400000.f * 1000, 0.f), true);
 					player.GetBody()->SetTransform(b2Vec2(pos.x + 30, pos.y), 0);
 					//player.GetBody()->SetLinearVelocity(b2Vec2(1000000, vel.y));

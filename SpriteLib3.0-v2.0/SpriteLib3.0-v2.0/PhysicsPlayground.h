@@ -56,7 +56,8 @@ protected:
 	int tut3;
 
 	ToneFire::FMODCore Fmod{};
-	ToneFire::CoreSound Sound{ "tutorial slow.mp3",FMOD_2D | FMOD_LOOP_NORMAL };
+	ToneFire::CoreSound Sound{ "tutorial.mp3",FMOD_2D | FMOD_LOOP_NORMAL };
+	ToneFire::CoreSound DashFX{ "Dash.mp3" };
 	int healthBar;
 	 int healthBarBack;
 	 int ghostBar;

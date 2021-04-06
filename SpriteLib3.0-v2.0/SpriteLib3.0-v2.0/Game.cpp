@@ -51,8 +51,8 @@ void Game::InitGame()
 	m_scenes.push_back(new LevelTwo("Second Level"));
 	
 	//preloads all scenes
-    //m_scenes[0]->InitTexture();
-    //m_scenes[1]->InitTexture();
+   // m_scenes[0]->InitTexture();
+   // m_scenes[1]->InitTexture();
 	//m_scenes[2]->InitTexture();
 	//m_scenes[3]->InitTexture();
 	//m_scenes[4]->InitTexture();
