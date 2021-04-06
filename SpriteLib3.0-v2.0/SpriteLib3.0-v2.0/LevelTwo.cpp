@@ -674,8 +674,8 @@ void LevelTwo::InitTexture()
 		jointDef.localAnchorA.Set(0, 0);
 		jointDef.localAnchorB.Set(0, tempSpr2.GetHeight() / 2);
 		jointDef.enableLimit = true;
-		jointDef.lowerAngle = Transform::ToRadians(-70);
-		jointDef.upperAngle = Transform::ToRadians(70);
+		jointDef.lowerAngle = Transform::ToRadians(-45);
+		jointDef.upperAngle = Transform::ToRadians(45);
 		
 		m_physicsWorld->CreateJoint(&jointDef);
 		b2RevoluteJoint* m_joint2;
