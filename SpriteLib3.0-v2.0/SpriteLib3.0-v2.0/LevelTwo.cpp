@@ -1375,7 +1375,7 @@ void LevelTwo::KeyboardDown()
 	auto& pos = player.GetBody()->GetPosition();
 	//auto& dash = ECS::GetComponent<CanJump>(p_entity);
 
-	if (Input::GetKey(Key::E))
+	if (Input::GetKeyDown(Key::E))
 	{
 		if (attached)
 		{
