@@ -328,10 +328,10 @@ void LevelTwo::InitTexture()
 	EnviroMaker(3, 4, 246, -542, 0, 0, 7.5f);
 
 	//Angled platform
-	BoxMaker(45, 4, 305, -512, 45, 0, 0.5f);
+	BoxMaker(45, 4, 305, -512, 45, 0, 0.1f);
 
 	//Next Angled platform
-	BoxMaker(45, 4, 263, -472, 145, 0, 0.3f);
+	BoxMaker(45, 4, 263, -472, 145, 0, 0.5f);
 
 	//Second Floor platform
 	BoxMaker(147, 8, 380, -446, 0, 0, 7.5f);
@@ -404,10 +404,6 @@ void LevelTwo::InitTexture()
 		invis3 = entity;
 	}
 
-	EnviroMaker(3, 3, 394, -381, 0, 0, 7.2f);
-
-	EnviroMaker(3, 3, 416, -381, 0, 0, 7.2f);
-
 	//Setup fourth invis 
 	{
 		auto entity = ECS::CreateEntity();
@@ -439,9 +435,6 @@ void LevelTwo::InitTexture()
 		invis4 = entity;
 	}
 
-	EnviroMaker(3, 3, 309, -351, 0, 0, 7.2f);
-
-	EnviroMaker(3, 3, 331, -351, 0, 0, 7.2f);
 
 	//Setup fifth invis 
 	{
@@ -474,9 +467,6 @@ void LevelTwo::InitTexture()
 		invis5 = entity;
 	}
 
-	EnviroMaker(3, 3, 384, -316, 0, 0, 7.2f);
-
-	EnviroMaker(3, 3, 406, -316, 0, 0, 7.2f);
 
 	//Setup sixth invis 
 	{
@@ -508,10 +498,6 @@ void LevelTwo::InitTexture()
 		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
 		invis6 = entity;
 	}
-
-	EnviroMaker(3, 3, 344, -276, 0, 0, 7.2f);
-
-	EnviroMaker(3, 3, 366, -276, 0, 0, 7.2f);
 
 	//Platform after invis platforms to reach floor 3
 	BoxMaker(42, 9, 295, -246, 0, 0, 7.5f);
@@ -557,7 +543,9 @@ void LevelTwo::InitTexture()
 	EnviroMaker(3, 3, 366, -208, 0, 0, 7.2f);
 
 	//Floor 3
-	BoxMaker(70, 9, 240, -200, 0, 0, 7.5f);
+	BoxMaker(67, 9, 240, -200, 0, 0, 7.5f);
+
+	EnviroMaker(3, 9, 275, -200, 0, 0, 7.5f);
 
 	//Swing stand one
 	/*{
@@ -808,7 +796,9 @@ void LevelTwo::InitTexture()
 	
 	
 //Floor 4
-BoxMaker(70, 9, 410, -123, 0, 0, 7.5f);
+BoxMaker(67, 9, 410, -123, 0, 0, 7.5f);
+
+EnviroMaker(3, 9, 375, -123, 0, 0, 7.5f);
 
 //Setup first invis platform
 {
@@ -821,7 +811,7 @@ BoxMaker(70, 9, 410, -123, 0, 0, 7.5f);
 	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 	ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 5.f));
-	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 3);
+	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 22, 3);
 
 	float shrinkX = 0.f;
 	float shrinkY = 0.f;
@@ -840,17 +830,27 @@ BoxMaker(70, 9, 410, -123, 0, 0, 7.5f);
 	ECS::GetComponent<Invisibility>(entity).set_entity(entity);
 	invis13 = entity;
 }
+
+EnviroMaker(3, 3, 402, -75, 0, 0, 7.2f);
+
 //Platform 1 to Floor 5
-BoxMaker(43, 9, 336, -75, 0, 0, 7.5f);
+BoxMaker(42, 9, 336, -75, 0, 0, 7.5f);
+
+EnviroMaker(3, 9, 358, -75, 0, 0, 7.5f);
 
 //Platform 2 to Floor 5
-BoxMaker(43, 9, 283, -55, 0, 0, 7.5f);
+BoxMaker(42, 9, 283, -55, 0, 0, 7.5f);
+
 
 //Floor 5
-BoxMaker(60, 9, 215, -45, 0, 0, 7.5f);
+BoxMaker(57, 9, 215, -45, 0, 0, 7.5f);
+
+EnviroMaker(3, 9, 245, -45, 0, 0, 7.5f);
 
 //Platform 1 to Floor 6
-BoxMaker(35, 9, 212, -13, 0, 0, 7.5f);
+BoxMaker(32, 9, 212, -13, 0, 0, 7.5f);
+
+BoxMaker(3, 9, 222, -13, 0, 0, 7.5f);
 
 //Platform 2 to Floor 6
 BoxMaker(20, 9, 260, 20, 0, 0, 7.5f);
@@ -935,13 +935,16 @@ BoxMaker(17, 9, 320, 195, 0, 0, 7.5f);
 }
 
 //Floor 6
-BoxMaker(80, 9, 233, 245, 0, 0, 7.5f);
+BoxMaker(77, 9, 233, 245, 0, 0, 7.5f);
 
+EnviroMaker(3, 9, 273, 245, 0, 0, 7.5f);
 //Angle Platform to floor 7
 BoxMaker(80, 3, 325, 305, 40, 0, 0.6f);
 
 //Floor 7
-BoxMaker(60, 9, 410, 355, 0, 0,7.5f);
+BoxMaker(57, 9, 410, 355, 0, 0,7.5f);
+
+EnviroMaker(3, 9, 380, 355, 0, 0, 7.5f);
 
 //Platform 1 to Last Floor
 BoxMaker(37, 9, 325, 385, 0, 0, 7.5f);
@@ -1017,8 +1020,9 @@ BoxMaker(37, 9, 317, 464, 0, 0, 7.5f);
 }
 
 //Platform 6 to last floor
-BoxMaker(30, 9, 245, 533, 0, 0, 7.5f);
+BoxMaker(27, 9, 245, 533, 0, 0, 7.5f);
 
+EnviroMaker(3, 9, 259, 533, 0, 0, 7.5f);
 
 //Invis Platform 11, Platform 7 to last floor
 /*{
