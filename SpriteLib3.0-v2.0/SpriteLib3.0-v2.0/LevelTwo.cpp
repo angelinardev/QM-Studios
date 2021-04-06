@@ -295,13 +295,17 @@ void LevelTwo::InitTexture()
 	BoxMaker(500, 5, 450, -717, 0, 0, 7.5f);
 
 	//First Jump platform
-	BoxMaker(40, 5, 405, -687, 0, 0, 7.5f);
+	BoxMaker(37, 5, 405, -687, 0, 0, 7.5f);
+
+	EnviroMaker(3, 5, 387, -687, 0, 0, 7.5f);
 
 	//Angle Platform after jump
 	BoxMaker(55, 3, 320, -657, 140, 0, 0.6f);
 
 	//First floor platform
-	BoxMaker(75, 5, 235, -615, 0, 0, 7.5f);
+	BoxMaker(72, 5, 235, -615, 0, 0, 7.5f);
+
+	EnviroMaker(3, 5, 270, -615, 0, 0, 7.5f);
 
 	//Setup first invis platform
 	{
@@ -314,7 +318,7 @@ void LevelTwo::InitTexture()
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 5.f));
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 3);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 22, 3);
 
 		float shrinkX = 0.f;
 		float shrinkY = 0.f;
@@ -334,17 +338,23 @@ void LevelTwo::InitTexture()
 		invis1 = entity;
 	}
 
+	EnviroMaker(3, 3, 228, -576, 0, 0, 7.2f);
+
 	//Jump platform after invisible platform
-	BoxMaker(30, 4, 260, -542, 0, 0, 7.5f);
+	BoxMaker(27, 4, 260, -542, 0, 0, 7.5f);
+
+	EnviroMaker(3, 4, 246, -542, 0, 0, 7.5f);
 
 	//Angled platform
-	BoxMaker(45, 4, 305, -512, 45, 0, 0.5f);
+	BoxMaker(45, 4, 305, -512, 45, 0, 0.1f);
 
 	//Next Angled platform
 	BoxMaker(45, 4, 263, -472, 145, 0, 0.5f);
 
 	//Second Floor platform
-	BoxMaker(150, 8, 380, -446, 0, 0, 7.5f);
+	BoxMaker(147, 8, 380, -446, 0, 0, 7.5f);
+
+	EnviroMaker(3, 8, 305, -446, 0, 0, 7.5f);
 
 	//Setup second invis 
 	{
@@ -357,7 +367,7 @@ void LevelTwo::InitTexture()
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 5.f));
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 3);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 22, 3);
 
 		float shrinkX = 0.f;
 		float shrinkY = 0.f;
@@ -377,6 +387,10 @@ void LevelTwo::InitTexture()
 		invis2 = entity;
 	}
 
+	EnviroMaker(3, 3, 319, -406, 0, 0, 7.5f);
+
+	EnviroMaker(3, 3, 341, -406, 0, 0, 7.5f);
+
 	//Setup third invis 
 	{
 		auto entity = ECS::CreateEntity();
@@ -388,7 +402,7 @@ void LevelTwo::InitTexture()
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 5.f));
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 3);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 22, 3);
 
 		float shrinkX = 0.f;
 		float shrinkY = 0.f;
@@ -419,7 +433,7 @@ void LevelTwo::InitTexture()
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 5.f));
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 3);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 22, 3);
 
 		float shrinkX = 0.f;
 		float shrinkY = 0.f;
@@ -439,6 +453,7 @@ void LevelTwo::InitTexture()
 		invis4 = entity;
 	}
 
+
 	//Setup fifth invis 
 	{
 		auto entity = ECS::CreateEntity();
@@ -450,7 +465,7 @@ void LevelTwo::InitTexture()
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 5.f));
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 3);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 22, 3);
 
 		float shrinkX = 0.f;
 		float shrinkY = 0.f;
@@ -470,6 +485,7 @@ void LevelTwo::InitTexture()
 		invis5 = entity;
 	}
 
+
 	//Setup sixth invis 
 	{
 		auto entity = ECS::CreateEntity();
@@ -481,7 +497,7 @@ void LevelTwo::InitTexture()
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 5.f));
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 3);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 22, 3);
 
 		float shrinkX = 0.f;
 		float shrinkY = 0.f;
@@ -502,7 +518,12 @@ void LevelTwo::InitTexture()
 	}
 
 	//Platform after invis platforms to reach floor 3
-	BoxMaker(45, 9, 295, -246, 0, 0, 7.5f);
+	BoxMaker(42, 9, 295, -246, 0, 0, 7.5f);
+
+	EnviroMaker(3, 9, 280, -246, 0, 0, 7.5f);
+	
+
+	EnviroMaker(3, 9, 317, -246, 0, 0, 7.5f);
 
 	//Setup seventh invis to reach floor 3
 	{
@@ -515,7 +536,7 @@ void LevelTwo::InitTexture()
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 5.f));
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 3);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 22, 3);
 
 		float shrinkX = 0.f;
 		float shrinkY = 0.f;
@@ -535,8 +556,14 @@ void LevelTwo::InitTexture()
 		invis7 = entity;
 	}
 
+	EnviroMaker(3, 3, 344, -208, 0, 0, 7.2f);
+
+	EnviroMaker(3, 3, 366, -208, 0, 0, 7.2f);
+
 	//Floor 3
-	BoxMaker(70, 9, 240, -200, 0, 0, 7.5f);
+	BoxMaker(67, 9, 240, -200, 0, 0, 7.5f);
+
+	EnviroMaker(3, 9, 275, -200, 0, 0, 7.5f);
 
 	//Swing stand one
 	/*{
@@ -693,8 +720,8 @@ void LevelTwo::InitTexture()
 		jointDef.localAnchorA.Set(0, 0);
 		jointDef.localAnchorB.Set(0, tempSpr2.GetHeight() / 2);
 		jointDef.enableLimit = true;
-		jointDef.lowerAngle = Transform::ToRadians(-70);
-		jointDef.upperAngle = Transform::ToRadians(70);
+		jointDef.lowerAngle = Transform::ToRadians(-45);
+		jointDef.upperAngle = Transform::ToRadians(45);
 		
 		m_physicsWorld->CreateJoint(&jointDef);
 		b2RevoluteJoint* m_joint2;
@@ -787,7 +814,9 @@ void LevelTwo::InitTexture()
 	
 	
 //Floor 4
-BoxMaker(70, 9, 410, -123, 0, 0, 7.5f);
+BoxMaker(67, 9, 410, -123, 0, 0, 7.5f);
+
+EnviroMaker(3, 9, 375, -123, 0, 0, 7.5f);
 
 //Setup first invis platform
 {
@@ -800,7 +829,7 @@ BoxMaker(70, 9, 410, -123, 0, 0, 7.5f);
 	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 	ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 5.f));
-	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 25, 3);
+	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 22, 3);
 
 	float shrinkX = 0.f;
 	float shrinkY = 0.f;
@@ -819,17 +848,27 @@ BoxMaker(70, 9, 410, -123, 0, 0, 7.5f);
 	ECS::GetComponent<Invisibility>(entity).set_entity(entity);
 	invis13 = entity;
 }
+
+EnviroMaker(3, 3, 402, -75, 0, 0, 7.2f);
+
 //Platform 1 to Floor 5
-BoxMaker(43, 9, 336, -75, 0, 0, 7.5f);
+BoxMaker(42, 9, 336, -75, 0, 0, 7.5f);
+
+EnviroMaker(3, 9, 358, -75, 0, 0, 7.5f);
 
 //Platform 2 to Floor 5
-BoxMaker(43, 9, 283, -55, 0, 0, 7.5f);
+BoxMaker(42, 9, 283, -55, 0, 0, 7.5f);
+
 
 //Floor 5
-BoxMaker(60, 9, 215, -45, 0, 0, 7.5f);
+BoxMaker(57, 9, 215, -45, 0, 0, 7.5f);
+
+EnviroMaker(3, 9, 245, -45, 0, 0, 7.5f);
 
 //Platform 1 to Floor 6
-BoxMaker(35, 9, 212, -13, 0, 0, 7.5f);
+BoxMaker(32, 9, 212, -13, 0, 0, 7.5f);
+
+BoxMaker(3, 9, 222, -13, 0, 0, 7.5f);
 
 //Platform 2 to Floor 6
 BoxMaker(20, 9, 260, 20, 0, 0, 7.5f);
@@ -914,13 +953,16 @@ BoxMaker(17, 9, 320, 195, 0, 0, 7.5f);
 }
 
 //Floor 6
-BoxMaker(80, 9, 233, 245, 0, 0, 7.5f);
+BoxMaker(77, 9, 233, 245, 0, 0, 7.5f);
 
+EnviroMaker(3, 9, 273, 245, 0, 0, 7.5f);
 //Angle Platform to floor 7
 BoxMaker(80, 3, 325, 305, 40, 0, 0.6f);
 
 //Floor 7
-BoxMaker(60, 9, 410, 355, 0, 0,7.5f);
+BoxMaker(57, 9, 410, 355, 0, 0,7.5f);
+
+EnviroMaker(3, 9, 380, 355, 0, 0, 7.5f);
 
 //Platform 1 to Last Floor
 BoxMaker(37, 9, 325, 385, 0, 0, 7.5f);
@@ -996,8 +1038,9 @@ BoxMaker(37, 9, 317, 464, 0, 0, 7.5f);
 }
 
 //Platform 6 to last floor
-BoxMaker(30, 9, 245, 533, 0, 0, 7.5f);
+BoxMaker(27, 9, 245, 533, 0, 0, 7.5f);
 
+EnviroMaker(3, 9, 259, 533, 0, 0, 7.5f);
 
 //Invis Platform 11, Platform 7 to last floor
 /*{

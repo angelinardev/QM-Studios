@@ -50,6 +50,9 @@ void Player::InitPlayer(std::string& fileName, std::string& animationJSON, int w
 	//fall
 	m_animController->AddAnimation(animations["FALLLEFT"].get<Animation>());
 	m_animController->AddAnimation(animations["FALLRIGHT"].get<Animation>());
+	//death
+	m_animController->AddAnimation(animations["DEATHLEFT"].get<Animation>());
+	m_animController->AddAnimation(animations["DEATHRIGHT"].get<Animation>());
 	//dashing
 	m_animController->AddAnimation(animations["DASHLEFT"].get<Animation>()); //4
 	m_animController->AddAnimation(animations["DASHRIGHT"].get<Animation>()); //5
