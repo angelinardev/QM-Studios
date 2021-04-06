@@ -1349,6 +1349,8 @@ void LevelOne::KeyboardDown()
 				{
 					//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-400000.f * 1000, 0.f), true);
 					//player.GetBody()->SetTransform(b2Vec2(pos.x - 30, pos.y), 0);
+					DashFX.SetVolume(0);
+					DashFX.Play();
 					player.GetBody()->SetLinearVelocity(b2Vec2(-1000000, vel.y));
 					canJump.can_dash = false;
 				}
@@ -1356,6 +1358,8 @@ void LevelOne::KeyboardDown()
 				{
 					//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(400000.f * 1000, 0.f), true);
 					//player.GetBody()->SetTransform(b2Vec2(pos.x + 30, pos.y), 0);
+					DashFX.SetVolume(0);
+					DashFX.Play();
 					player.GetBody()->SetLinearVelocity(b2Vec2(1000000, vel.y));
 					canJump.can_dash = false;
 				}
@@ -1391,6 +1395,8 @@ void LevelOne::KeyboardDown()
 				player.GetBody()->SetLinearVelocity(b2Vec2(0, vel.y));
 				if (facing == 0) //left
 				{
+					DashFX.SetVolume(0);
+					DashFX.Play();
 					//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(-400000.f * 1000, 0.f), true);
 					player.GetBody()->SetTransform(b2Vec2(pos.x - 30, pos.y), 0);
 					//player.GetBody()->SetLinearVelocity(b2Vec2(-1000000, vel.y));
@@ -1398,6 +1404,8 @@ void LevelOne::KeyboardDown()
 				}
 				else if (facing == 1)
 				{
+					DashFX.SetVolume(0);
+					DashFX.Play();
 					//player.GetBody()->ApplyLinearImpulseToCenter(b2Vec2(400000.f * 1000, 0.f), true);
 					player.GetBody()->SetTransform(b2Vec2(pos.x + 30, pos.y), 0);
 					//player.GetBody()->SetLinearVelocity(b2Vec2(1000000, vel.y));

@@ -69,6 +69,7 @@ protected:
 	int tut3;
 	ToneFire::FMODCore Fmod{};
 	ToneFire::CoreSound Sound{ "tower.mp3",FMOD_2D | FMOD_LOOP_NORMAL };
+	ToneFire::CoreSound DashFX{ "Dash.mp3" };
 	int healthBar;
 	int healthBarBack;
 	int ghostBar;
