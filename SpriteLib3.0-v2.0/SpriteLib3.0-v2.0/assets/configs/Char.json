@@ -28,7 +28,7 @@
     "Frame1": [ 9000.0, 0.0, 10000.0, 1000.0 ],
     "Frame2": [ 10000.0, 0.0, 11000.0, 1000.0 ],
     "NumFrames": 3,
-    "Repeating": true,
+    "Repeating": false,
     "SecsPerFrame": 0.10000001192092896
   },
   "DASHRIGHT": {
@@ -36,7 +36,7 @@
     "Frame1": [ 12000.0, 0.0, 13000.0, 1000.0 ],
     "Frame2": [ 13000.0, 0.0, 14000.0, 1000.0 ],
     "NumFrames": 3,
-    "Repeating": true,
+    "Repeating": false,
     "SecsPerFrame": 0.10000001192092896
   },
   "IDLELEFT": {

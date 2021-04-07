@@ -1282,6 +1282,7 @@ void LevelTwo::Update()
 
 	if (dash.hp <= 0) //dying
 	{
+		Sound.Mute();
 		//play death animation
 		player2.m_locked = true;
 		animations.SetActiveAnim(DEATH + player2.m_facing);

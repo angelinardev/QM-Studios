@@ -984,7 +984,8 @@ void LevelOne::Update()
 	//Fmod.Update();
 
 	auto& player2 = ECS::GetComponent<Player>(p_entity);
-	
+
+
 	//setup animation component again so the player doesnt lose their animations
 	player2.ReassignComponents(&ECS::GetComponent<AnimationController>(p_entity), &ECS::GetComponent<Sprite>(p_entity));
 	player2.Update();
@@ -1046,6 +1047,7 @@ void LevelOne::Update()
 	if (dash.hp <= 0) //dying
 	{
 		//play death animation
+		Sound.Mute();
 		player2.m_locked = true;
 		animations.SetActiveAnim(DEATH + player2.m_facing);
 		if (animations.GetAnimation(animations.GetActiveAnim()).GetAnimationDone())
