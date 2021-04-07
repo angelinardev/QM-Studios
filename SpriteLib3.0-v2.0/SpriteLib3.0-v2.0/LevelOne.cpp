@@ -1051,7 +1051,7 @@ void LevelOne::Update()
 		if (animations.GetAnimation(animations.GetActiveAnim()).GetAnimationDone())
 		{
 			//Will auto set to idle
-			player2.m_locked = false;
+			//player2.m_locked = false;
 			
 			//Resets the attack animation
 			//animations.GetAnimation(animations.GetActiveAnim()).Reset();

@@ -500,8 +500,6 @@ void PhysicsPlayground::Update()
 {
 	Fmod.Update();
 	
-	
-	
 	bool colliding;
 
 	
@@ -513,9 +511,22 @@ void PhysicsPlayground::Update()
 
 	if (dash.hp <= 0) //dying
 	{
-		is_done = false;
-		selection = 2; //end screen? for now
-		Sound.Mute();
+		auto& animations = ECS::GetComponent<AnimationController>(p_entity);
+		//play death animation
+		player2.m_locked = true;
+		animations.SetActiveAnim(DEATH + player2.m_facing);
+		if (animations.GetAnimation(animations.GetActiveAnim()).GetAnimationDone())
+		{
+			is_done = false;
+			selection = 2; //end screen? for now
+			Sound.Mute();
+			inputS.open("Progress.txt");
+			if (inputS.is_open())
+			{
+				inputS << 1 << "\n";
+			}
+			inputS.close();
+		}
 			
 		
 	}

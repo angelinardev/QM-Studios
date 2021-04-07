@@ -74,6 +74,10 @@ void Player::InitPlayer(std::string& fileName, std::string& animationJSON, int w
 	//wolf fall
 	m_animController->AddAnimation(animations["WLFFALLRIGHT"].get<Animation>());
 	m_animController->AddAnimation(animations["WLFFALLLEFT"].get<Animation>());
+	//wolf death
+	m_animController->AddAnimation(animations["WLFDEATHRIGHT"].get<Animation>());
+	m_animController->AddAnimation(animations["WLFDEATHLEFT"].get<Animation>());
+
 	//Set Default Animation
 	m_animController->SetActiveAnim(1);
 
