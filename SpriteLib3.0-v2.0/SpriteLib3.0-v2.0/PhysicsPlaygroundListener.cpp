@@ -149,6 +149,18 @@ void PhysicsPlaygroundListener::EndContact(b2Contact* contact)
 			
 		}
 	}
+	//enemy jump
+	if ((filterA.categoryBits == GROUND && filterB.categoryBits == ENEMY) || (filterB.categoryBits == GROUND && filterA.categoryBits == ENEMY))
+	{
+		if (filterA.categoryBits == ENEMY)
+		{
+			ECS::GetComponent<CanDamage>((int)fixtureA->GetBody()->GetUserData()).Jump();
+		}
+		else if (filterB.categoryBits == ENEMY)
+		{
+			ECS::GetComponent<CanDamage>((int)fixtureB->GetBody()->GetUserData()).Jump();
+		}
+	}
 
 	//if neither or both are sensors, will be false
 	if ((sensorA ^ sensorB))

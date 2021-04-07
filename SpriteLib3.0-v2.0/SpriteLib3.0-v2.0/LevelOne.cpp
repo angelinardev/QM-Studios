@@ -1081,6 +1081,36 @@ void LevelOne::Update()
 	auto& player = ECS::GetComponent<PhysicsBody>(p_entity);
 	auto& canJump = ECS::GetComponent<CanJump>(p_entity);
 
+	//jump pit check
+	if (player.GetPosition().y <= -80 && player.GetPosition().x <= 410 && player.GetPosition().x >= 100)
+	{
+		auto& power = ECS::GetComponent<Player_Power>(p_entity);
+		if (!power.m_power[1] && !power.m_power[0])
+		{
+			player.GetBody()->SetTransform(b2Vec2(170, -40), 0);
+		}
+		else
+		{
+			player.GetBody()->SetTransform(b2Vec2(170, -40), Transform::ToRadians(90));
+		}
+		dash.hp -= 25;
+	}
+
+	//first pit check
+	if (player.GetPosition().y <= -60 && player.GetPosition().x <= -100)
+	{
+		auto& power = ECS::GetComponent<Player_Power>(p_entity);
+		if (!power.m_power[1] && !power.m_power[0])
+		{
+			player.GetBody()->SetTransform(b2Vec2(-400, 10), 0);
+		}
+		else
+		{
+			player.GetBody()->SetTransform(b2Vec2(-400, 10), Transform::ToRadians(90));
+		}
+		dash.hp -= 25;
+	}
+
 	if (player.GetBody()->GetLinearVelocity().y < 0 && !canJump.m_canJump)//peak of jump, position needs to be relative to the ground
 	{
 		if (!jump_high)

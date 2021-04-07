@@ -18,10 +18,12 @@ public:
 	int facing = 0;
 	bool moving = false;
 	bool attack = false;
+	bool locked = false;
 private:
 	PhysicsBody body;
 	AnimationController* anims;
 	int player;
+	//int& phealth;
 	
 };
 

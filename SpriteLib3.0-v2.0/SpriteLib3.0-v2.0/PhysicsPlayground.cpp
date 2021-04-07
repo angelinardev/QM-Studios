@@ -350,6 +350,32 @@ void PhysicsPlayground::InitTexture()
 
 	//Setup spawning static Platform
 	BoxMaker(198, 5, -310.f, -80.f, 0, 0, 7);
+	//squirrel
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		
+		//Add components  
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<AnimationController>(entity);
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& animController = ECS::GetComponent<AnimationController>(entity);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-300.f, -78.f, 2.f));
+		//Sets up the components  
+		std::string fileName = "spritesheets/squirrel.png";
+		std::string animations = "Animal.json";
+
+		animController.InitUVs(fileName);
+		nlohmann::json animations2 = File::LoadJSON(animations);
+		animController.AddAnimation(animations2["ANIMAL"].get<Animation>());
+		animController.SetActiveAnim(0);
+
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 20, true, &animController);
+
+	}
 
 	//Setup Downward log Log 
 	BoxMaker(75, 15, -223.f, -70.f, 157, 0, 0.9);
@@ -499,9 +525,6 @@ void PhysicsPlayground::InitTexture()
 void PhysicsPlayground::Update()
 {
 	Fmod.Update();
-	
-	bool colliding;
-
 	
 	auto& player2 = ECS::GetComponent<Player>(p_entity);
 	player2.Update();
