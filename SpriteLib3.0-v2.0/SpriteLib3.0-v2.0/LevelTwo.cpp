@@ -302,7 +302,7 @@ void LevelTwo::InitTexture()
 	//Angle Platform after jump
 	BoxMaker(55, 3, 320, -657, 140, 0, 0.6f);
 
-	//First floor platform
+	//First floor platform // Enemy placed here
 	BoxMaker(72, 5, 235, -615, 0, 0, 7.5f);
 
 	EnviroMaker(3, 5, 270, -615, 0, 0, 7.5f);
@@ -351,7 +351,7 @@ void LevelTwo::InitTexture()
 	//Next Angled platform
 	BoxMaker(45, 4, 263, -472, 145, 0, 0.5f);
 
-	//Second Floor platform
+	//Second Floor platform // Enemy placed here
 	BoxMaker(147, 8, 380, -446, 0, 0, 7.5f);
 
 	EnviroMaker(3, 8, 305, -446, 0, 0, 7.5f);
@@ -560,7 +560,7 @@ void LevelTwo::InitTexture()
 
 	EnviroMaker(3, 3, 366, -208, 0, 0, 7.2f);
 
-	//Floor 3
+	//Floor 3 //Enemy placed here
 	BoxMaker(67, 9, 240, -200, 0, 0, 7.5f);
 
 	EnviroMaker(3, 9, 275, -200, 0, 0, 7.5f);
@@ -813,7 +813,7 @@ void LevelTwo::InitTexture()
 	}*/
 	
 	
-//Floor 4
+//Floor 4 // Enemy Placed here
 BoxMaker(67, 9, 410, -123, 0, 0, 7.5f);
 
 EnviroMaker(3, 9, 375, -123, 0, 0, 7.5f);
@@ -860,7 +860,7 @@ EnviroMaker(3, 9, 358, -75, 0, 0, 7.5f);
 BoxMaker(42, 9, 283, -55, 0, 0, 7.5f);
 
 
-//Floor 5
+//Floor 5 //Enemy placed here
 BoxMaker(57, 9, 215, -45, 0, 0, 7.5f);
 
 EnviroMaker(3, 9, 245, -45, 0, 0, 7.5f);
@@ -957,7 +957,12 @@ BoxMaker(77, 9, 233, 245, 0, 0, 7.5f);
 
 EnviroMaker(3, 9, 273, 245, 0, 0, 7.5f);
 //Angle Platform to floor 7
+
+//Enemy placed here
 BoxMaker(80, 3, 325, 305, 40, 0, 0.6f);
+
+
+
 
 //Floor 7
 BoxMaker(57, 9, 410, 355, 0, 0,7.5f);
@@ -965,6 +970,7 @@ BoxMaker(57, 9, 410, 355, 0, 0,7.5f);
 EnviroMaker(3, 9, 380, 355, 0, 0, 7.5f);
 
 //Platform 1 to Last Floor
+
 BoxMaker(37, 9, 325, 385, 0, 0, 7.5f);
 
 //Platform 2 to Last Floor
