@@ -693,6 +693,57 @@ void LevelTwo::InitTexture()
 
 	//Floor 3 //Enemy placed here
 	BoxMaker(67, 9, 240, -200, 0, 0, 7.5f);
+
+	{
+
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		tut2 = entity;
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+
+		//Set up the components
+		std::string fileName = "Swing.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 100, 20);
+		ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(260.f, -175.f, 5.f));
+	}
+	//tut sensor2
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+	//Add components
+	ECS::AttachComponent<Sprite>(entity);
+	ECS::AttachComponent<Transform>(entity);
+	ECS::AttachComponent<PhysicsBody>(entity);
+	ECS::AttachComponent<Trigger*>(entity);
+
+	//Sets up components
+	std::string fileName = "page.png";
+	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 15, 20);
+	ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+	ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, -20.f, 80.f));
+	ECS::GetComponent<Trigger*>(entity) = new TutorialTrig(tut2); //first tutorial
+	ECS::GetComponent<Trigger*>(entity)->SetTriggerEntity(entity);
+
+
+	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+	float shrinkX = 0.f;
+	float shrinkY = 0.f;
+	b2Body* tempBody;
+	b2BodyDef tempDef;
+	tempDef.type = b2_staticBody;
+	tempDef.position.Set(float32(250), float32(-200));
+
+	tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, PTRIGGER, PLAYER);
+	tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
+	}
+
 	{
 		auto entity = ECS::CreateEntity();
 		//Add components  
@@ -760,6 +811,8 @@ void LevelTwo::InitTexture()
 	}
 
 	EnviroMaker(3, 9, 275, -200, 0, 0, 7.5f);
+
+	
 
 	//Swing stand two 
 	{

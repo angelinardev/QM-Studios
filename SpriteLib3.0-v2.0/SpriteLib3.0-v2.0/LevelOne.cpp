@@ -148,6 +148,7 @@ void LevelOne::InitTexture()
 	ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
 	ECS::GetComponent<Transform>(entity).SetPosition(vec3(-350.f, 10.f, 5.f));
 }
+
 //tut sensor2
 {
 	//Creates entity
