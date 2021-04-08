@@ -50,20 +50,22 @@ void Game::InitGame()
 	m_scenes.push_back(new Controls("Controls"));
 	m_scenes.push_back(new LevelTwo("Second Level"));
 	m_scenes.push_back(new Cutscene2("The End"));
+	m_scenes.push_back(new Credits2("Credits"));
 	
 	//preloads all scenes
-   m_scenes[0]->InitTexture();
-   m_scenes[1]->InitTexture();
-	m_scenes[2]->InitTexture();
-	m_scenes[3]->InitTexture();
-	m_scenes[4]->InitTexture();
-	m_scenes[5]->InitTexture();
-	m_scenes[6]->InitTexture();
-	m_scenes[7]->InitTexture();
+  //m_scenes[0]->InitTexture();
+   //m_scenes[1]->InitTexture();
+	//m_scenes[2]->InitTexture();
+	//m_scenes[3]->InitTexture();
+	//m_scenes[4]->InitTexture();
+	//m_scenes[5]->InitTexture();
+	//m_scenes[6]->InitTexture();
+	//m_scenes[7]->InitTexture();
 	m_scenes[8]->InitTexture();
+	m_scenes[9]->InitTexture();
 
 	//Sets active scene reference to our scene
-	m_activeScene = m_scenes[0];
+	m_activeScene = m_scenes[8];
 
 	m_activeScene->InitScene(float(BackEnd::GetWindowWidth()), float(BackEnd::GetWindowHeight()));
 
@@ -129,11 +131,11 @@ void Game::Update()
 		//PhysicsSystem::CleanupBodies();
 		m_activeScene = m_scenes[index];
 		//reload the scene if we need to enter it again
-		//if (!m_activeScene->is_done)
+		if (!m_activeScene->is_done)
 		{
 			m_activeScene->InitTexture();
 		}
-		//else
+		else
 		{
 			//PhysicsSystem::CleanupBodies();
 		}

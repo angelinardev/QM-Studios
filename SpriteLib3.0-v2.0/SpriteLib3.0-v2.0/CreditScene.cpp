@@ -129,9 +129,9 @@ void CreditScene::InitTexture()
 
 		//Set up the components
 		std::string fileName = "creditsfull.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 215, 120);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 215, 130);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 2.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 25.f, 2.f));
 
 
 	}

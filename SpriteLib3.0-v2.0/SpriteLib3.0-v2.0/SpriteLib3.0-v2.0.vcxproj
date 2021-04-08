@@ -146,6 +146,7 @@
     <ClInclude Include="CanDamage.h" />
     <ClInclude Include="CanJump.h" />
     <ClInclude Include="Controls.h" />
+    <ClInclude Include="Credits2.h" />
     <ClInclude Include="CreditScene.h" />
     <ClInclude Include="Cutscene1.h" />
     <ClInclude Include="Cutscene2.h" />
@@ -223,6 +224,7 @@
     <ClCompile Include="CanDamage.cpp" />
     <ClCompile Include="CanJump.cpp" />
     <ClCompile Include="Controls.cpp" />
+    <ClCompile Include="Credits2.cpp" />
     <ClCompile Include="CreditScene.cpp" />
     <ClCompile Include="Cutscene1.cpp" />
     <ClCompile Include="Cutscene2.cpp" />

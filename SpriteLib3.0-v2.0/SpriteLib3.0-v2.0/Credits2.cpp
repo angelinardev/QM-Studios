@@ -1,18 +1,16 @@
-#include "Cutscene2.h"
+#include "Credits2.h"
 #include "Utilities.h"
 
-Cutscene2::Cutscene2(std::string name)
+
+Credits2::Credits2(std::string name)
 {
 	m_gravity = b2Vec2(0.f, -98.f);
-
-	m_physicsWorld = new b2World(m_gravity);
-	m_physicsWorld->SetGravity(m_gravity);
 }
 
-void Cutscene2::InitScene(float windowWidth, float windowHeight)
+void Credits2::InitScene(float windowWidth, float windowHeight)
 {
 	selection = -1;
-	//m_sceneReg = new entt::registry;
+
 	//Attach the register
 	ECS::AttachRegister(m_sceneReg);
 
@@ -46,62 +44,69 @@ void Cutscene2::InitScene(float windowWidth, float windowHeight)
 	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).SetOffset(200);
 	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).SetOffset(0);
 
-	//set up the cutscene
-	ECS::GetComponent<AnimationController>(scene).SetActiveAnim(0);
+	is_done = false;
+	
+}
+
+void Credits2::Update()
+{
+	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).Update();
+	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).Update();
 
 }
 
-void Cutscene2::InitTexture()
+int Credits2::ChangeScene()
 {
+
+	return selection;
+
+}
+
+void Credits2::InitTexture()
+{
+	m_physicsWorld = new b2World(m_gravity);
+	m_physicsWorld->SetGravity(m_gravity);
+
 	m_sceneReg = new entt::registry;
 	//Attach the register
 	ECS::AttachRegister(m_sceneReg);
-	//cutscene
+	
+	//fireflies
 	{
 		//Creates entity
 		auto entity = ECS::CreateEntity();
-		scene = entity;
 
 		//Add components  
 		ECS::AttachComponent<Sprite>(entity);
 		ECS::AttachComponent<Transform>(entity);
-		ECS::AttachComponent<AnimationController>(entity);
 
-		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
-		auto& animController = ECS::GetComponent<AnimationController>(entity);
+		//Set up the components
+		std::string fileName = "credsfin.png";
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 215, 130);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 2.f));
-		//Sets up the components  
-		std::string fileName = "spritesheets/final_scene.png";
-		std::string animations = "finalscene.json";
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 25.f, 2.f));
 
-		animController.InitUVs(fileName);
-		nlohmann::json animations2 = File::LoadJSON(animations);
-		animController.AddAnimation(animations2["PLAY"].get<Animation>());
-		//animController.SetActiveAnim(0);
-
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 215, 120, true, &animController);
 
 	}
+
 }
 
-void Cutscene2::Update()
+void Credits2::KeyboardHold()
 {
-	ECS::GetComponent<VerticalScroll>(MainEntities::MainCamera()).Update();
-	ECS::GetComponent<HorizontalScroll>(MainEntities::MainCamera()).Update();
-	auto& m_animController = ECS::GetComponent<AnimationController>(scene);
 }
 
-
-int Cutscene2::ChangeScene()
+void Credits2::KeyboardDown()
 {
-	return selection;
-}
 
-void Cutscene2::KeyboardDown()
-{
-	if (Input::GetKey(Key::Enter) || Input::GetKey(Key::Space))
+	if (Input::GetKeyDown(Key::Space) || Input::GetKeyDown(Key::Enter))
 	{
-		selection = 9;
+		
+		exit(0);
 	}
 }
+
+void Credits2::KeyboardUp()
+{
+}
+
+
