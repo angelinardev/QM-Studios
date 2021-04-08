@@ -2,6 +2,7 @@
 #include "Utilities.h"
 #include "ToneFire/ToneFire.h"
 #include "PhysicsPlaygroundListener.h"
+#include "Vector.h"
 #include <random>
 #include <cmath>
 
@@ -119,6 +120,8 @@ void PhysicsPlayground::InitScene(float windowWidth, float windowHeight)
 
 	Sound.Play();
 	ECS::GetComponent<CanJump>(MainEntities::MainPlayer()).hp = 100;
+	std::vector<bool> powers = { false, false };
+	MainEntities::Powerups(powers);
 	
 }
 void PhysicsPlayground::InitTexture()

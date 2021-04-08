@@ -129,11 +129,11 @@ void Game::Update()
 		//PhysicsSystem::CleanupBodies();
 		m_activeScene = m_scenes[index];
 		//reload the scene if we need to enter it again
-		if (!m_activeScene->is_done)
+		//if (!m_activeScene->is_done)
 		{
 			m_activeScene->InitTexture();
 		}
-		else
+		//else
 		{
 			//PhysicsSystem::CleanupBodies();
 		}

@@ -1018,7 +1018,7 @@ BoxMaker(42, 9, 283, -55, 0, 0, 7.5f);
 	b2Body* tempBody;
 	b2BodyDef tempDef;
 	tempDef.type = b2_staticBody;
-	tempDef.position.Set(float32(283), float32(-50));
+	tempDef.position.Set(float32(283), float32(-45));
 
 	tempBody = m_physicsWorld->CreateBody(&tempDef);
 
