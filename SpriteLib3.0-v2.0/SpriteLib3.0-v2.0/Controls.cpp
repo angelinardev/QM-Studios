@@ -1,12 +1,10 @@
 #include "Controls.h"
 #include "Utilities.h"
 
-
 Controls::Controls(std::string name)
 {
 	m_gravity = b2Vec2(0.f, -98.f);
 }
-
 void Controls::InitScene(float windowWidth, float windowHeight)
 {
 	selection = -1;
@@ -68,6 +66,7 @@ void Controls::InitScene(float windowWidth, float windowHeight)
 	setSelect(1);
 	selectionCounter == 1;
 	is_done = false;
+	Sound.Play();
 }
 
 void Controls::Update()
@@ -159,6 +158,8 @@ void Controls::KeyboardDown()
 	if (Input::GetKeyDown(Key::Space) || Input::GetKeyDown(Key::Enter))
 	{
 		selection = 0; //return to menu
+		Sound.Mute();
+		
 	}
 }
 

@@ -39,6 +39,8 @@ void TitleScreen::InitScene(float windowWidth, float windowHeight)
 		//Attaches the camera to vert and horiz scrolls
 		ECS::GetComponent<HorizontalScroll>(entity).SetCam(&ECS::GetComponent<Camera>(entity));
 		ECS::GetComponent<VerticalScroll>(entity).SetCam(&ECS::GetComponent<Camera>(entity));
+
+		
 	}
 
 	int background;
@@ -69,6 +71,8 @@ void TitleScreen::InitScene(float windowWidth, float windowHeight)
 
 	setSelect(4);
 	selectionCounter == 4;
+
+	Sound.Play();
 }
 
 void TitleScreen::InitTexture()
@@ -209,13 +213,16 @@ void TitleScreen::KeyboardDown()
 		}
 		if (selectionCounter == 2) {
 			selection = 6; //controls
+			Sound.Mute();
 		}
 		if (selectionCounter == 3) {
 			selection = 5; //credits
+			Sound.Mute();
 		}
 		if (selectionCounter == 4) {
 			
 			selection = 1; //first level
+			Sound.Mute();
 		}
 	}
 }

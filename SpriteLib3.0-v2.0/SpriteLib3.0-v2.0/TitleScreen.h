@@ -1,5 +1,6 @@
 #pragma once
 #include "Scene.h"
+#include "ToneFire/ToneFire.h"
 
 class TitleScreen : public Scene
 {
@@ -28,7 +29,8 @@ public:
 	int background = 0;
 	int selection = -1;
 	int firef = 0;
-
+	ToneFire::FMODCore Fmod{};
+	ToneFire::CoreSound Sound{ "Menusong.mp3",FMOD_2D | FMOD_LOOP_NORMAL };
 
 };
 
