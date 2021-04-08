@@ -65,6 +65,7 @@ void EndScreen::InitScene(float windowWidth, float windowHeight)
 
 	setSelect(1);
 	selectionCounter == 1;
+	is_done = false;
 }
 
 void EndScreen::InitTexture()
@@ -164,6 +165,7 @@ void EndScreen::KeyboardDown()
 			{
 				selection = 7;
 			}
+			inputS.close();
 		}
 	}
 }
