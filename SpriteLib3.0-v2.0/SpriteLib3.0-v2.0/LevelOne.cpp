@@ -252,8 +252,8 @@ void LevelOne::InitTexture()
 		animController.AddAnimation(animations2["IDLERIGHT"].get<Animation>());
 		animController.AddAnimation(animations2["ATKLEFT"].get<Animation>());
 		animController.AddAnimation(animations2["ATKRIGHT"].get<Animation>());
-		animController.AddAnimation(animations2["IDLELEFT"].get<Animation>());
-		animController.AddAnimation(animations2["IDLERIGHT"].get<Animation>());
+		animController.AddAnimation(animations2["DEATHLEFT"].get<Animation>());
+		animController.AddAnimation(animations2["DEATHRIGHT"].get<Animation>());
 		
 		animController.SetActiveAnim(0);
 
@@ -570,8 +570,8 @@ void LevelOne::InitTexture()
 		animController.AddAnimation(animations2["IDLERIGHT"].get<Animation>());
 		animController.AddAnimation(animations2["ATKLEFT"].get<Animation>());
 		animController.AddAnimation(animations2["ATKRIGHT"].get<Animation>());
-		animController.AddAnimation(animations2["IDLELEFT"].get<Animation>());
-		animController.AddAnimation(animations2["IDLERIGHT"].get<Animation>());
+		animController.AddAnimation(animations2["DEATHLEFT"].get<Animation>());
+		animController.AddAnimation(animations2["DEATHRIGHT"].get<Animation>());
 		animController.SetActiveAnim(0);
 
 		//ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30);
@@ -679,8 +679,8 @@ void LevelOne::InitTexture()
 		animController.AddAnimation(animations2["IDLERIGHT"].get<Animation>());
 		animController.AddAnimation(animations2["ATKLEFT"].get<Animation>());
 		animController.AddAnimation(animations2["ATKRIGHT"].get<Animation>());
-		animController.AddAnimation(animations2["IDLELEFT"].get<Animation>());
-		animController.AddAnimation(animations2["IDLERIGHT"].get<Animation>());
+		animController.AddAnimation(animations2["DEATHLEFT"].get<Animation>());
+		animController.AddAnimation(animations2["DEATHRIGHT"].get<Animation>());
 
 		animController.SetActiveAnim(0);
 
@@ -767,8 +767,8 @@ void LevelOne::InitTexture()
 		animController.AddAnimation(animations2["IDLERIGHT"].get<Animation>());
 		animController.AddAnimation(animations2["ATKLEFT"].get<Animation>());
 		animController.AddAnimation(animations2["ATKRIGHT"].get<Animation>());
-		animController.AddAnimation(animations2["IDLELEFT"].get<Animation>());
-		animController.AddAnimation(animations2["IDLERIGHT"].get<Animation>());
+		animController.AddAnimation(animations2["DEATHLEFT"].get<Animation>());
+		animController.AddAnimation(animations2["DEATHRIGHT"].get<Animation>());
 
 		animController.SetActiveAnim(0);
 
