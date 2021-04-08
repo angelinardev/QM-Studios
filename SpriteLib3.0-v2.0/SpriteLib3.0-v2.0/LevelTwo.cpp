@@ -219,8 +219,25 @@ void LevelTwo::InitTexture()
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(300.f, 0.f, 1.f));
 	}
 
-	//enemy
-	/*
+	//SetUp Invisible Wall at the left
+	EnviroMaker(4500, 10, 200.f, -717.f, 90, 0);
+
+	//SetUp Invisible Wall at the right
+	EnviroMaker(4500, 10, 430.f, -717.f, 90, 0);
+
+	//First platform
+	BoxMaker(500, 5, 450, -717, 0, 0, 7.5f);
+
+	//First Jump platform
+	BoxMaker(37, 5, 405, -687, 0, 0, 7.5f);
+
+	EnviroMaker(3, 5, 387, -687, 0, 0, 7.5f);
+
+	//Angle Platform after jump
+	BoxMaker(55, 3, 320, -657, 140, 0, 0.6f);
+
+	//First floor platform // Enemy placed here
+	BoxMaker(72, 5, 235, -615, 0, 0, 7.5f);
 	{
 
 		auto entity = ECS::CreateEntity();
@@ -250,7 +267,10 @@ void LevelTwo::InitTexture()
 		animController.AddAnimation(animations2["WALKRIGHT"].get<Animation>());
 		animController.AddAnimation(animations2["IDLELEFT"].get<Animation>());
 		animController.AddAnimation(animations2["IDLERIGHT"].get<Animation>());
-
+		animController.AddAnimation(animations2["ATKLEFT"].get<Animation>());
+		animController.AddAnimation(animations2["ATKRIGHT"].get<Animation>());
+		animController.AddAnimation(animations2["IDLELEFT"].get<Animation>());
+		animController.AddAnimation(animations2["IDLERIGHT"].get<Animation>());
 
 		animController.SetActiveAnim(0);
 
@@ -267,7 +287,7 @@ void LevelTwo::InitTexture()
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(-370.f), float32(20.f));
+		tempDef.position.Set(float32(235.f), float32(-610.f));
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
@@ -283,92 +303,7 @@ void LevelTwo::InitTexture()
 		enemies.push_back(entity);
 
 	}
-	*/
-
-	//SetUp Invisible Wall at the left
-	EnviroMaker(4500, 10, 200.f, -717.f, 90, 0);
-
-	//SetUp Invisible Wall at the right
-	EnviroMaker(4500, 10, 430.f, -717.f, 90, 0);
-
-	//First platform
-	BoxMaker(500, 5, 450, -717, 0, 0, 7.5f);
-
-	//First Jump platform
-	BoxMaker(37, 5, 405, -687, 0, 0, 7.5f);
-
-	EnviroMaker(3, 5, 387, -687, 0, 0, 7.5f);
-
-	//Angle Platform after jump
-	BoxMaker(55, 3, 320, -657, 140, 0, 0.6f);
-
-	//First floor platform // Enemy placed here
-	BoxMaker(72, 5, 235, -615, 0, 0, 7.5f);
-	{
-		auto entity = ECS::CreateEntity();
-		//Add components  
-
-		ECS::AttachComponent<Sprite>(entity);
-		ECS::AttachComponent<Transform>(entity);
-		ECS::AttachComponent<PhysicsBody>(entity);
-		ECS::AttachComponent<AnimationController>(entity);
-		ECS::AttachComponent<CanDamage>(entity);
-
-		ECS::GetComponent<CanDamage>(entity).m_candamage = true;
-		ECS::GetComponent<CanDamage>(entity).hp = 100;
-
-		//Sets up the components  
-
-		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
-		auto& animController = ECS::GetComponent<AnimationController>(entity);
-		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 4.f));
-		//Sets up the components  
-		std::string fileName = "spritesheets/DVLDOLL2.png";
-		std::string animations = "DVLDOLL.json";
-
-		animController.InitUVs(fileName);
-		nlohmann::json animations2 = File::LoadJSON(animations);
-		animController.AddAnimation(animations2["WALKLEFT"].get<Animation>()); //0
-		animController.AddAnimation(animations2["WALKRIGHT"].get<Animation>()); //1
-		animController.AddAnimation(animations2["IDLELEFT"].get<Animation>()); //2
-		animController.AddAnimation(animations2["IDLERIGHT"].get<Animation>()); //3
-		animController.AddAnimation(animations2["ATKLEFT"].get<Animation>()); //4
-		animController.AddAnimation(animations2["ATKRIGHT"].get<Animation>()); //5
-		animController.AddAnimation(animations2["DEATH"].get<Animation>()); //6
-		animController.AddAnimation(animations2["DEATH"].get<Animation>()); //6
-
-
-		animController.SetActiveAnim(0);
-
-		//ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30);
-		//ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
-		//ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 3.f));
-
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 20, true, &animController);
-		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
-
-		float shrinkX = 20.f;
-		float shrinkY = 5.f;
-
-		b2Body* tempBody;
-		b2BodyDef tempDef;
-		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(235.f), float32(-605.f));
-
-		tempBody = m_physicsWorld->CreateBody(&tempDef);
-
-		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, ENEMY, OBJECTS | ENVIRONMENT | PLAYER | GROUND, 0.5f, 3.f);
-
-
-		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
-		tempPhsBody.SetGravityScale(2.5f);
-		tempPhsBody.SetFixedRotation(true);
-		ECS::GetComponent<CanDamage>(entity).InitBody(tempPhsBody, &animController);
-		//tempSpr.SetTransparency(0);
-		//add enemy to enemy array
-		enemies.push_back(entity);
-	}
+	
 
 	EnviroMaker(3, 5, 270, -615, 0, 0, 7.5f);
 
@@ -419,6 +354,7 @@ void LevelTwo::InitTexture()
 	//Second Floor platform // Enemy placed here
 	BoxMaker(147, 8, 380, -446, 0, 0, 7.5f);
 	{
+
 		auto entity = ECS::CreateEntity();
 		//Add components  
 
@@ -429,7 +365,6 @@ void LevelTwo::InitTexture()
 		ECS::AttachComponent<CanDamage>(entity);
 
 		ECS::GetComponent<CanDamage>(entity).m_candamage = true;
-		ECS::GetComponent<CanDamage>(entity).hp = 100;
 
 		//Sets up the components  
 
@@ -438,37 +373,35 @@ void LevelTwo::InitTexture()
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 4.f));
 		//Sets up the components  
-		std::string fileName = "spritesheets/DVLDOLL2.png";
-		std::string animations = "DVLDOLL.json";
+		std::string fileName = "spritesheets/scarecrow.png";
+		std::string animations = "Scarecrow.json";
 
 		animController.InitUVs(fileName);
 		nlohmann::json animations2 = File::LoadJSON(animations);
-		animController.AddAnimation(animations2["WALKLEFT"].get<Animation>()); //0
-		animController.AddAnimation(animations2["WALKRIGHT"].get<Animation>()); //1
-		animController.AddAnimation(animations2["IDLELEFT"].get<Animation>()); //2
-		animController.AddAnimation(animations2["IDLERIGHT"].get<Animation>()); //3
-		animController.AddAnimation(animations2["ATKLEFT"].get<Animation>()); //4
-		animController.AddAnimation(animations2["ATKRIGHT"].get<Animation>()); //5
-		animController.AddAnimation(animations2["DEATH"].get<Animation>()); //6
-		animController.AddAnimation(animations2["DEATH"].get<Animation>()); //6
-
-
+		animController.AddAnimation(animations2["WALKLEFT"].get<Animation>());
+		animController.AddAnimation(animations2["WALKRIGHT"].get<Animation>());
+		animController.AddAnimation(animations2["IDLELEFT"].get<Animation>());
+		animController.AddAnimation(animations2["IDLERIGHT"].get<Animation>());
+		animController.AddAnimation(animations2["ATKLEFT"].get<Animation>());
+		animController.AddAnimation(animations2["ATKRIGHT"].get<Animation>());
+		animController.AddAnimation(animations2["IDLELEFT"].get<Animation>());
+		animController.AddAnimation(animations2["IDLERIGHT"].get<Animation>());
 		animController.SetActiveAnim(0);
 
 		//ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30);
 		//ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
 		//ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 3.f));
 
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 20, true, &animController);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 50, 40, true, &animController);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 
-		float shrinkX = 20.f;
-		float shrinkY = 5.f;
+		float shrinkX = 38.f;
+		float shrinkY = 0.f;
 
 		b2Body* tempBody;
 		b2BodyDef tempDef;
 		tempDef.type = b2_dynamicBody;
-		tempDef.position.Set(float32(380.f), float32(-436.f));
+		tempDef.position.Set(float32(380.f), float32(-440.f));
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 
@@ -482,8 +415,9 @@ void LevelTwo::InitTexture()
 		//tempSpr.SetTransparency(0);
 		//add enemy to enemy array
 		enemies.push_back(entity);
-	}
 
+	}
+	
 
 	EnviroMaker(3, 8, 305, -446, 0, 0, 7.5f);
 
@@ -551,6 +485,47 @@ void LevelTwo::InitTexture()
 		ECS::AttachComponent<Invisibility>(entity);
 		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
 		invis3 = entity;
+	}
+	//spawn heart
+	{
+		//Creates entity
+		auto entity = ECS::CreateEntity();
+		//Add components
+		ECS::AttachComponent<Sprite>(entity);
+		ECS::AttachComponent<Transform>(entity);
+		ECS::AttachComponent<PhysicsBody>(entity);
+		ECS::AttachComponent<Trigger*>(entity);
+		ECS::AttachComponent<AnimationController>(entity);
+		//Sets up the components  
+		std::string fileName = "spritesheets/health.png";
+		std::string animations = "Health.json";
+		auto& animController = ECS::GetComponent<AnimationController>(entity);
+
+		animController.InitUVs(fileName);
+		nlohmann::json animations2 = File::LoadJSON(animations);
+		animController.AddAnimation(animations2["Health"].get<Animation>());
+		animController.SetActiveAnim(0);
+
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 20, true, &animController);
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, -20.f, 80.f));
+		ECS::GetComponent<Trigger*>(entity) = new HealthTrigger();
+		ECS::GetComponent<Trigger*>(entity)->SetTriggerEntity(entity);
+
+
+		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+		float shrinkX = 0.f;
+		float shrinkY = 0.f;
+		b2Body* tempBody;
+		b2BodyDef tempDef;
+		tempDef.type = b2_staticBody;
+		tempDef.position.Set(float32(405), float32(-375));
+
+		tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, PTRIGGER, PLAYER);
+		tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
 	}
 
 	//Setup fourth invis 
@@ -704,7 +679,7 @@ void LevelTwo::InitTexture()
 		ECS::AttachComponent<CanDamage>(entity);
 
 		ECS::GetComponent<CanDamage>(entity).m_candamage = true;
-		ECS::GetComponent<CanDamage>(entity).hp = 200;
+		ECS::GetComponent<CanDamage>(entity).hp = 100;
 
 		//Sets up the components  
 
@@ -758,6 +733,8 @@ void LevelTwo::InitTexture()
 		//add enemy to enemy array
 		enemies.push_back(entity);
 	}
+
+	
 
 	EnviroMaker(3, 9, 275, -200, 0, 0, 7.5f);
 
@@ -846,6 +823,71 @@ void LevelTwo::InitTexture()
 	
 //Floor 4 // Enemy Placed here
 BoxMaker(67, 9, 410, -123, 0, 0, 7.5f);
+{
+	auto entity = ECS::CreateEntity();
+	//Add components  
+
+	ECS::AttachComponent<Sprite>(entity);
+	ECS::AttachComponent<Transform>(entity);
+	ECS::AttachComponent<PhysicsBody>(entity);
+	ECS::AttachComponent<AnimationController>(entity);
+	ECS::AttachComponent<CanDamage>(entity);
+
+	ECS::GetComponent<CanDamage>(entity).m_candamage = true;
+	ECS::GetComponent<CanDamage>(entity).hp = 100;
+
+	//Sets up the components  
+
+	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+	auto& animController = ECS::GetComponent<AnimationController>(entity);
+	ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+	ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 4.f));
+	//Sets up the components  
+	std::string fileName = "spritesheets/DVLDOLL2.png";
+	std::string animations = "DVLDOLL.json";
+
+	animController.InitUVs(fileName);
+	nlohmann::json animations2 = File::LoadJSON(animations);
+	animController.AddAnimation(animations2["WALKLEFT"].get<Animation>()); //0
+	animController.AddAnimation(animations2["WALKRIGHT"].get<Animation>()); //1
+	animController.AddAnimation(animations2["IDLELEFT"].get<Animation>()); //2
+	animController.AddAnimation(animations2["IDLERIGHT"].get<Animation>()); //3
+	animController.AddAnimation(animations2["ATKLEFT"].get<Animation>()); //4
+	animController.AddAnimation(animations2["ATKRIGHT"].get<Animation>()); //5
+	animController.AddAnimation(animations2["DEATH"].get<Animation>()); //6
+	animController.AddAnimation(animations2["DEATH"].get<Animation>()); //6
+
+
+	animController.SetActiveAnim(0);
+
+	//ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30);
+	//ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+	//ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 3.f));
+
+	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 20, true, &animController);
+	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+	float shrinkX = 20.f;
+	float shrinkY = 5.f;
+
+	b2Body* tempBody;
+	b2BodyDef tempDef;
+	tempDef.type = b2_dynamicBody;
+	tempDef.position.Set(float32(410.f), float32(-118.f));
+
+	tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, ENEMY, OBJECTS | ENVIRONMENT | PLAYER | GROUND, 0.5f, 3.f);
+
+
+	tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
+	tempPhsBody.SetGravityScale(2.5f);
+	tempPhsBody.SetFixedRotation(true);
+	ECS::GetComponent<CanDamage>(entity).InitBody(tempPhsBody, &animController);
+	//tempSpr.SetTransparency(0);
+	//add enemy to enemy array
+	enemies.push_back(entity);
+}
 
 EnviroMaker(3, 9, 375, -123, 0, 0, 7.5f);
 
@@ -889,10 +931,117 @@ EnviroMaker(3, 9, 358, -75, 0, 0, 7.5f);
 
 //Platform 2 to Floor 5
 BoxMaker(42, 9, 283, -55, 0, 0, 7.5f);
+//spawn heart
+{
+	//Creates entity
+	auto entity = ECS::CreateEntity();
+	//Add components
+	ECS::AttachComponent<Sprite>(entity);
+	ECS::AttachComponent<Transform>(entity);
+	ECS::AttachComponent<PhysicsBody>(entity);
+	ECS::AttachComponent<Trigger*>(entity);
+	ECS::AttachComponent<AnimationController>(entity);
+	//Sets up the components  
+	std::string fileName = "spritesheets/health.png";
+	std::string animations = "Health.json";
+	auto& animController = ECS::GetComponent<AnimationController>(entity);
+
+	animController.InitUVs(fileName);
+	nlohmann::json animations2 = File::LoadJSON(animations);
+	animController.AddAnimation(animations2["Health"].get<Animation>());
+	animController.SetActiveAnim(0);
+
+	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 20, true, &animController);
+	ECS::GetComponent<Transform>(entity).SetPosition(vec3(30.f, -20.f, 80.f));
+	ECS::GetComponent<Trigger*>(entity) = new HealthTrigger();
+	ECS::GetComponent<Trigger*>(entity)->SetTriggerEntity(entity);
+
+
+	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+	float shrinkX = 0.f;
+	float shrinkY = 0.f;
+	b2Body* tempBody;
+	b2BodyDef tempDef;
+	tempDef.type = b2_staticBody;
+	tempDef.position.Set(float32(283), float32(-50));
+
+	tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), true, PTRIGGER, PLAYER);
+	tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
+}
 
 
 //Floor 5 //Enemy placed here
 BoxMaker(57, 9, 215, -45, 0, 0, 7.5f);
+{
+	auto entity = ECS::CreateEntity();
+	//Add components  
+
+	ECS::AttachComponent<Sprite>(entity);
+	ECS::AttachComponent<Transform>(entity);
+	ECS::AttachComponent<PhysicsBody>(entity);
+	ECS::AttachComponent<AnimationController>(entity);
+	ECS::AttachComponent<CanDamage>(entity);
+
+	ECS::GetComponent<CanDamage>(entity).m_candamage = true;
+	ECS::GetComponent<CanDamage>(entity).hp = 100;
+
+	//Sets up the components  
+
+	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+	auto& animController = ECS::GetComponent<AnimationController>(entity);
+	ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+	ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 4.f));
+	//Sets up the components  
+	std::string fileName = "spritesheets/DVLDOLL2.png";
+	std::string animations = "DVLDOLL.json";
+
+	animController.InitUVs(fileName);
+	nlohmann::json animations2 = File::LoadJSON(animations);
+	animController.AddAnimation(animations2["WALKLEFT"].get<Animation>()); //0
+	animController.AddAnimation(animations2["WALKRIGHT"].get<Animation>()); //1
+	animController.AddAnimation(animations2["IDLELEFT"].get<Animation>()); //2
+	animController.AddAnimation(animations2["IDLERIGHT"].get<Animation>()); //3
+	animController.AddAnimation(animations2["ATKLEFT"].get<Animation>()); //4
+	animController.AddAnimation(animations2["ATKRIGHT"].get<Animation>()); //5
+	animController.AddAnimation(animations2["DEATH"].get<Animation>()); //6
+	animController.AddAnimation(animations2["DEATH"].get<Animation>()); //6
+
+
+	animController.SetActiveAnim(0);
+
+	//ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30);
+	//ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+	//ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 3.f));
+
+	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 20, true, &animController);
+	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+	float shrinkX = 20.f;
+	float shrinkY = 5.f;
+
+	b2Body* tempBody;
+	b2BodyDef tempDef;
+	tempDef.type = b2_dynamicBody;
+	tempDef.position.Set(float32(215.f), float32(-40.f));
+
+	tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, ENEMY, OBJECTS | ENVIRONMENT | PLAYER | GROUND, 0.5f, 3.f);
+
+
+	tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
+	tempPhsBody.SetGravityScale(2.5f);
+	tempPhsBody.SetFixedRotation(true);
+	ECS::GetComponent<CanDamage>(entity).InitBody(tempPhsBody, &animController);
+	//tempSpr.SetTransparency(0);
+	//add enemy to enemy array
+	enemies.push_back(entity);
+}
+
 
 EnviroMaker(3, 9, 245, -45, 0, 0, 7.5f);
 
@@ -991,7 +1140,71 @@ EnviroMaker(3, 9, 273, 245, 0, 0, 7.5f);
 
 //Enemy placed here
 BoxMaker(80, 3, 325, 305, 40, 0, 0.6f);
+{
+	auto entity = ECS::CreateEntity();
+	//Add components  
 
+	ECS::AttachComponent<Sprite>(entity);
+	ECS::AttachComponent<Transform>(entity);
+	ECS::AttachComponent<PhysicsBody>(entity);
+	ECS::AttachComponent<AnimationController>(entity);
+	ECS::AttachComponent<CanDamage>(entity);
+
+	ECS::GetComponent<CanDamage>(entity).m_candamage = true;
+	ECS::GetComponent<CanDamage>(entity).hp = 200;
+
+	//Sets up the components  
+
+	auto& tempSpr = ECS::GetComponent<Sprite>(entity);
+	auto& animController = ECS::GetComponent<AnimationController>(entity);
+	ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
+	ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 4.f));
+	//Sets up the components  
+	std::string fileName = "spritesheets/DVLDOLL2.png";
+	std::string animations = "DVLDOLL.json";
+
+	animController.InitUVs(fileName);
+	nlohmann::json animations2 = File::LoadJSON(animations);
+	animController.AddAnimation(animations2["WALKLEFT"].get<Animation>()); //0
+	animController.AddAnimation(animations2["WALKRIGHT"].get<Animation>()); //1
+	animController.AddAnimation(animations2["IDLELEFT"].get<Animation>()); //2
+	animController.AddAnimation(animations2["IDLERIGHT"].get<Animation>()); //3
+	animController.AddAnimation(animations2["ATKLEFT"].get<Animation>()); //4
+	animController.AddAnimation(animations2["ATKRIGHT"].get<Animation>()); //5
+	animController.AddAnimation(animations2["DEATH"].get<Animation>()); //6
+	animController.AddAnimation(animations2["DEATH"].get<Animation>()); //6
+
+
+	animController.SetActiveAnim(0);
+
+	//ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30);
+	//ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
+	//ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 3.f));
+
+	ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 30, 20, true, &animController);
+	auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
+
+	float shrinkX = 20.f;
+	float shrinkY = 5.f;
+
+	b2Body* tempBody;
+	b2BodyDef tempDef;
+	tempDef.type = b2_dynamicBody;
+	tempDef.position.Set(float32(325.f), float32(300.f));
+
+	tempBody = m_physicsWorld->CreateBody(&tempDef);
+
+	tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX), float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, ENEMY, OBJECTS | ENVIRONMENT | PLAYER | GROUND, 0.5f, 3.f);
+
+
+	tempPhsBody.SetColor(vec4(1.f, 0.f, 0.f, 0.3f));
+	tempPhsBody.SetGravityScale(2.5f);
+	tempPhsBody.SetFixedRotation(true);
+	ECS::GetComponent<CanDamage>(entity).InitBody(tempPhsBody, &animController);
+	//tempSpr.SetTransparency(0);
+	//add enemy to enemy array
+	enemies.push_back(entity);
+}
 
 
 
@@ -1217,24 +1430,28 @@ void LevelTwo::Update()
 				if (enemy_c.attack)
 				{
 					eanims.SetActiveAnim(0 + 4 + enemy_c.facing);
-					if (eanims.GetAnimation(eanims.GetActiveAnim()).GetAnimationDone())
+
+				}
+				if (!enemy_c.locked)
+				{
+					if (enemy_c.moving) //walk
 					{
-						//enemy_c.locked = false;
-						enemy_c.attack = false;
-						eanims.GetAnimation(eanims.GetActiveAnim()).Reset();
+						enemy_c.Walk();
+						eanims.SetActiveAnim(0 + enemy_c.facing);
+					}
+					else //idle
+					{
+						enemy_c.Walk();
+						eanims.SetActiveAnim(0 + 2 + enemy_c.facing);
 					}
 				}
-				else if (enemy_c.moving) //walk
+				if (eanims.GetAnimation(eanims.GetActiveAnim()).GetAnimationDone())
 				{
-					enemy_c.Walk();
-					eanims.SetActiveAnim(0 + enemy_c.facing);
+					enemy_c.locked = false;
+					enemy_c.attack = false;
+					eanims.GetAnimation(eanims.GetActiveAnim()).Reset();
 				}
-				else //idle
-				{
-					enemy_c.Walk();
-					eanims.SetActiveAnim(0 + 2 + enemy_c.facing);
-				}
-				
+
 			}
 			//if (ECS::GetComponent<PhysicsBody>(enemies[i]).GetPosition().y <= 0)
 			{

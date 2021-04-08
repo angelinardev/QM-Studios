@@ -12,5 +12,6 @@
 #include "CreditScene.h"
 #include "Controls.h"
 #include "LevelTwo.h"
+#include "Cutscene2.h"
 
 #endif // !__SCENES_H__

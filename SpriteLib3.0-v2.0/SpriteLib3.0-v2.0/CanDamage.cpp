@@ -75,6 +75,7 @@ void CanDamage::Attack()
 	auto& selfX = body.GetBody()->GetPosition().x;
 	attack = true;
 	moving = false;
+	locked = true;
 	if (player_b.GetBody()->GetPosition().x > selfX) //move right
 	{
 		//knock back

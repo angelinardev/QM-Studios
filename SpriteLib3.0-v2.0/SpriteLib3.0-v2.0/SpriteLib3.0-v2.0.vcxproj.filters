@@ -243,6 +243,9 @@
     <ClInclude Include="Swing.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Cutscene2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimationController.cpp">
@@ -456,6 +459,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Swing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Cutscene2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

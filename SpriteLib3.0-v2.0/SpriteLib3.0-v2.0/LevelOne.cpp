@@ -250,7 +250,10 @@ void LevelOne::InitTexture()
 		animController.AddAnimation(animations2["WALKRIGHT"].get<Animation>());
 		animController.AddAnimation(animations2["IDLELEFT"].get<Animation>());
 		animController.AddAnimation(animations2["IDLERIGHT"].get<Animation>());
-		
+		animController.AddAnimation(animations2["ATKLEFT"].get<Animation>());
+		animController.AddAnimation(animations2["ATKRIGHT"].get<Animation>());
+		animController.AddAnimation(animations2["IDLELEFT"].get<Animation>());
+		animController.AddAnimation(animations2["IDLERIGHT"].get<Animation>());
 		
 		animController.SetActiveAnim(0);
 
@@ -315,7 +318,7 @@ void LevelOne::InitTexture()
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
-			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 7.2f);
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, OBJECTS, PLAYER | ENEMY | OBJECTS | HEXAGON, 7.2f);
 		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 		ECS::AttachComponent<Invisibility>(entity);
 		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
@@ -522,7 +525,7 @@ void LevelOne::InitTexture()
 	}
 
 	//Slide to the next static platform
-	BoxMaker(40, 5, -130, -40, 125, 0);
+	ObjMaker(40, 5, -130, -40, 125, 0);
 
 	//Static Platform after slide
 	BoxMaker(60, 5, -80, -60, 0, 0,6);
@@ -530,7 +533,7 @@ void LevelOne::InitTexture()
 	//Rock
 	EnviroMaker(5, 5, -82, -50, 90, 0);
 	BoxMaker(30, 5, -65, -43.5, 10, 0);
-	BoxMaker(25, 5, -43, -50, 135,0,0.8);
+	EnviroMaker(25, 5, -43, -50, 135,0,0.8);
 
 	//Static platform after rock
 	BoxMaker(245, 5, 80, -60, 0, 0,6);
@@ -565,7 +568,10 @@ void LevelOne::InitTexture()
 		animController.AddAnimation(animations2["WALKRIGHT"].get<Animation>());
 		animController.AddAnimation(animations2["IDLELEFT"].get<Animation>());
 		animController.AddAnimation(animations2["IDLERIGHT"].get<Animation>());
-
+		animController.AddAnimation(animations2["ATKLEFT"].get<Animation>());
+		animController.AddAnimation(animations2["ATKRIGHT"].get<Animation>());
+		animController.AddAnimation(animations2["IDLELEFT"].get<Animation>());
+		animController.AddAnimation(animations2["IDLERIGHT"].get<Animation>());
 		animController.SetActiveAnim(0);
 
 		//ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 30);
@@ -671,6 +677,10 @@ void LevelOne::InitTexture()
 		animController.AddAnimation(animations2["WALKRIGHT"].get<Animation>());
 		animController.AddAnimation(animations2["IDLELEFT"].get<Animation>());
 		animController.AddAnimation(animations2["IDLERIGHT"].get<Animation>());
+		animController.AddAnimation(animations2["ATKLEFT"].get<Animation>());
+		animController.AddAnimation(animations2["ATKRIGHT"].get<Animation>());
+		animController.AddAnimation(animations2["IDLELEFT"].get<Animation>());
+		animController.AddAnimation(animations2["IDLERIGHT"].get<Animation>());
 
 		animController.SetActiveAnim(0);
 
@@ -755,6 +765,10 @@ void LevelOne::InitTexture()
 		animController.AddAnimation(animations2["WALKRIGHT"].get<Animation>());
 		animController.AddAnimation(animations2["IDLELEFT"].get<Animation>());
 		animController.AddAnimation(animations2["IDLERIGHT"].get<Animation>());
+		animController.AddAnimation(animations2["ATKLEFT"].get<Animation>());
+		animController.AddAnimation(animations2["ATKRIGHT"].get<Animation>());
+		animController.AddAnimation(animations2["IDLELEFT"].get<Animation>());
+		animController.AddAnimation(animations2["IDLERIGHT"].get<Animation>());
 
 		animController.SetActiveAnim(0);
 
@@ -790,7 +804,7 @@ void LevelOne::InitTexture()
 
 	//Second Rock
 	BoxMaker(28, 5, 835, -13, 0, 0);
-	BoxMaker(28, 5, 860, -22, 0, 0);
+	ObjMaker(28, 5, 860, -22, 0, 0);
 
 	//Static platform
 	BoxMaker(235, 5, 945, -50, 0, 0, 6);
@@ -996,18 +1010,34 @@ void LevelOne::Update()
 		if (alive[i])
 		{
 			auto& enemy_c = ECS::GetComponent<CanDamage>(enemies[i]);
-			enemy_c.Walk();
 
-			if (enemy_c.moving)
+			auto& eanims = ECS::GetComponent<AnimationController>(enemies[i]);
+			if (enemy_c.m_candamage)
 			{
-				ECS::GetComponent<AnimationController>(enemies[i]).SetActiveAnim(0 + enemy_c.facing);
-			}
-			else //idle
-			{
-				ECS::GetComponent<AnimationController>(enemies[i]).SetActiveAnim(0 + 2 + enemy_c.facing);
-			}
-			if (enemy_c.attack)
-			{
+				if (enemy_c.attack)
+				{
+					eanims.SetActiveAnim(0 + 4 + enemy_c.facing);
+					
+				}
+				if (!enemy_c.locked)
+				{
+					if (enemy_c.moving) //walk
+					{
+						enemy_c.Walk();
+						eanims.SetActiveAnim(0 + enemy_c.facing);
+					}
+					else //idle
+					{
+						enemy_c.Walk();
+						eanims.SetActiveAnim(0 + 2 + enemy_c.facing);
+					}
+				}
+				if (eanims.GetAnimation(eanims.GetActiveAnim()).GetAnimationDone())
+				{
+					enemy_c.locked = false;
+					enemy_c.attack = false;
+					eanims.GetAnimation(eanims.GetActiveAnim()).Reset();
+				}
 
 			}
 			//if (ECS::GetComponent<PhysicsBody>(enemies[i]).GetPosition().y <= 0)
@@ -1018,13 +1048,19 @@ void LevelOne::Update()
 			if (enemy_c.hp <= 0)
 			{
 				enemy_c.m_candamage = false;
-				ECS::GetComponent<PhysicsBody>(enemies[i]).DeleteBody();
-				ECS::DestroyEntity(enemies[i]);
-				//PhysicsBody::m_bodiesToDelete.push_back(enemies[i]);
-				
-				alive[i] = false;
-				//player2.ReassignComponents(&ECS::GetComponent<AnimationController>(p_entity), &ECS::GetComponent<Sprite>(p_entity));
-				//player2.Update();
+				//play death animation
+				//player2.m_locked = true;
+				eanims.SetActiveAnim(6 + enemy_c.facing);
+				if (eanims.GetAnimation(eanims.GetActiveAnim()).GetAnimationDone())
+				{
+					ECS::GetComponent<PhysicsBody>(enemies[i]).DeleteBody();
+					ECS::DestroyEntity(enemies[i]);
+					//PhysicsBody::m_bodiesToDelete.push_back(enemies[i]);
+
+					alive[i] = false;
+					//player2.ReassignComponents(&ECS::GetComponent<AnimationController>(p_entity), &ECS::GetComponent<Sprite>(p_entity));
+					//player2.Update();
+				}
 
 			}
 		}
