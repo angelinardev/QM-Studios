@@ -148,6 +148,7 @@ void LevelOne::InitTexture()
 	ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
 	ECS::GetComponent<Transform>(entity).SetPosition(vec3(-350.f, 10.f, 5.f));
 }
+
 //tut sensor2
 {
 	//Creates entity
@@ -305,7 +306,7 @@ void LevelOne::InitTexture()
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 5.f));
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 60, 5);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 57, 5);
 
 		float shrinkX = 0.f;
 		float shrinkY = 0.f;
@@ -325,6 +326,10 @@ void LevelOne::InitTexture()
 		invis1 = entity;
 	}
 
+	EnviroMaker(3, 5, -330, 10, 0, 0, 7.2);
+
+	EnviroMaker(3, 5, -270, 10, 0, 0, 7.2);
+
 	//Setup second invis
 	{
 		auto entity = ECS::CreateEntity();
@@ -336,7 +341,7 @@ void LevelOne::InitTexture()
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 5.f));
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 5);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 37, 5);
 
 		float shrinkX = 0.f;
 		float shrinkY = 0.f;
@@ -355,6 +360,10 @@ void LevelOne::InitTexture()
 		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
 		invis2 = entity;
 	}
+
+	EnviroMaker(3, 5, -232, 40, 0, 0, 7.2f);
+	EnviroMaker(3, 5, -268, 40, 0, 0, 7.2f);
+
 	////2nd enemy
 	//{
 
@@ -429,7 +438,7 @@ void LevelOne::InitTexture()
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 5.f));
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 20, 5);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 17, 5);
 
 		float shrinkX = 0.f;
 		float shrinkY = 0.f;
@@ -449,6 +458,10 @@ void LevelOne::InitTexture()
 		invis3 = entity;
 	}
 
+	EnviroMaker(3, 5, -192, 30, 0, 0, 7.2f);
+
+	EnviroMaker(3, 5, -208, 30, 0, 0, 7.2f);
+	
 	//Setup fourth invis platform
 	{
 		auto entity = ECS::CreateEntity();
@@ -474,7 +487,7 @@ void LevelOne::InitTexture()
 
 		tempBody = m_physicsWorld->CreateBody(&tempDef);
 		tempPhsBody = PhysicsBody(entity, tempBody, float(tempSpr.GetWidth() - shrinkX),
-			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON);
+			float(tempSpr.GetHeight() - shrinkY), vec2(0.f, 0.f), false, GROUND, PLAYER | ENEMY | OBJECTS | HEXAGON, 0.6f);
 		tempPhsBody.SetColor(vec4(0.f, 1.f, 0.f, 0.3f));
 		ECS::AttachComponent<Invisibility>(entity);
 		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
@@ -530,6 +543,7 @@ void LevelOne::InitTexture()
 	//Static Platform after slide
 	BoxMaker(60, 5, -80, -60, 0, 0,6);
 
+	EnviroMaker(15, 5, -115, -60, 0, 0,7);
 	//Rock
 	EnviroMaker(5, 5, -82, -50, 90, 0);
 	BoxMaker(30, 5, -65, -43.5, 10, 0);
@@ -646,7 +660,7 @@ void LevelOne::InitTexture()
 	}
 
 	//Static platform after jump // This is where they should die 
-	BoxMaker(235, 5, 410, -60, 0, 0,6);
+	BoxMaker(235, 5, 415, -60, 0, 0,6);
 	//4th enemy
 	{
 
@@ -715,7 +729,7 @@ void LevelOne::InitTexture()
 	}
 
 	//Upwards platform
-	BoxMaker(100, 5, 558, -50,20,0, 0.8);
+	BoxMaker(100, 5, 560, -50,20,0, 0.8);
 
 	//Static platform after upwards
 	BoxMaker(95, 5, 650, -35, 0, 0, 2);
@@ -731,10 +745,10 @@ void LevelOne::InitTexture()
 
 
 	//Downwards platform after Platfrom Jump 3
-	BoxMaker(75, 5, 725, 49, 160, 0);
+	BoxMaker(75, 5, 725, 49, 160, 0,0.6);
 
 	//Downwards platform heading towards to rock
-	BoxMaker(80, 5, 788, 10, 135, 0);
+	BoxMaker(80, 5, 788, 10, 135, 0,0.3);
 	//5th enemy
 	{
 
@@ -824,7 +838,7 @@ void LevelOne::InitTexture()
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 		ECS::GetComponent<Transform>(entity).SetPosition(vec3(10.f, 10.f, 5.f));
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 40, 5);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 37, 5);
 
 		float shrinkX = 0.f;
 		float shrinkY = 0.f;
@@ -844,6 +858,8 @@ void LevelOne::InitTexture()
 		ECS::GetComponent<Invisibility>(entity).set_entity(entity);
 		invis5 = entity;
 	}
+
+	EnviroMaker(3, 5, 957, -17, 45, 0, 0.4);
 
 	//Setup six invis platform
 	{
