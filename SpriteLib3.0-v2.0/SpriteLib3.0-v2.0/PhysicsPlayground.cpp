@@ -353,6 +353,7 @@ void PhysicsPlayground::InitTexture()
 
 	//Setup spawning static Platform
 	BoxMaker(198, 5, -310.f, -80.f, 0, 0, 7);
+
 	//squirrel
 	{
 		//Creates entity
@@ -381,17 +382,19 @@ void PhysicsPlayground::InitTexture()
 	}
 
 	//Setup Downward log Log 
-	ObjMaker(75, 15, -223.f, -70.f, 157, 0, 0.9);
+	BoxMaker(72, 15, -223.f, -70.f, 157, 0, 0.9);
+	EnviroMaker(3, 15, -253, -70.f, 90, 0, 0);
 
 	//Setup Static platform after log
 	BoxMaker(75, 8, -185.f, -80.f, 0, 0, 7);
 
 	//Setup for the first rock
-	ObjMaker(40, 10, -134.f, -58.f, 35, 0, 0.9);
+	BoxMaker(37, 10, -134.f, -58.f, 35, 0, 0.9);
+	EnviroMaker(3, 10, -152.f, -70.f, 0, 0, 0.9);
 	//BoxMaker(5, 4, -115.f, -45.f, 0, 0);
 
 	//Setup for the second rock
-	ObjMaker(40, 3, -95.f, -31.f, 30, 0, 0.9);
+	BoxMaker(40, 3, -95.f, -31.f, 30, 0, 0.9);
 	BoxMaker(10, 4, -73.5f, -21.8f, 0, 0, 7);
 
 	//Setup Static after second rock
@@ -399,15 +402,18 @@ void PhysicsPlayground::InitTexture()
 	EnviroMaker(30, 50, -94.f, -58.f, 90, 0);
 
 	//Setup for the third rock
-	ObjMaker(25, 3, -13.f, -57.f, 27, 0, 0.9);
-	BoxMaker(20, 3, 7.f, -51.8f, 0, 0,7);
+	BoxMaker(22, 3, -13.f, -57.f, 27, 0, 0.9);
+	EnviroMaker(3, 3, -23.f, -65, 0, 0, 0.9);
+	BoxMaker(17, 3, 7.f, -51.8f, 0, 0,7);
+	EnviroMaker(3, 3, 17.f, -51.8f, 0, 0, 7);
 
 
 	//Setup Static after third rock
 	BoxMaker(40, 8, 30, -75, 0, 0,7);
 
 	//Setup for the fourth rock
-	ObjMaker(30, 3, 70.f, -47.f, 24, 0, 0.9);
+	BoxMaker(27, 3, 70.f, -47.f, 24, 0, 0.9);
+	EnviroMaker(3, 3, 57, -55, 0, 0, 0.9);
 	BoxMaker(25, 3, 96.f, -41.f, 0, 0,7);
 
 	//Setup a block for under the rock
@@ -420,7 +426,8 @@ void PhysicsPlayground::InitTexture()
 	//EnviroMaker(30, 25, 390.f, -57.f, 90, 0);
 
 	//Set up for tree stump
-	ObjMaker(15, 3, 310.f, -35.f, 0, 0);
+	BoxMaker(9, 3, 310.f, -35.f, 0, 0,7);
+	EnviroMaker(9, 3, 319, -35.f, 0, 0,7);
 
 	//Set up log after tree stump
 	BoxMaker(45, 3, 350.f, -25.f, 165, 0, 7);
@@ -435,7 +442,8 @@ void PhysicsPlayground::InitTexture()
 	BoxMaker(80, 3, 465.f, -60.f, 0, 0, 7);
 
 	//Setup Top Platform
-	ObjMaker(60, 3, 540.f, -28.f, 0, 0, 7);
+	BoxMaker(57, 3, 540.f, -28.f, 0, 0, 7);
+	EnviroMaker(2, 3, 510, -28, 0, 0, 7);
 	BoxMaker(40, 3, 520.f, -50.f, 105, 0, 7);
 
 	BoxMaker(20, 3, 578.f, -28.f, 210, 0, 0.8);
@@ -453,9 +461,9 @@ void PhysicsPlayground::InitTexture()
 	BoxMaker(23, 3, 690.f, -10.f, 0, 0, 6.f);
 
 	//Setup Down to last platfrom
-	ObjMaker(75, 4, 720.f, -40.f, 125, 0, 0.9);
+	BoxMaker(75, 4, 720.f, -40.f, 125, 0, 0.9);
 	//block underneath to block
-	EnviroMaker(200, 40, 615, -50.f, 0, 0);
+	BoxMaker(200, 40, 615, -50.f, 0, 0);
 
 
 	//Setup Last Platform
