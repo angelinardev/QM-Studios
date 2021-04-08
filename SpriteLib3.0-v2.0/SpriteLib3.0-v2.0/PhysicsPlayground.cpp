@@ -363,7 +363,7 @@ void PhysicsPlayground::InitTexture()
 		auto& tempSpr = ECS::GetComponent<Sprite>(entity);
 		auto& animController = ECS::GetComponent<AnimationController>(entity);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-300.f, -78.f, 2.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(-300.f, -70.f, 5.f));
 		//Sets up the components  
 		std::string fileName = "spritesheets/squirrel.png";
 		std::string animations = "Animal.json";
