@@ -155,7 +155,7 @@ void PhysicsPlayground::InitTexture()
 		std::string fileName = "back_tutdeath.png";
 		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 1790, 340);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(317.f, -5.f, 1.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(315.f, -5.f, 1.f));
 	}
 
 	{
