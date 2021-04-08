@@ -68,6 +68,7 @@ void CreditScene::InitScene(float windowWidth, float windowHeight)
 	setSelect(1);
 	selectionCounter == 1;
 	is_done = false;
+	Sound.Play();
 }
 
 void CreditScene::Update()
@@ -147,6 +148,7 @@ void CreditScene::KeyboardDown()
 	if (Input::GetKeyDown(Key::Space) || Input::GetKeyDown(Key::Enter))
 	{
 		selection = 0; //return to menu
+		Sound.Mute();
 	}
 }
 

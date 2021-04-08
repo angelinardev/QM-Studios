@@ -1,5 +1,6 @@
 #pragma once
 #include "Scene.h"
+#include "ToneFire/ToneFire.h"
 class CreditScene :
     public Scene
 {
@@ -27,6 +28,8 @@ public:
 	int selector = 0;
 	int background = 0;
 	int selection = -1;
+	ToneFire::FMODCore Fmod{};
+	ToneFire::CoreSound Sound{ "Menusong.mp3", FMOD_2D | FMOD_LOOP_NORMAL };
 
 };
 
