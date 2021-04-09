@@ -61,11 +61,11 @@ void Game::InitGame()
 	//m_scenes[5]->InitTexture();
 	//m_scenes[6]->InitTexture();
 	//m_scenes[7]->InitTexture();
-	m_scenes[8]->InitTexture();
+	//m_scenes[8]->InitTexture();
 	m_scenes[9]->InitTexture();
 
 	//Sets active scene reference to our scene
-	m_activeScene = m_scenes[8];
+	m_activeScene = m_scenes[9];
 
 	m_activeScene->InitScene(float(BackEnd::GetWindowWidth()), float(BackEnd::GetWindowHeight()));
 

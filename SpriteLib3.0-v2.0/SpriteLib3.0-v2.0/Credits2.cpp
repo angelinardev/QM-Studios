@@ -70,21 +70,19 @@ void Credits2::InitTexture()
 	m_sceneReg = new entt::registry;
 	//Attach the register
 	ECS::AttachRegister(m_sceneReg);
-	
-	//fireflies
 	{
 		//Creates entity
 		auto entity = ECS::CreateEntity();
-
+		background = entity;
 		//Add components  
 		ECS::AttachComponent<Sprite>(entity);
 		ECS::AttachComponent<Transform>(entity);
 
 		//Set up the components
 		std::string fileName = "credsfin.png";
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 215, 130);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 215, 120);
 		ECS::GetComponent<Sprite>(entity).SetTransparency(1.f);
-		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 25.f, 2.f));
+		ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 0.f, 2.f));
 
 
 	}
