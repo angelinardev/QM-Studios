@@ -1846,7 +1846,7 @@ void LevelTwo::KeyboardDown()
 
 	if (Input::GetKeyDown(Key::Two)) //vision
 	{
-		if (!anims.m_attack && !anims.m_dash)
+		if (!anims.m_attack && !anims.m_dash && !attached)
 		{
 			if (MainEntities::Powerups()[1])
 			{
