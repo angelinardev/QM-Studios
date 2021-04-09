@@ -278,7 +278,7 @@ void LevelTwo::InitTexture()
 		//ECS::GetComponent<Sprite>(entity).SetTransparency(0.f);
 		//ECS::GetComponent<Transform>(entity).SetPosition(vec3(0.f, 30.f, 3.f));
 
-		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 50, 40, true, &animController);
+		ECS::GetComponent<Sprite>(entity).LoadSprite(fileName, 50, 30, true, &animController);
 		auto& tempPhsBody = ECS::GetComponent<PhysicsBody>(entity);
 
 		float shrinkX = 38.f;
@@ -1846,7 +1846,7 @@ void LevelTwo::KeyboardDown()
 
 	if (Input::GetKeyDown(Key::Two)) //vision
 	{
-		if (!anims.m_attack)
+		if (!anims.m_attack && !anims.m_dash)
 		{
 			if (MainEntities::Powerups()[1])
 			{
